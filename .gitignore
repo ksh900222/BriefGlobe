@@ -1,0 +1,140 @@
+# 배포 스테이징 (deploy_cf.sh가 매번 재생성)
+.cf_public/
+# 검사용 대용량 지리 데이터 (check_routes.py가 자동 다운로드)
+land.geojson
+routes.json
+# 디제스트 순위변동용 직전-순위 스냅샷(서버 전용, 사이클마다 재생성 · 배포·커밋 불필요)
+digest-prev-ranks.json
+# 로그·잠금·임시
+fetch.log
+*.log
+.update.lock/
+# AI 가용성 마커(run_ai 양방향 폴백 · 로컬 전용)
+.grok_down
+.claude_down
+.last_task_acd2
+.last_daily_de
+nohup.out
+# 속보 심사 실패 백로그(런타임 전용 — 재기동 시 이어서 처리)
+.breaking_pending.json
+.breaking_pending.tmp
+__pycache__/
+.DS_Store
+*.preA.*
+*.preC.*
+*.preD2.*
+*.bak.*
+.last_task_f
+
+# node
+node_modules/
+# Grok 리서치 스크래치/백업(일회성)
+_kr_*.json
+_us_*.json
+_fg_*.html
+_new_info.json
+*.bak_*
+*.prewrite.*
+# B 파이프라인 로컬 산출(coverage_check/merge 사이클마다 재생성 · 배포·커밋 불필요)
+pipeline-todo.json
+series-delta.json
+coverage.log
+pending-actuals.json
+.last_daily_de
+
+# wrangler pages dev 로컬 캐시
+.wrangler/
+
+# 💨🌡️☁️ 기상 텍스처(다모델·다층·다시각 바람·기온·구름) — 크론(fetch_wind.py) 재생성물. 배포는 작업디렉터리서 복사하므로 커밋 불필요(히스토리 비대 방지)
+wind-*-f*.png
+temp-*-f*.png
+cloud-*-f*.png
+precip-*-f*.png
+sst-*-f*.png
+pressure-*-f*.png
+wind-meta.json
+icon_regrid_index.npz
+icon_ocean_mask.npz
+typhoon-tracks.json
+.kis_secret
+.kis_token.json
+.ecos_secret
+*.pre[0-9]*
+*.preA.*
+*.preC.*
+*.preD2.*
+mac-quotes.json
+task_*.md
+
+# ══════════════════════════════════════════════════════════════
+#  공개 저장소 제외 — 로컬은 보존(추적만 해제), 공개 remote엔 미포함
+# ══════════════════════════════════════════════════════════════
+# 내부 문서·기획·핸드오프·AI 지시서 (docs 폴더 및 문서들)
+docs/
+reports/
+AGENTS.md
+AI_PIPELINE_MANUAL.md
+HANDOFF.md
+MapInKorean.md
+grok_task.md
+factcheck-report-*.md
+factcheck-report-*.html
+자금흐름.txt
+
+# 대기질(CAMS) 텍스처 — 크론(fetch_airquality.py) 재생성물
+aq-*-f*.png
+aq-meta.json
+
+# Grok 리서치 스크래치/실험 산출물 (일회성)
+_adversarial_*.json
+_equip_*.json
+_research_*.json
+_seed_resources.json
+_naver_sample.html
+
+# ── 공개 제외: 외부 수집·AI 생성 데이터 산출물 (크론 재생성 · 로컬 보존) ──
+#   코드는 공개하되, 야후/FRED/뉴스 등에서 받아온 '데이터 값'은 재배포하지 않음.
+#   서비스는 크론이 로컬 생성 → Cloudflare로 직접 배포하므로 저장소에 없어도 정상.
+# 시세(야후·FRED)
+market-data.js
+macro-data.js
+# 뉴스·속보·주제·다이제스트
+news-store.json
+news-data.js
+news-archive.js
+news-digest.js
+breaking-store.json
+breaking-archive.json
+breaking-rss-seen.json
+grok-news.json
+grok-tech-news.json
+topic-store.json
+digest-store.json
+macro-digest.json
+market-digest.json
+# 번역
+translations.json
+translations-store.json
+translated_news.json
+translation_output.json
+to_translate.json
+# 캘린더 (월별 파생 econ-calendar-august.json 등 포함)
+econ-calendar.json
+econ-calendar-store.json
+econ-calendar-*.json
+# AI 리서치(종목·실적·거시·투자자)
+stocks-info.js
+stocks-news.js
+earnings-series.js
+macro-series.js
+kr-investors.json
+# 기상·브리핑
+typhoons.json
+market-brief.json
+
+# 데이터 백업/손상본 (런타임 임시)
+*.backup
+*.broken
+
+# launchd 설정 — 홈 경로(사용자명) 하드코딩 · 본인 시스템 전용
+com.worldinfo.*.plist

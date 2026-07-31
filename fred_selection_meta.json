@@ -1,0 +1,597 @@
+{
+ "CPIAUCSL": {
+  "title": "Consumer Price Index for All Urban Consumers: All Items in U.S. City Average",
+  "freq": "M",
+  "units": "Index 1982-1984=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-14"
+ },
+ "CPIAUCNS": {
+  "title": "Consumer Price Index for All Urban Consumers: All Items in U.S. City Average",
+  "freq": "M",
+  "units": "Index 1982-1984=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-14"
+ },
+ "CUSR0000SAS2RS": {
+  "title": "Consumer Price Index for All Urban Consumers: Rent of Shelter in U.S. City Average",
+  "freq": "M",
+  "units": "Index Dec 1982=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-14"
+ },
+ "CUSR0000SAS": {
+  "title": "Consumer Price Index for All Urban Consumers: Services in U.S. City Average",
+  "freq": "M",
+  "units": "Index 1982-1984=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-14"
+ },
+ "CUSR0000SAS367": {
+  "title": "Consumer Price Index for All Urban Consumers: Other Services in U.S. City Average",
+  "freq": "M",
+  "units": "Index 1982-1984=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-14"
+ },
+ "CUSR0000SAD": {
+  "title": "Consumer Price Index for All Urban Consumers: Durables in U.S. City Average",
+  "freq": "M",
+  "units": "Index 1982-1984=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-14"
+ },
+ "CUSR0000SETA02": {
+  "title": "Consumer Price Index for All Urban Consumers: Used Cars and Trucks in U.S. City Average",
+  "freq": "M",
+  "units": "Index 1982-1984=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-14"
+ },
+ "CUSR0000SETA01": {
+  "title": "Consumer Price Index for All Urban Consumers: New Vehicles in U.S. City Average",
+  "freq": "M",
+  "units": "Index 1982-1984=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-14"
+ },
+ "PCEPILFE": {
+  "title": "Personal Consumption Expenditures Excluding Food and Energy (Chain-Type Price Index)",
+  "freq": "M",
+  "units": "Index 2017=100",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-25"
+ },
+ "PCEPI": {
+  "title": "Personal Consumption Expenditures: Chain-type Price Index",
+  "freq": "M",
+  "units": "Index 2017=100",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-25"
+ },
+ "PCE": {
+  "title": "Personal Consumption Expenditures",
+  "freq": "M",
+  "units": "Bil. of $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-25"
+ },
+ "PCEC96": {
+  "title": "Real Personal Consumption Expenditures",
+  "freq": "M",
+  "units": "Bil. of Chn. 2017 $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-25"
+ },
+ "PCEDG": {
+  "title": "Personal Consumption Expenditures: Durable Goods",
+  "freq": "M",
+  "units": "Bil. of $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-25"
+ },
+ "PCES": {
+  "title": "Personal Consumption Expenditures: Services",
+  "freq": "M",
+  "units": "Bil. of $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-25"
+ },
+ "PCESC96": {
+  "title": "Real Personal Consumption Expenditures: Services",
+  "freq": "M",
+  "units": "Bil. of Chn. 2017 $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-25"
+ },
+ "DGDSRX1": {
+  "title": "Real Personal Consumption Expenditures: Goods",
+  "freq": "M",
+  "units": "Bil. of Chn. 2017 $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-25"
+ },
+ "T5YIFR": {
+  "title": "5-Year, 5-Year Forward Inflation Expectation Rate",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-24",
+  "updated": "2026-07-24"
+ },
+ "T5YIE": {
+  "title": "5-Year Breakeven Inflation Rate",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-24",
+  "updated": "2026-07-24"
+ },
+ "T10YIE": {
+  "title": "10-Year Breakeven Inflation Rate",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-24",
+  "updated": "2026-07-24"
+ },
+ "MICH": {
+  "title": "University of Michigan: Inflation Expectation",
+  "freq": "M",
+  "units": "%",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-26"
+ },
+ "EFFR": {
+  "title": "Effective Federal Funds Rate",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DFF": {
+  "title": "Federal Funds Effective Rate",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "EFFR99": {
+  "title": "Effective Federal Funds Rate: 99th Percentile",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "EFFRVOL": {
+  "title": "Effective Federal Funds Volume",
+  "freq": "D",
+  "units": "Bil. of U.S. $",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "RRPONTSYAWARD": {
+  "title": "Overnight Reverse Repurchase Agreements Award Rate",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-24",
+  "updated": "2026-07-24"
+ },
+ "DPCREDIT": {
+  "title": "Discount Window Primary Credit Rate",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "T10Y3M": {
+  "title": "10-Year Treasury Constant Maturity Minus 3-Month Treasury Constant Maturity",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-24",
+  "updated": "2026-07-24"
+ },
+ "T10Y2Y": {
+  "title": "10-Year Treasury Constant Maturity Minus 2-Year Treasury Constant Maturity",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-24",
+  "updated": "2026-07-24"
+ },
+ "DGS3MO": {
+  "title": "Market Yield on U.S. Treasury Securities at 3-Month Constant Maturity, Quoted on an Investment Basis",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DGS1": {
+  "title": "Market Yield on U.S. Treasury Securities at 1-Year Constant Maturity, Quoted on an Investment Basis",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DGS2": {
+  "title": "Market Yield on U.S. Treasury Securities at 2-Year Constant Maturity, Quoted on an Investment Basis",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DGS3": {
+  "title": "Market Yield on U.S. Treasury Securities at 3-Year Constant Maturity, Quoted on an Investment Basis",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DGS5": {
+  "title": "Market Yield on U.S. Treasury Securities at 5-Year Constant Maturity, Quoted on an Investment Basis",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DGS10": {
+  "title": "Market Yield on U.S. Treasury Securities at 10-Year Constant Maturity, Quoted on an Investment Basis",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DGS20": {
+  "title": "Market Yield on U.S. Treasury Securities at 20-Year Constant Maturity, Quoted on an Investment Basis",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DGS30": {
+  "title": "Market Yield on U.S. Treasury Securities at 30-Year Constant Maturity, Quoted on an Investment Basis",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DFII10": {
+  "title": "Market Yield on U.S. Treasury Securities at 10-Year Constant Maturity, Quoted on an Investment Basis, Inflation-Indexed",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DFII5": {
+  "title": "Market Yield on U.S. Treasury Securities at 5-Year Constant Maturity, Quoted on an Investment Basis, Inflation-Indexed",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "DFII30": {
+  "title": "Market Yield on U.S. Treasury Securities at 30-Year Constant Maturity, Quoted on an Investment Basis, Inflation-Indexed",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "BAMLH0A0HYM2": {
+  "title": "ICE BofA US High Yield Index Option-Adjusted Spread",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "BAMLH0A0HYM2EY": {
+  "title": "ICE BofA US High Yield Index Effective Yield",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ },
+ "WALCL": {
+  "title": "Assets: Total Assets: Total Assets (Less Eliminations from Consolidation): Wednesday Level",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "WSHOSHO": {
+  "title": "Assets: Securities Held Outright: Securities Held Outright: Wednesday Level",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "TREAST": {
+  "title": "Assets: Securities Held Outright: U.S. Treasury Securities: All: Wednesday Level",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "WSHOMCB": {
+  "title": "Assets: Securities Held Outright: Mortgage-Backed Securities: Wednesday Level",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "WSHOICL": {
+  "title": "Assets: Securities Held Outright: U.S. Treasury Securities: Inflation Compensation: Wednesday Level",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "RPONTTLD": {
+  "title": "Overnight Repurchase Agreements: Total Securities Purchased by the Federal Reserve in the Temporary Open Market Operations",
+  "freq": "D",
+  "units": "Bil. of US $",
+  "obs_end": "2026-07-24",
+  "updated": "2026-07-24"
+ },
+ "WLCFLPCL": {
+  "title": "Assets: Liquidity and Credit Facilities: Loans: Primary Credit: Wednesday Level",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "H41RESPPALDKNWW": {
+  "title": "Assets: Liquidity and Credit Facilities: Loans: Bank Term Funding Program, Net: Wednesday Level (DISCONTINUED)",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-05-06",
+  "updated": "2026-05-21"
+ },
+ "SWPT": {
+  "title": "Assets: Central Bank Liquidity Swaps: Central Bank Liquidity Swaps: Wednesday Level",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "WORAL": {
+  "title": "Assets: Other: Repurchase Agreements: Wednesday Level",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "WGCAL": {
+  "title": "Assets: Other: Gold Certificate Account: Wednesday Level",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "WRESBAL": {
+  "title": "Liabilities and Capital: Other Factors Draining Reserve Balances: Reserve Balances with Federal Reserve Banks: Week Average",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "WTREGEN": {
+  "title": "Liabilities and Capital: Liabilities: Deposits with F.R. Banks, Other Than Reserve Balances: U.S. Treasury, General Account: Week Average",
+  "freq": "W",
+  "units": "Mil. of U.S. $",
+  "obs_end": "2026-07-22",
+  "updated": "2026-07-23"
+ },
+ "WM2NS": {
+  "title": "M2",
+  "freq": "W",
+  "units": "Bil. of $",
+  "obs_end": "2026-06-01",
+  "updated": "2026-06-23"
+ },
+ "M2SL": {
+  "title": "M2",
+  "freq": "M",
+  "units": "Bil. of $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-23"
+ },
+ "M2REAL": {
+  "title": "Real M2 Money Stock",
+  "freq": "M",
+  "units": "Bil. of 1982-84 $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-23"
+ },
+ "M2V": {
+  "title": "Velocity of M2 Money Stock",
+  "freq": "Q",
+  "units": "Ratio",
+  "obs_end": "2026-01-01",
+  "updated": "2026-06-25"
+ },
+ "TOTBKCR": {
+  "title": "Bank Credit, All Commercial Banks",
+  "freq": "W",
+  "units": "Bil. of U.S. $",
+  "obs_end": "2026-07-15",
+  "updated": "2026-07-24"
+ },
+ "DPSACBW027SBOG": {
+  "title": "Deposits, All Commercial Banks",
+  "freq": "W",
+  "units": "Bil. of U.S. $",
+  "obs_end": "2026-07-15",
+  "updated": "2026-07-24"
+ },
+ "TLAACBW027NBOG": {
+  "title": "Total Assets, All Commercial Banks",
+  "freq": "W",
+  "units": "Bil. of U.S. $",
+  "obs_end": "2026-07-15",
+  "updated": "2026-07-24"
+ },
+ "REALLN": {
+  "title": "Real Estate Loans, All Commercial Banks",
+  "freq": "M",
+  "units": "Bil. of U.S. $",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-24"
+ },
+ "RRPONTTLD": {
+  "title": "Overnight Reverse Repurchase Agreements: Total Securities Sold by the Federal Reserve in the Temporary Open Market Operations",
+  "freq": "D",
+  "units": "Bil. of US $",
+  "obs_end": "2026-07-24",
+  "updated": "2026-07-24"
+ },
+ "RRPONTSYD": {
+  "title": "Overnight Reverse Repurchase Agreements: Treasury Securities Sold by the Federal Reserve in the Temporary Open Market Operations",
+  "freq": "D",
+  "units": "Bil. of US $",
+  "obs_end": "2026-07-24",
+  "updated": "2026-07-24"
+ },
+ "SNDR": {
+  "title": "National Rate: Savings",
+  "freq": "M",
+  "units": "%",
+  "obs_end": "2026-07-01",
+  "updated": "2026-07-22"
+ },
+ "SAHMREALTIME": {
+  "title": "Real-time Sahm Rule Recession Indicator",
+  "freq": "M",
+  "units": "Percentage Points",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-02"
+ },
+ "UNRATE": {
+  "title": "Unemployment Rate",
+  "freq": "M",
+  "units": "%",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-02"
+ },
+ "ICSA": {
+  "title": "Initial Claims",
+  "freq": "W",
+  "units": "Number",
+  "obs_end": "2026-07-18",
+  "updated": "2026-07-23"
+ },
+ "JTSLDL": {
+  "title": "Layoffs and Discharges: Total Nonfarm",
+  "freq": "M",
+  "units": "Level in Thous.",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-30"
+ },
+ "JTSTSL": {
+  "title": "Total Separations: Total Nonfarm",
+  "freq": "M",
+  "units": "Level in Thous.",
+  "obs_end": "2026-05-01",
+  "updated": "2026-06-30"
+ },
+ "GDPC1": {
+  "title": "Real Gross Domestic Product",
+  "freq": "Q",
+  "units": "Bil. of Chn. 2017 $",
+  "obs_end": "2026-01-01",
+  "updated": "2026-06-25"
+ },
+ "GDPNOW": {
+  "title": "GDPNow",
+  "freq": "Q",
+  "units": "% Chg. at Annual Rate",
+  "obs_end": "2026-04-01",
+  "updated": "2026-07-17"
+ },
+ "GDP": {
+  "title": "Gross Domestic Product",
+  "freq": "Q",
+  "units": "Bil. of $",
+  "obs_end": "2026-01-01",
+  "updated": "2026-06-25"
+ },
+ "GDPPOT": {
+  "title": "Real Potential Gross Domestic Product",
+  "freq": "Q",
+  "units": "Bil. of Chn. 2017 $",
+  "obs_end": "2036-10-01",
+  "updated": "2026-02-27"
+ },
+ "HSN1F": {
+  "title": "New One Family Houses Sold: United States",
+  "freq": "M",
+  "units": "Thous.",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-24"
+ },
+ "KCFSI": {
+  "title": "Kansas City Financial Stress Index",
+  "freq": "M",
+  "units": "Index",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-05"
+ },
+ "STLFSI4": {
+  "title": "St. Louis Fed Financial Stress Index",
+  "freq": "W",
+  "units": "Index",
+  "obs_end": "2026-07-17",
+  "updated": "2026-07-22"
+ },
+ "CPILFESL": {
+  "title": "Consumer Price Index for All Urban Consumers: All Items Less Food and Energy in U.S. City Average",
+  "freq": "M",
+  "units": "Index 1982-1984=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-14"
+ },
+ "INDPRO": {
+  "title": "Industrial Production: Total Index",
+  "freq": "M",
+  "units": "Index 2017=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-17"
+ },
+ "TCU": {
+  "title": "Capacity Utilization: Total Index",
+  "freq": "M",
+  "units": "%",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-17"
+ },
+ "DGORDER": {
+  "title": "Manufacturers' New Orders: Durable Goods",
+  "freq": "M",
+  "units": "Mil. of $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-07-02"
+ },
+ "NEWORDER": {
+  "title": "Manufacturers' New Orders: Nondefense Capital Goods Excluding Aircraft",
+  "freq": "M",
+  "units": "Mil. of $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-07-02"
+ },
+ "AMTMNO": {
+  "title": "Manufacturers' New Orders: Total Manufacturing",
+  "freq": "M",
+  "units": "Mil. of $",
+  "obs_end": "2026-05-01",
+  "updated": "2026-07-02"
+ },
+ "PPIFIS": {
+  "title": "Producer Price Index by Commodity: Final Demand",
+  "freq": "M",
+  "units": "Index Nov 2009=100",
+  "obs_end": "2026-06-01",
+  "updated": "2026-07-15"
+ },
+ "SOFR": {
+  "title": "Secured Overnight Financing Rate",
+  "freq": "D",
+  "units": "%",
+  "obs_end": "2026-07-23",
+  "updated": "2026-07-24"
+ }
+}

@@ -1,0 +1,672 @@
+{
+ "note": "사용자 선택 FRED 매크로 지표 · 페이지에서 원본/MoM/YoY 버튼 토글용",
+ "transforms": {
+  "CPIAUCSL": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "CPIAUCNS": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "CUSR0000SAS2RS": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "CUSR0000SAS": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "CUSR0000SAS367": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "CUSR0000SAD": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "CUSR0000SETA02": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "CUSR0000SETA01": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "PCEPILFE": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "PCEPI": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "PCE": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "PCEC96": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "PCEDG": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "PCES": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "PCESC96": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "DGDSRX1": [
+   "raw",
+   "mom",
+   "yoy"
+  ],
+  "T5YIFR": [
+   "raw"
+  ],
+  "T5YIE": [
+   "raw"
+  ],
+  "T10YIE": [
+   "raw"
+  ],
+  "MICH": [
+   "raw"
+  ],
+  "EFFR": [
+   "raw"
+  ],
+  "DFF": [
+   "raw"
+  ],
+  "EFFR99": [
+   "raw"
+  ],
+  "EFFRVOL": [
+   "raw"
+  ],
+  "RRPONTSYAWARD": [
+   "raw"
+  ],
+  "DPCREDIT": [
+   "raw"
+  ],
+  "T10Y3M": [
+   "raw"
+  ],
+  "T10Y2Y": [
+   "raw"
+  ],
+  "DGS3MO": [
+   "raw"
+  ],
+  "DGS1": [
+   "raw"
+  ],
+  "DGS2": [
+   "raw"
+  ],
+  "DGS3": [
+   "raw"
+  ],
+  "DGS5": [
+   "raw"
+  ],
+  "DGS10": [
+   "raw"
+  ],
+  "DGS20": [
+   "raw"
+  ],
+  "DGS30": [
+   "raw"
+  ],
+  "DFII10": [
+   "raw"
+  ],
+  "DFII5": [
+   "raw"
+  ],
+  "DFII30": [
+   "raw"
+  ],
+  "BAMLH0A0HYM2": [
+   "raw"
+  ],
+  "BAMLH0A0HYM2EY": [
+   "raw"
+  ],
+  "WALCL": [
+   "raw"
+  ],
+  "WSHOSHO": [
+   "raw"
+  ],
+  "TREAST": [
+   "raw"
+  ],
+  "WSHOMCB": [
+   "raw"
+  ],
+  "WSHOICL": [
+   "raw"
+  ],
+  "RPONTTLD": [
+   "raw"
+  ],
+  "WLCFLPCL": [
+   "raw"
+  ],
+  "H41RESPPALDKNWW": [
+   "raw"
+  ],
+  "SWPT": [
+   "raw"
+  ],
+  "WORAL": [
+   "raw"
+  ],
+  "WGCAL": [
+   "raw"
+  ],
+  "WRESBAL": [
+   "raw"
+  ],
+  "WTREGEN": [
+   "raw"
+  ],
+  "WM2NS": [
+   "raw"
+  ],
+  "M2SL": [
+   "raw"
+  ],
+  "M2REAL": [
+   "raw"
+  ],
+  "M2V": [
+   "raw"
+  ],
+  "TOTBKCR": [
+   "raw"
+  ],
+  "DPSACBW027SBOG": [
+   "raw"
+  ],
+  "TLAACBW027NBOG": [
+   "raw"
+  ],
+  "REALLN": [
+   "raw"
+  ],
+  "RRPONTTLD": [
+   "raw"
+  ],
+  "RRPONTSYD": [
+   "raw"
+  ],
+  "SNDR": [
+   "raw"
+  ],
+  "SAHMREALTIME": [
+   "raw"
+  ],
+  "UNRATE": [
+   "raw"
+  ],
+  "ICSA": [
+   "raw"
+  ],
+  "JTSLDL": [
+   "raw"
+  ],
+  "JTSTSL": [
+   "raw"
+  ],
+  "GDPC1": [
+   "raw"
+  ],
+  "GDPNOW": [
+   "raw"
+  ],
+  "GDP": [
+   "raw"
+  ],
+  "GDPPOT": [
+   "raw"
+  ],
+  "HSN1F": [
+   "raw"
+  ],
+  "KCFSI": [
+   "raw"
+  ],
+  "STLFSI4": [
+   "raw"
+  ],
+  "CPILFESL": [
+   "raw",
+   "mom",
+   "yoy"
+  ]
+ },
+ "names": {
+  "CPIAUCSL": "CPI 전체(계절조정)",
+  "CPIAUCNS": "CPI 전체(원계열)",
+  "CUSR0000SAS2RS": "주거비(임차료)",
+  "CUSR0000SAS": "서비스 물가",
+  "CUSR0000SAS367": "기타 서비스 물가",
+  "CUSR0000SAD": "내구재 물가",
+  "CUSR0000SETA02": "중고차·트럭 물가",
+  "CUSR0000SETA01": "신차 물가",
+  "PCEPILFE": "근원 PCE 물가지수",
+  "PCEPI": "PCE 물가지수(헤드라인)",
+  "PCE": "개인소비지출(명목)",
+  "PCEC96": "실질 개인소비지출",
+  "PCEDG": "내구재 소비",
+  "PCES": "서비스 소비",
+  "PCESC96": "실질 서비스 소비",
+  "DGDSRX1": "실질 재화 소비",
+  "T5YIFR": "5년-5년 선도 기대인플레",
+  "T5YIE": "5년 BEI(브레이크이븐)",
+  "T10YIE": "10년 BEI(브레이크이븐)",
+  "MICH": "미시간대 소비자 기대",
+  "EFFR": "실효 연방기금금리",
+  "DFF": "연방기금 실효금리(일)",
+  "EFFR99": "실효금리 99분위",
+  "EFFRVOL": "연방기금 거래량",
+  "RRPONTSYAWARD": "역레포 지급금리",
+  "DPCREDIT": "재할인 1차 신용금리",
+  "T10Y3M": "장단기 금리차 (10Y−3M)",
+  "T10Y2Y": "장단기 금리차 (10Y−2Y)",
+  "DGS3MO": "국채 3개월 수익률",
+  "DGS1": "국채 1년 수익률",
+  "DGS2": "국채 2년 수익률",
+  "DGS3": "국채 3년 수익률",
+  "DGS5": "국채 5년 수익률",
+  "DGS10": "국채 10년 수익률",
+  "DGS20": "국채 20년 수익률",
+  "DGS30": "국채 30년 수익률",
+  "DFII10": "TIPS 10년 실질수익률",
+  "DFII5": "TIPS 5년 실질수익률",
+  "DFII30": "TIPS 30년 실질수익률",
+  "BAMLH0A0HYM2": "하이일드 OAS",
+  "BAMLH0A0HYM2EY": "하이일드 유효수익률",
+  "WALCL": "연준 총자산",
+  "WSHOSHO": "보유증권 합계",
+  "TREAST": "보유 국채(전 만기)",
+  "WSHOMCB": "보유 MBS",
+  "WSHOICL": "보유 국채(내역)",
+  "RPONTTLD": "레포(자금 공급)",
+  "WLCFLPCL": "1차 신용 대출",
+  "H41RESPPALDKNWW": "BTFP 은행기간대출",
+  "SWPT": "중앙은행 유동성 스왑",
+  "WORAL": "레포 자산(수요일)",
+  "WGCAL": "금 증서 계정",
+  "WRESBAL": "지급준비금",
+  "WTREGEN": "재무부 일반계정(TGA)",
+  "WM2NS": "M2 통화량(명목·주간)",
+  "M2SL": "M2 통화량(명목·월·SA)",
+  "M2REAL": "실질 M2 (Real M2)",
+  "M2V": "M2 유통속도",
+  "TOTBKCR": "은행 신용",
+  "DPSACBW027SBOG": "상업은행 예금",
+  "TLAACBW027NBOG": "상업은행 총자산",
+  "REALLN": "부동산 대출",
+  "RRPONTTLD": "역레포 잔액(총)",
+  "RRPONTSYD": "역레포 잔액(국채)",
+  "SNDR": "예금금리(저축)",
+  "SAHMREALTIME": "Sahm 침체 규칙",
+  "UNRATE": "실업률",
+  "ICSA": "신규 실업수당 청구",
+  "JTSLDL": "해고·감원(JOLTS)",
+  "JTSTSL": "총 이직(JOLTS)",
+  "GDPC1": "실질 GDP",
+  "GDPNOW": "GDPNow 실시간 추정",
+  "GDP": "명목 GDP",
+  "GDPPOT": "잠재 GDP",
+  "HSN1F": "신규 단독주택 판매",
+  "KCFSI": "캔자스시티 금융스트레스",
+  "STLFSI4": "세인트루이스 금융스트레스",
+  "CPILFESL": "근원 CPI",
+  "INDPRO": "산업생산지수",
+  "TCU": "설비가동률",
+  "DGORDER": "내구재 신규주문",
+  "NEWORDER": "핵심 자본재 주문",
+  "AMTMNO": "제조업 총 신규주문",
+  "PPIFIS": "PPI 최종수요",
+  "SOFR": "SOFR (담보 익일물)"
+ },
+ "order": [
+  "CPIAUCSL",
+  "CPIAUCNS",
+  "CPILFESL",
+  "CUSR0000SAS2RS",
+  "CUSR0000SAS",
+  "CUSR0000SAS367",
+  "CUSR0000SAD",
+  "CUSR0000SETA02",
+  "CUSR0000SETA01",
+  "PCEPILFE",
+  "PCEPI",
+  "PCE",
+  "PCEC96",
+  "PCEDG",
+  "PCES",
+  "PCESC96",
+  "DGDSRX1",
+  "T5YIFR",
+  "T5YIE",
+  "T10YIE",
+  "MICH",
+  "EFFR",
+  "DFF",
+  "SOFR",
+  "EFFR99",
+  "EFFRVOL",
+  "RRPONTSYAWARD",
+  "DPCREDIT",
+  "T10Y3M",
+  "T10Y2Y",
+  "DGS3MO",
+  "DGS1",
+  "DGS2",
+  "DGS3",
+  "DGS5",
+  "DGS10",
+  "DGS20",
+  "DGS30",
+  "DFII10",
+  "DFII5",
+  "DFII30",
+  "BAMLH0A0HYM2",
+  "BAMLH0A0HYM2EY",
+  "WALCL",
+  "WSHOSHO",
+  "TREAST",
+  "WSHOMCB",
+  "WSHOICL",
+  "RPONTTLD",
+  "WLCFLPCL",
+  "H41RESPPALDKNWW",
+  "SWPT",
+  "WORAL",
+  "WGCAL",
+  "WRESBAL",
+  "WTREGEN",
+  "WM2NS",
+  "M2SL",
+  "M2REAL",
+  "M2V",
+  "TOTBKCR",
+  "DPSACBW027SBOG",
+  "TLAACBW027NBOG",
+  "REALLN",
+  "RRPONTTLD",
+  "RRPONTSYD",
+  "SNDR",
+  "SAHMREALTIME",
+  "UNRATE",
+  "ICSA",
+  "JTSLDL",
+  "JTSTSL",
+  "GDPC1",
+  "GDPNOW",
+  "GDP",
+  "GDPPOT",
+  "HSN1F",
+  "KCFSI",
+  "STLFSI4",
+  "INDPRO",
+  "TCU",
+  "DGORDER",
+  "NEWORDER",
+  "AMTMNO",
+  "PPIFIS"
+ ],
+ "group_of": {
+  "CPIAUCSL": "cpi",
+  "CPIAUCNS": "cpi",
+  "CUSR0000SAS2RS": "cpi",
+  "CUSR0000SAS": "cpi",
+  "CUSR0000SAS367": "cpi",
+  "CUSR0000SAD": "cpi",
+  "CUSR0000SETA02": "cpi",
+  "CUSR0000SETA01": "cpi",
+  "PCEPILFE": "pce",
+  "PCEPI": "pce",
+  "PCE": "pce",
+  "PCEC96": "pce",
+  "PCEDG": "pce",
+  "PCES": "pce",
+  "PCESC96": "pce",
+  "DGDSRX1": "pce",
+  "T5YIFR": "infexp",
+  "T5YIE": "infexp",
+  "T10YIE": "infexp",
+  "MICH": "infexp",
+  "EFFR": "policy",
+  "DFF": "policy",
+  "EFFR99": "policy",
+  "EFFRVOL": "policy",
+  "RRPONTSYAWARD": "policy",
+  "DPCREDIT": "policy",
+  "T10Y3M": "ust",
+  "T10Y2Y": "ust",
+  "DGS3MO": "ust",
+  "DGS1": "ust",
+  "DGS2": "ust",
+  "DGS3": "ust",
+  "DGS5": "ust",
+  "DGS10": "ust",
+  "DGS20": "ust",
+  "DGS30": "ust",
+  "DFII10": "tips",
+  "DFII5": "tips",
+  "DFII30": "tips",
+  "BAMLH0A0HYM2": "credit",
+  "BAMLH0A0HYM2EY": "credit",
+  "WALCL": "fed",
+  "WSHOSHO": "fed",
+  "TREAST": "fed",
+  "WSHOMCB": "fed",
+  "WSHOICL": "fed",
+  "RPONTTLD": "fed",
+  "WLCFLPCL": "fed",
+  "H41RESPPALDKNWW": "fed",
+  "SWPT": "fed",
+  "WORAL": "fed",
+  "WGCAL": "fed",
+  "WRESBAL": "fed",
+  "WTREGEN": "tga",
+  "WM2NS": "money",
+  "M2SL": "money",
+  "M2REAL": "money",
+  "M2V": "money",
+  "TOTBKCR": "money",
+  "DPSACBW027SBOG": "money",
+  "TLAACBW027NBOG": "money",
+  "REALLN": "money",
+  "RRPONTTLD": "money",
+  "RRPONTSYD": "money",
+  "SNDR": "money",
+  "SAHMREALTIME": "labor",
+  "UNRATE": "labor",
+  "ICSA": "labor",
+  "JTSLDL": "labor",
+  "JTSTSL": "labor",
+  "GDPC1": "gdp",
+  "GDPNOW": "gdp",
+  "GDP": "gdp",
+  "GDPPOT": "gdp",
+  "HSN1F": "house",
+  "KCFSI": "stress",
+  "STLFSI4": "stress",
+  "CPILFESL": "cpi",
+  "INDPRO": "prod",
+  "TCU": "prod",
+  "DGORDER": "prod",
+  "NEWORDER": "prod",
+  "AMTMNO": "prod",
+  "PPIFIS": "prod",
+  "SOFR": "policy"
+ },
+ "group_names": {
+  "cpi": "CPI (소비자물가)",
+  "pce": "PCE (개인소비지출)",
+  "infexp": "기대인플레이션 (BEI)",
+  "policy": "정책금리",
+  "ust": "미 국채 — 명목 (물가연동 X)",
+  "tips": "미 국채 — 물가연동 (TIPS)",
+  "credit": "신용스프레드 (+ 텀프리미엄)",
+  "fed": "연준 자산 (대차대조표)",
+  "tga": "미 재무부 계좌 (TGA)",
+  "money": "통화 · 유동성",
+  "labor": "고용",
+  "gdp": "GDP 관련",
+  "house": "주택",
+  "stress": "금융 스트레스 지수",
+  "prod": "생산·제조"
+ },
+ "group_super": {
+  "cpi": "물가 · 인플레이션",
+  "pce": "물가 · 인플레이션",
+  "infexp": "물가 · 인플레이션",
+  "policy": "금리 · 국채 · 신용",
+  "ust": "금리 · 국채 · 신용",
+  "tips": "금리 · 국채 · 신용",
+  "credit": "금리 · 국채 · 신용",
+  "fed": "연준 · 통화 · 유동성",
+  "tga": "연준 · 통화 · 유동성",
+  "money": "연준 · 통화 · 유동성",
+  "labor": "실물경제",
+  "gdp": "실물경제",
+  "house": "실물경제",
+  "stress": "리스크 · 스트레스",
+  "prod": "실물경제"
+ },
+ "group_order": [
+  "cpi",
+  "pce",
+  "infexp",
+  "policy",
+  "ust",
+  "tips",
+  "credit",
+  "fed",
+  "tga",
+  "money",
+  "labor",
+  "gdp",
+  "prod",
+  "house",
+  "stress"
+ ],
+ "meanings": {
+  "CPIAUCSL": "미국 헤드라인 소비자물가. 전월비·전년비 인플레의 기준선.",
+  "CPIAUCNS": "계절조정 전 원지수 — 전년동월비 계산의 원천.",
+  "CUSR0000SAS2RS": "CPI에서 비중이 가장 큰 항목. 물가 하방경직성의 핵심.",
+  "CUSR0000SAS": "임금에 민감 — 근원 인플레의 끈적한 부분.",
+  "CUSR0000SAS367": "세부 서비스 품목 물가.",
+  "CUSR0000SAD": "상품(재화) 쪽 디스인플레/인플레 흐름.",
+  "CUSR0000SETA02": "2021~22 인플레의 핵심 동력. ※업계 선행지표 Manheim 지수는 유료라 FRED엔 없어 이 CPI가 대용.",
+  "CUSR0000SETA01": "신차 가격 — 공급망·수요 반영.",
+  "PCEPILFE": "식품·에너지 제외 PCE 물가. 연준의 2% 목표 기준 지표 — 가장 중요.",
+  "PCEPI": "연준이 CPI보다 중시하는 종합 물가.",
+  "PCE": "미국 소비 규모. GDP의 최대 구성요소.",
+  "PCEC96": "물가효과 제거한 실질 소비 — 성장의 핵심 동력.",
+  "PCEDG": "자동차·가전 등 경기민감 소비.",
+  "PCES": "소비의 대부분·상대적으로 안정적.",
+  "PCESC96": "물가조정 서비스 소비.",
+  "DGDSRX1": "물가조정 상품 소비.",
+  "T5YIFR": "5년 뒤부터 5년간의 기대 — 연준이 보는 장기 기대 앵커 지표.",
+  "T5YIE": "명목−TIPS = 향후 5년 평균 기대인플레. 일별.",
+  "T10YIE": "시장의 장기 기대인플레. 일별·가장 많이 인용.",
+  "MICH": "가계 설문 기대 — 소비·임금협상에 영향.",
+  "EFFR": "뉴욕연준이 실제 거래로 산출하는 대표 정책금리(중앙값 기반).",
+  "DFF": "일별 정책금리.",
+  "EFFR99": "거래금리 상단 — 자금시장 스트레스 감지.",
+  "EFFRVOL": "무담보 익일물 거래 규모.",
+  "RRPONTSYAWARD": "정책금리 하단(플로어) 역할.",
+  "DPCREDIT": "연준 대출창구 금리 — 정책금리 상단.",
+  "T10Y3M": "연준이 가장 신뢰하는 침체 예측 스프레드. 0 미만이면 역전.",
+  "T10Y2Y": "대표적 커브 역전 지표. 역전 후 시차를 두고 침체.",
+  "DGS3MO": "단기 금리 — 정책금리에 밀착.",
+  "DGS1": "만기별 수익률 곡선 구성.",
+  "DGS2": "정책금리 기대를 가장 잘 반영하는 만기.",
+  "DGS3": "중기 구간.",
+  "DGS5": "중기 구간.",
+  "DGS10": "장기금리의 벤치마크 — 모기지·회사채의 기준.",
+  "DGS20": "초장기 구간.",
+  "DGS30": "최장기 구간 — 장기 성장·물가 기대.",
+  "DFII10": "실질금리의 벤치마크. 자산가격·달러에 큰 영향.",
+  "DFII5": "물가 제거한 5년 실질금리 — 유동성 높음.",
+  "DFII30": "장기 실질금리 대표 — 20년보다 의미 있는 초장기 지표.",
+  "BAMLH0A0HYM2": "투기등급 회사채 가산금리 — 위험선호/신용경색의 대표 척도.",
+  "BAMLH0A0HYM2EY": "투기등급 회사채의 실제 수익률 수준.",
+  "WALCL": "대차대조표 규모 — QE/QT의 직접 척도.",
+  "WSHOSHO": "국채+MBS 등 직접 보유 증권 총합.",
+  "TREAST": "연준이 매입 보유한 국채 잔액.",
+  "WSHOMCB": "주택저당증권 매입잔액 — 주택시장 유동성과 연결.",
+  "WSHOICL": "보유 국채의 세부 항목.",
+  "RPONTTLD": "연준의 단기 자금 공급(자산측).",
+  "WLCFLPCL": "재할인창구 대출 잔액 — 은행 자금경색 시 급증.",
+  "H41RESPPALDKNWW": "2023 SVB 사태 대응 긴급 대출 프로그램 잔액.",
+  "SWPT": "타국 중앙은행에 달러 공급 — 글로벌 달러경색 지표.",
+  "WORAL": "연준 보유 레포 잔액(수요일 기준).",
+  "WGCAL": "연준 보유 금 증서 — 거의 불변, 참고용.",
+  "WRESBAL": "은행이 연준에 예치한 준비금 — 유동성 총량의 핵심(부채측).",
+  "WTREGEN": "재무부의 연준 예치 잔액 — 유동성 흡수/방출의 밸브.",
+  "WM2NS": "광의 통화의 달러 액면 금액 — 통화창출+물가가 함께 반영돼 계속 우상향.",
+  "M2SL": "월별 계절조정 M2 — 증가율 추세 보기에 적합.",
+  "M2REAL": "M2를 CPI로 나눈 구매력 기준 통화량. 명목이 정체여도 물가↑면 감소 → 마이너스 전환은 진짜 긴축·침체 신호.",
+  "M2V": "통화가 도는 속도 — 낮으면 화폐수요↑·경기둔화 신호.",
+  "TOTBKCR": "상업은행 총 대출+증권 보유 — 신용 공급 여건.",
+  "DPSACBW027SBOG": "은행 예금 잔액 — 예금 이탈은 유동성 스트레스 신호.",
+  "TLAACBW027NBOG": "은행 시스템 규모.",
+  "REALLN": "상업은행의 부동산 담보대출 잔액.",
+  "RRPONTTLD": "MMF 등 여유자금 흡수 규모 — 과잉유동성 척도.",
+  "RRPONTSYD": "역레포로 흡수된 국채 담보 규모.",
+  "SNDR": "전국 저축예금 평균금리.",
+  "SAHMREALTIME": "실업률 3개월 평균이 저점 대비 +0.5%p면 침체 진입 신호.",
+  "UNRATE": "노동시장의 대표 지표.",
+  "ICSA": "주간 고빈도 침체신호 — 해고 급증을 즉시 포착.",
+  "JTSLDL": "비자발적 이직 — 급증 시 침체 신호. 파일엔 빠져 있던 핵심 항목.",
+  "JTSTSL": "자발+비자발 전체 이직 규모.",
+  "GDPC1": "물가조정 성장의 기준 지표.",
+  "GDPNOW": "애틀랜타 연준의 실시간 GDP 추정 — 발표 지연 보완.",
+  "GDP": "물가 미조정 경제 규모.",
+  "GDPPOT": "인플레 없이 가능한 최대 생산 — GDP갭 계산 기준.",
+  "HSN1F": "금리 민감 선행지표 — 정책 효과의 조기 신호.",
+  "KCFSI": "11개 금융변수 종합. 0.5 돌파 시 경계.",
+  "STLFSI4": "금리·스프레드·변동성 종합 스트레스. 0 기준 상하. (구 STLFSI3 중단→최신판)",
+  "CPILFESL": "식품·에너지 제외. 변동성 큰 품목을 빼 추세 물가를 봄.",
+  "INDPRO": "공장·광산·전기가스의 실질 생산량 지수. 제조업 경기의 핵심 척도.",
+  "TCU": "산업 설비가 얼마나 가동되는지(%). 높으면 수요 강함·인플레 압력, 낮으면 유휴.",
+  "DGORDER": "자동차·기계 등 내구재 신규 주문액. 향후 생산·투자의 선행지표.",
+  "NEWORDER": "항공·국방 제외 자본재 신규주문 — 기업 설비투자의 대표 선행지표.",
+  "AMTMNO": "제조업 전체 신규 주문액. 제조 수요의 종합 척도.",
+  "PPIFIS": "생산자가 받는 최종수요 가격(헤드라인 PPI). CPI에 선행하는 물가 압력.",
+  "SOFR": "국채담보 익일물 금리(NY연준). LIBOR를 대체한 무위험 벤치마크로 단기 자금시장 상태를 반영."
+ }
+}

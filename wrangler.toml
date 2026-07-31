@@ -1,0 +1,10 @@
+# Cloudflare Pages 프로젝트 설정 — deploy_cf.sh(wrangler pages deploy)가 읽음.
+# 속보 트랙(/api/breaking)의 KV 바인딩. 비밀토큰 BREAKING_TOKEN은
+# `wrangler pages secret put`으로 별도 등록(파일에 안 씀).
+name = "world-info"
+pages_build_output_dir = ".cf_public"
+compatibility_date = "2026-07-01"
+
+[[kv_namespaces]]
+binding = "BREAKING_KV"
+id = "49dacd98447146639e9b350692f314b4"

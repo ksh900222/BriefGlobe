@@ -1,0 +1,85 @@
+{
+    "_comment": "속보 트랙 구독 채널. username=텔레그램 공개채널 ID(t.me/<username>). 성향 교차 원칙: 분쟁은 반대 성향 짝, 금융은 무편향 릴레이형만. --check 로 실제 존재 검증.",
+    "channels": [
+        {
+            "username": "wfwitness",
+            "name": "TG Witness",
+            "track": "분쟁",
+            "bias": "중동 현지"
+        },
+        {
+            "username": "intelslava",
+            "name": "Intel Slava Z",
+            "track": "분쟁",
+            "bias": "친러"
+        },
+        {
+            "username": "clashreport",
+            "name": "Clash Report",
+            "track": "분쟁",
+            "bias": "터키 기반"
+        },
+        {
+            "username": "WalterBloomberg",
+            "name": "Walter Bloomberg",
+            "track": "금융",
+            "bias": "릴레이(무편향)"
+        },
+        {
+            "username": "financialjuice",
+            "name": "Financial Juice",
+            "track": "금융",
+            "bias": "릴레이(무편향)"
+        },
+        {
+            "username": "Tasnimnews",
+            "name": "Tasnim (이란)",
+            "track": "분쟁",
+            "bias": "이란 관영·친이란"
+        },
+        {
+            "username": "tabzlive",
+            "name": "TABZ",
+            "track": "분쟁",
+            "bias": "중동 모니터"
+        },
+        {
+            "username": "aljazeeraBrk",
+            "name": "알자지라 속보",
+            "track": "일반",
+            "bias": "카타르 관점"
+        }
+    ],
+    "rss": [
+        {
+            "id": "yna",
+            "name": "연합뉴스",
+            "url": "https://www.yna.co.kr/rss/news.xml"
+        },
+        {
+            "id": "hk",
+            "name": "한국경제",
+            "url": "https://www.hankyung.com/feed/all-news"
+        },
+        {
+            "id": "nhk",
+            "name": "NHK",
+            "url": "https://www.nhk.or.jp/rss/news/cat0.xml"
+        },
+        {
+            "id": "japantimes",
+            "name": "Japan Times",
+            "url": "https://www.japantimes.co.jp/feed/"
+        },
+        {
+            "id": "ynank",
+            "name": "연합뉴스 북한",
+            "url": "https://www.yna.co.kr/rss/northkorea.xml"
+        },
+        {
+            "id": "cnatw",
+            "name": "CNA 대만(양안)",
+            "url": "https://feeds.feedburner.com/rsscna/mainland"
+        }
+    ]
+}

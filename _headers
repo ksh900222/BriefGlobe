@@ -1,0 +1,5 @@
+# Cloudflare Pages 캐시 규칙
+# HTML·데이터 파일은 매 갱신마다 바뀌므로 항상 서버 재검증(no-cache).
+# no-cache = 브라우저가 저장은 하되 쓰기 전 서버에 확인(변경없으면 304, 가벼움) → 옛 버전 고착 방지.
+/*
+  Cache-Control: no-cache
