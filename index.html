@@ -3409,7 +3409,7 @@ function glBuildPressureLayers() {
   const contour = new W.ContourLayer({
     id: "wx-isobar-" + _glWindLayerSeq, image: _glRasterTex, imageType: "SCALAR", imageUnscale: pr,
     bounds: GL_WIND_WL_BOUNDS, interval: 4, majorInterval: 20,   // 4hPa 등압선, 20hPa 굵은선
-    width: 1.7, color: [90, 165, 255, 235],                      // 밝은 하늘색 — 밝은 베이스맵·어두운 위성 양쪽에서 보이게
+    width: 1.7, color: [255, 150, 45, 240],                      // 선명한 주황 — 바다 파란색과 보색이라 대비 강함(밝은 베이스맵·어두운 위성 양쪽 가독)
     imageInterpolation: "CUBIC", beforeId: bid,
   });
   const hl = new W.HighLowLayer({
