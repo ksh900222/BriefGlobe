@@ -10,7 +10,7 @@
 #  launchd(com.worldinfo.breakingwatch)가 15분마다 실행.
 # ============================================================
 export PATH="/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-PROJ="/Users/shkim/PycharmProjects/WEB_WORLD_INFO"
+PROJ="$(cd "$(dirname "$0")" && pwd)"   # 스크립트 위치 기준(launchd가 절대경로로 실행 → 프로젝트 폴더)
 STORE="$PROJ/breaking-store.json"
 MARK="$PROJ/.breaking_stale_alerted"
 STALE_MIN=60

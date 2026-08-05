@@ -425,6 +425,10 @@ task_stock-news.md에 명시된 전 종목(미국 19 + 한국 11 = 30종목) 최
 news-data.js 재사용을 우선하고 부족분만 검색 보충. 끝나면 종료해." \
     "$GROK_MODEL_HEAVY" "$GROK_EFFORT_D2" "medium"; then
     D2_OK=1
+    # 방어: Claude 폴백 등이 ES모듈 구문(export default/export {})을 붙이면
+    #   일반 <script> 로드가 'Unexpected token export'로 통째 실패 → STOCKS_NEWS 미정의 →
+    #   종목 뉴스·SNS 전부 안 뜸. 저장 직후 해당 구문 제거(멱등).
+    sed -i '' '/^[[:space:]]*export default/d; /^[[:space:]]*export {/d' "$PROJ/stocks-news.js" 2>/dev/null || true
   else
     echo "  ⚠ 종목뉴스 종료(에러 가능)"
   fi
