@@ -191,7 +191,9 @@
      선택 항목이 열리면 뉴스 3종을 통째로 아래로 밀어냄(기본 높이 0 = 완전히 숨김).
      사이 드래그 바(#asideSplit)를 위로 끌면 원하는 높이만큼 다시 꺼내 볼 수 있음 —
      사이드바 리사이저와 동일한 조작(드래그/더블클릭 토글, 위치는 localStorage 유지). */
-  #asidePanels { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; }
+  /* 3패널(속보·주요뉴스·영역뉴스)을 담는 컨테이너 — 세로 공간이 부족하면(특히 모바일) 스크롤로
+     아래 패널까지 도달 가능하게. overflow 가 없으면 넘친 하위 패널이 잘려 아예 안 보였음. */
+  #asidePanels { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; }
   aside.detail-open #asidePanels { flex: 0 0 var(--aside-split, 0px); overflow: hidden; }
   .resizer-y {
     display: none; height: 7px; flex: none; cursor: row-resize;
@@ -250,6 +252,19 @@
     padding: 1px 7px; border-radius: 999px; font-weight: 600; font-size: 10px;
     color: #d97706; background: rgba(217, 119, 6, .12);
     border: 1px solid rgba(217, 119, 6, .35);
+  }
+  /* 조사 AI 배지: Claude(Sonnet/Haiku) = 주황 · Grok = 보라(.src-grok) · Gemini = 청록 */
+  .src-claude {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 1px 7px; border-radius: 999px; font-weight: 600; font-size: 10px;
+    color: #d97706; background: rgba(217, 119, 6, .12);
+    border: 1px solid rgba(217, 119, 6, .35);
+  }
+  .src-gemini {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 1px 7px; border-radius: 999px; font-weight: 600; font-size: 10px;
+    color: #0891b2; background: rgba(8, 145, 178, .12);
+    border: 1px solid rgba(8, 145, 178, .35);
   }
   /* ---------- 기업·테크 필터 칩 + 패널 ---------- */
   .cat-tech-chip { border-color: rgba(217,119,6,.4); color: #d97706; }
@@ -675,6 +690,8 @@
     border-radius: 14px; padding: 18px 20px; margin-top: 14px;
   }
   .brief-card .b-date { font-size: 11px; color: var(--muted); letter-spacing: .2px; }
+  .brief-card .b-gen { display: inline-block; padding: 1px 7px; margin: 0 4px; border-radius: 999px; color: #fff;
+                       font-size: 10px; font-weight: 700; letter-spacing: .2px; vertical-align: middle; white-space: nowrap; }
   .brief-card .b-head { font-size: 19px; font-weight: 800; margin: 6px 0 12px; line-height: 1.45; letter-spacing: -.3px; }
   /* 브리핑 테마 그룹(거시·주식·원자재/코인·뉴스) */
   .nb-group { margin-top: 16px; }
@@ -1032,6 +1049,8 @@
   #gl-wx-legend .glwl-bar { height: 10px; border-radius: 3px; border: 1px solid rgba(255,255,255,.15); }
   #gl-wx-legend .glwl-ticks { display: flex; justify-content: space-between; margin-top: 2px; }
   #gl-wx-legend .glwl-ticks span { font-size: 9.5px; color: #c2c9d4; }
+  #gl-wx-legend .glwl-enso { margin-top: 7px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,.13);
+    font-size: 10.5px; color: #dfe5ee; line-height: 1.45; white-space: nowrap; }
   @media (max-width: 720px) { #gl-wx-legend { min-width: 150px; max-width: 78vw; left: 8px; bottom: 8px; } }
   /* 🎚️ 바람 고도 조그(dial) — 지구본 우하단. 바람(색+흐름) 활성일 때만 표시(범례=좌하단과 안 겹침) */
   .gl-wind-jog { display: none; flex-direction: column; align-items: stretch; gap: 3px;
@@ -1352,10 +1371,18 @@
     display: flex; align-items: center; justify-content: center;
     color: #fff; font-size: 12px; font-weight: 700;
   }
-  /* Grok 조사 뉴스: 보라색 링으로 지도에서 한눈에 구분 (카테고리 색은 그대로) */
+  /* AI 조사 뉴스: 지도 링 색 = 조사 엔진 (Grok 보라 · Claude 주황 · Gemini 청록) */
   .news-marker.grok-src {
     border-color: #d9c2ff;
     box-shadow: 0 0 0 2px #7c3aed, 0 0 8px var(--c, #888);
+  }
+  .news-marker.claude-src {
+    border-color: #fcd9a8;
+    box-shadow: 0 0 0 2px #d97706, 0 0 8px var(--c, #888);
+  }
+  .news-marker.gemini-src {
+    border-color: #a5e8f0;
+    box-shadow: 0 0 0 2px #0891b2, 0 0 8px var(--c, #888);
   }
   /* Leaflet 팝업 다크 테마 */
   .leaflet-popup-content-wrapper, .leaflet-popup-tip {
@@ -1397,8 +1424,11 @@
   @media (max-width: 1024px) {
     html, body { max-width: 100%; overflow-x: hidden; }   /* 가로 오버플로우(레이아웃 밖으로 나감) 방지 */
     body { height: 100vh; height: 100dvh; }   /* 모바일 주소창 대응 */
-    /* 아이폰 safe-area(다이나믹아일랜드·홈인디케이터) — 하단 footer·사이드바 여백 */
-    footer { padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+    /* 아이폰 safe-area(다이나믹아일랜드·홈인디케이터) 여백 — '실제 최하단' 요소에만.
+       footer(날짜바)는 그 아래 #siteFooter 가 있어 최하단이 아니므로 safe-area 를 주지 않는다
+       (예전엔 footer 에 줘서 큰 하단 여백 → siteFooter 와 겹쳐 보였음). safe-area 는 siteFooter 로. */
+    footer, #siteFooter { flex: 0 0 auto; }   /* 하단 두 바 모두 안 줄어들게 → 서로 겹침 방지 */
+    #siteFooter { padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
     aside { padding-bottom: env(safe-area-inset-bottom); }
 
     .topnav { padding: calc(8px + env(safe-area-inset-top)) 14px 8px; gap: 12px; }   /* 상단 다이나믹아일랜드 여백 */
@@ -2326,7 +2356,8 @@ function ensureExtras() {
   if (_extrasPromise) return _extrasPromise;
   // 거시 데이터는 자주 갱신되는데 .js가 브라우저 4h 캐시(존 TTL)에 고착돼 옛 버전이 뜨는 문제 →
   //   macro-data.js 만 캐시버스트로 로드(index.html은 no-cache라 새 HTML이 늘 최신 데이터를 당겨옴).
-  const _FRESH = new Set(["macro-data.js"]);
+  // 파이프라인이 매 갱신 재생성하는 데이터 파일 — 항상 최신(캐시버스트). 정적 레이어 데이터(semi·commodities 등)는 제외(브라우저 캐시 허용).
+  const _FRESH = new Set(["macro-data.js", "market-data.js", "macro-series.js", "earnings-series.js", "stocks-info.js", "stocks-news.js"]);
   _extrasPromise = Promise.all(EXTRA_SCRIPTS.map(src => new Promise(res => {
     const s = document.createElement("script");
     s.async = false;   // 삽입(배열) 순서대로 실행 보장 — commodities.js 가 semi-supply.js 보다 먼저 실행(레이스 방지)
@@ -2460,6 +2491,9 @@ const GL_WX_LEGEND = {
   sst_new: { title: "🌊 해수면온도", sub: "바다 표면 · °C",
     grad: "linear-gradient(to right,#1e196e 0%,#285ac8 22%,#2da0d7 40%,#46c896 55%,#b4d250 70%,#f0a537 85%,#d22d2d 100%)",
     ticks: ["−2", "6", "14", "22", "34"] },
+  sstanom_new: { title: "🌡️ 이상수온", sub: "평년 대비 · °C (OISST)",
+    grad: "linear-gradient(to right,rgb(30,60,180) 0%,rgb(70,130,220) 25%,rgb(215,232,246) 45%,rgb(248,248,248) 50%,rgb(250,228,210) 55%,rgb(235,95,70) 75%,rgb(175,25,30) 100%)",
+    ticks: ["−4", "−2", "0", "+2", "+4"] },
   pressure_new: { title: "🌀 기압(등압선)", sub: "해면 MSLP · 4hPa 간격 · H/L",
     grad: "linear-gradient(to right,#78a0ff 0%,#c8cdd7 50%,#f0787e 100%)",
     ticks: ["980", "1000", "1013", "1030", "1050"] },
@@ -2495,8 +2529,32 @@ function glShowWxLegend(layer) {
   const ticks = cfg.ticks.map(t => '<span>' + t + '</span>').join("");
   el.innerHTML = '<div class="glwl-head"><b>' + cfg.title + '</b><span class="glwl-sub">' + cfg.sub + '</span></div>'
     + '<div class="glwl-bar" style="background:' + cfg.grad + '"></div>'
-    + '<div class="glwl-ticks">' + ticks + '</div>';
+    + '<div class="glwl-ticks">' + ticks + '</div>'
+    + (layer === "sstanom_new" ? glEnsoBadgeHtml() : "");
+  if (layer === "sstanom_new" && !_glEnsoLoaded)   // ENSO 상태 도착하면 범례 재렌더
+    glLoadEnsoStatus(() => { if (_glWeatherLayer === "sstanom_new") glShowWxLegend("sstanom_new"); });
   el.style.display = "block";
+}
+// 이상수온 레이어용 ENSO(엘니뇨/라니냐) 상태 — enso-status.json(1일 1회 갱신) 1회 로드
+let _glEnsoStatus = null, _glEnsoLoaded = false, _glEnsoLoading = false;
+function glLoadEnsoStatus(cb) {
+  if (_glEnsoLoaded) { if (cb) cb(); return; }
+  if (_glEnsoLoading) return;
+  _glEnsoLoading = true;
+  fetch("enso-status.json", { cache: "no-store" })
+    .then(r => r.ok ? r.json() : null).then(d => { _glEnsoStatus = d; })
+    .catch(() => { _glEnsoStatus = null; })
+    .finally(() => { _glEnsoLoaded = true; _glEnsoLoading = false; if (cb) cb(); });
+}
+function glEnsoBadgeHtml() {
+  const s = _glEnsoStatus; if (!s) return "";
+  const o = s.oni, sst = s.sst || {};
+  const col = o ? (o.phase === "엘니뇨" ? "#e0563b" : (o.phase === "라니냐" ? "#3b7fd6" : "#9aa4b2")) : "#9aa4b2";
+  const val = o ? (o.value >= 0 ? "+" + o.value : o.value) : "";
+  const phase = o ? '<b style="color:' + col + '">' + o.phase + (o.level && o.level !== "-" ? "(" + o.level + ")" : "")
+    + '</b> · ONI ' + val + ' <span style="opacity:.55">[' + o.season + ']</span>' : "관측 분석(OISST)";
+  return '<div class="glwl-enso">🌊 현재 ENSO: ' + phase
+    + '<br><span style="opacity:.6">데이터 기준일: OISST ' + (sst.date || "?") + " · ONI(NOAA CPC)</span></div>";
 }
 function glHideWxLegend() {
   const el = document.getElementById("gl-wx-legend");
@@ -3052,7 +3110,7 @@ class GlWeatherToggle {
     // [레이어 id, 라벨, 투자 힌트]
     const WX = [["temp_new", "🌡️ 기온", "천연가스·전력(냉난방 수요)"], ["wind_new", "💨 바람", "풍력·해운 · 색+흐르는 입자(Windy식) · 고도조그로 층 전환"],
       ["clouds_new", "☁️ 구름", "태양광·기상"], ["precipitation_new", "🌧️ 강수", "농산물·재난·해운"],
-      ["sst_new", "🌊 해수면온도", "어업·수산 · 태풍 연료 · 엘니뇨/라니냐"], ["pressure_new", "🌀 기압", "저기압=악천후·태풍 · 등압선+고저기압(H/L)"],
+      ["sst_new", "🌊 해수면온도", "어업·수산 · 태풍 연료 · 엘니뇨/라니냐"], ["sstanom_new", "🌡️ 이상수온", "평년 대비(OISST) · 태풍 급강화 · 엘니뇨/라니냐"], ["pressure_new", "🌀 기압", "저기압=악천후·태풍 · 등압선+고저기압(H/L)"],
       ["aq_pm2p5", "🌫️ 초미세먼지 PM2.5", "대기질·건강 · CAMS(Copernicus)"], ["aq_pm10", "🌫️ 미세먼지 PM10", "황사·건강 · CAMS"],
       ["aq_go3", "🌫️ 오존 O₃", "여름 스모그 · CAMS"], ["aq_no2", "🌫️ 이산화질소 NO₂", "도시·교통 오염 · CAMS"],
       ["aq_so2", "🌫️ 이산화황 SO₂", "산업·화산 · CAMS"], ["aq_co", "🌫️ 일산화탄소 CO", "연소·산불 · CAMS"]];
@@ -3166,6 +3224,8 @@ function glWxAltLabel(layer) {
 }
 const GL_PRECIP_PALETTE = "0 120 170 255 0\n0.5 110 180 240 130\n2 70 110 220 205\n6 90 60 200 230\n15 140 40 160 245\n30 200 40 120 255"; // mm/h(2-C 예정)
 const GL_SST_PALETTE = "-2 30 25 110\n4 40 90 200\n10 45 160 215\n16 70 200 150\n22 180 210 80\n27 240 165 55\n34 210 45 45";  // 한류(파랑)~난류(빨강), 육지는 A=0 투명
+// 이상수온(SST anomaly) — 발산 팔레트(평년 대비 ±4°C): 차가움=파랑, 평년=흰색(옅게), 따뜻=빨강. 육지 A=0.
+const GL_SSTANOM_PALETTE = "-4 30 60 180 235\n-2 70 130 220 205\n-1 150 195 235 165\n-0.4 215 232 246 95\n0 248 248 248 60\n0.4 250 228 210 95\n1 245 165 130 165\n2 235 95 70 205\n4 175 25 30 235";
 // 🌫️ 대기질(AQI) 정규화 램프(frac 0..1 → "R G B") — 각 변수 range[0..max]에 스케일. 낮음=투명 초록 → 높음=적갈.
 //   AQI 색(좋음 초록·보통 노랑·나쁨 빨강·매우나쁨 보라·위험 적갈) 계열. 낮은 농도는 알파 0으로 깨끗한 배경.
 const GL_AQ_RAMP = [[0, "46 204 64 0"], [0.06, "46 204 64 90"], [0.16, "180 200 30 150"],
@@ -3239,6 +3299,7 @@ function glLoadWindMeta() {                       // wind-meta.json 지연 로�
       // #2 meta.fields → 자체 래스터 레이어 집합 갱신(데이터 있는 필드만 자체 렌더, 없으면 OWM)
       GL_OWN_RASTER.clear();
       (Array.isArray(m.fields) ? m.fields : ["wind"]).forEach(f => { if (GL_FIELD2LAYER[f]) GL_OWN_RASTER.add(GL_FIELD2LAYER[f]); });
+      GL_OWN_RASTER.add("sstanom_new");   // 이상수온은 wind-meta 필드가 아닌 별도 단일 텍스처(OISST) — 항상 자체 렌더
       if (!GL_OWN_RASTER.size) GL_OWN_RASTER.add("wind_new");
       return m;
     })
@@ -3267,6 +3328,8 @@ function glRasterTexUrl() {
   if (_glWeatherLayer === "clouds_new") return "/cloud-" + _glWindModel + "-f" + st + ".png";
   if (_glWeatherLayer === "precipitation_new") return "/precip-" + _glWindModel + "-f" + st + ".png";
   if (_glWeatherLayer === "sst_new") return "/sst-" + _glWindModel + "-f" + st + ".png";
+  if (_glWeatherLayer === "sstanom_new") return "/sst-anom.png";   // 단일 분석(OISST)·모델/스텝 무관·캐시버스트는 배포로
+
   if (_glWeatherLayer === "pressure_new") return "/pressure-" + _glWindModel + "-f" + st + ".png";
   return glWindTexUrl();
 }
@@ -3379,6 +3442,7 @@ function glBuildRasterLayer() {
     }
     else if (L === "precipitation_new") { imageUnscale = (_glWindMeta && _glWindMeta.precipRange) || [0, 30]; palette = GL_PRECIP_PALETTE; }
     else if (L === "sst_new") { imageUnscale = (_glWindMeta && _glWindMeta.sstRange) || [-2, 34]; palette = GL_SST_PALETTE; }  // 육지는 텍스처 A=0 → 투명
+    else if (L === "sstanom_new") { imageUnscale = [-4, 4]; palette = GL_SSTANOM_PALETTE; }  // 이상수온(OISST 단일)·발산색·육지 A=0
     else return null;
   }
   return new WeatherLayers.RasterLayer({
@@ -3409,7 +3473,7 @@ function glBuildPressureLayers() {
   const contour = new W.ContourLayer({
     id: "wx-isobar-" + _glWindLayerSeq, image: _glRasterTex, imageType: "SCALAR", imageUnscale: pr,
     bounds: GL_WIND_WL_BOUNDS, interval: 4, majorInterval: 20,   // 4hPa 등압선, 20hPa 굵은선
-    width: 1.7, color: [255, 150, 45, 240],                      // 선명한 주황 — 바다 파란색과 보색이라 대비 강함(밝은 베이스맵·어두운 위성 양쪽 가독)
+    width: 1.7, color: [0, 0, 255, 240],                         // 진한 파랑 RGB(0,0,255) — 사용자 지정
     imageInterpolation: "CUBIC", beforeId: bid,
   });
   const hl = new W.HighLowLayer({
@@ -3688,7 +3752,7 @@ class GlTyphoonModelSelector {
     this._map = map;
     const div = document.createElement("div");
     div.className = "maplibregl-ctrl gl-wind-models gl-typhoon-models";   // 기상 모델 선택기와 동일 스타일
-    div.title = "공식=기관 예보(NHC/HKO). 모델 진로=자체 기압추적(근사·5일), 3모델=발산 반경.";
+    div.title = "공식=기관 예보(NHC/HKO). 모델 진로=자체 기압추적(근사·7일, 5일 이후 점선=저신뢰), 3모델=GFS·ECMWF·ICON 원뿔 겹침(겹칠수록 합의).";
     const head = document.createElement("div"); head.className = "gwm-head"; head.textContent = "태풍 모델";
     div.appendChild(head);
     const row = document.createElement("div"); row.className = "gwm-row"; div.appendChild(row);
@@ -7560,7 +7624,7 @@ function loadTyphoons(cb) {
 }
 function typhoonStorms() { return (TYPHOON_DATA && TYPHOON_DATA.storms) || []; }
 
-// 🌀 태풍 모델별 진로(GFS/ECMWF/ICON) — typhoon-tracks.json(track_typhoons.py: 자체 MSLP 저기압 추적, 근사 5일).
+// 🌀 태풍 모델별 진로(GFS/ECMWF/ICON) — typhoon-tracks.json(track_typhoons.py: 자체 MSLP 저기압 추적, 근사 7일·5일↑ 점선=저신뢰).
 //   공식 예보(NHC/HKO)에 더해, 각 모델 기압장에서 태풍 중심을 스텝별로 추적한 진로를 겹쳐 비교.
 let _glTyphoonModel = null;   // null=공식만 · "gfs"|"ecmwf"|"icon" · "all"(3모델 비교)
 let _typhoonTracks = null, _typhoonTracksLoaded = false, _typhoonTracksLoading = false;
@@ -7582,13 +7646,52 @@ function glTcKmDist(lat1, lon1, lat2, lon2) {   // 두 지점 근사 거리(km)
   return Math.hypot(dlat, dlon);
 }
 function glTcErrorKm(hour) {   // NHC 평균 진로오차(대략, km) — 시간 보간. 단일모델 통계 원뿔용.
-  const t = [[0, 20], [12, 56], [24, 83], [36, 107], [48, 133], [72, 200], [96, 278], [120, 367]];
+  //   120h 초과(5~7일)는 NHC 미공표 → 96→120 증가율(+89/24h)로 외삽(저신뢰 구간이라 원뿔이 크게 벌어짐).
+  const t = [[0, 20], [12, 56], [24, 83], [36, 107], [48, 133], [72, 200], [96, 278], [120, 367], [144, 456], [168, 545]];
   if (hour <= 0) return t[0][1];
   for (let i = 1; i < t.length; i++) if (hour <= t[i][0]) { const [h0, r0] = t[i - 1], [h1, r1] = t[i]; return r0 + (r1 - r0) * (hour - h0) / (h1 - h0); }
   return t[t.length - 1][1];
 }
-function glTcConeBand(pts, radKm) {   // 중심 진로 pts([[lon,lat]]) + 반경(km) → 밴드 폴리곤 ring
+function glTcConeBand(pts, radKm) {   // 중심 진로 pts([[lon,lat]]) + 반경(km) → 콘 폴리곤 geometry(Polygon/MultiPolygon)
   const n = pts.length; if (n < 2) return null;
+  // 날짜변경선(±180°) 언랩 — 경도를 직전 점 기준 연속으로(진로선 glNormalizeLine 과 동일 원리).
+  //   안 하면 태평양 자오선을 지나는 태풍의 폴리곤이 지구 전체로 '찢어져' 보인다.
+  { let prev = null; const P = []; for (const p of pts) { let lon = p[0]; if (prev !== null) { while (lon - prev > 180) lon -= 360; while (lon - prev < -180) lon += 360; } P.push([lon, p[1]]); prev = lon; } pts = P; }
+  // 진로 스무딩(2패스 가중평균) — 장기예보의 격자 요동·급역행을 완화해 반경이 그 노이즈를 따라
+  //   겹쳐 뭉치는 것을 방지. 반경(원뿔)만 매끈한 진로를 따르게 하고, 진로선 자체는 원본 유지(NHC 방식).
+  for (let pass = 0; pass < 2; pass++) {
+    const S = pts.map(p => p.slice());
+    for (let i = 1; i < pts.length - 1; i++) {
+      S[i][0] = pts[i - 1][0] * 0.25 + pts[i][0] * 0.5 + pts[i + 1][0] * 0.25;
+      S[i][1] = pts[i - 1][1] * 0.25 + pts[i][1] * 0.5 + pts[i + 1][1] * 0.25;
+    }
+    pts = S;
+  }
+  // ▶ turf 세그먼트 버퍼 union — 진로가 급회전·역행(장기예보 wobble)해도 자기교차 없는 유효 폴리곤.
+  //   나이브 L/R 밴드는 90~180° 급턴+큰 반경에서 좌우 오프셋이 스스로 꼬여 '찢어져' 보였다.
+  //   ⚠ turf 는 출력 경도를 [-180,180]으로 되돌려 자오선 통과 시 다시 찢긴다 → 트랙을 경도 0 부근으로
+  //     shift 해 버퍼하고, 출력을 도로 shift-back(연속 좌표 유지). 비-자오선 케이스엔 무해.
+  if (typeof turf !== "undefined" && turf.buffer && turf.union && turf.lineString) {
+    try {
+      const lons = pts.map(p => p[0]);
+      const shift = (Math.min(...lons) + Math.max(...lons)) / 2;   // 트랙 중앙 경도만큼 이동 → turf ±180 wrap 회피
+      const sp = pts.map(p => [p[0] - shift, p[1]]);
+      let poly = null;
+      for (let i = 0; i < n - 1; i++) {
+        const r = Math.max(radKm[i] || 0, radKm[i + 1] || 0);
+        if (r <= 0) continue;
+        const buf = turf.buffer(turf.lineString([sp[i], sp[i + 1]]), r, { units: "kilometers", steps: 5 });
+        if (buf) poly = poly ? (turf.union(poly, buf) || poly) : buf;
+      }
+      if (poly && poly.geometry) {   // shift-back(경도 복원) — Polygon/MultiPolygon 모두 대응
+        const g = poly.geometry, back = ring => ring.map(c => [c[0] + shift, c[1]]);
+        return g.type === "MultiPolygon"
+          ? { type: "MultiPolygon", coordinates: g.coordinates.map(pg => pg.map(back)) }
+          : { type: "Polygon", coordinates: g.coordinates.map(back) };
+      }
+    } catch (e) { /* 아래 L/R 폴백 */ }
+  }
+  // 폴백(turf 미로드): 기존 L/R 밴드 → Polygon geometry
   const L = [], R = [];
   for (let i = 0; i < n; i++) {
     const a = pts[Math.max(0, i - 1)], b = pts[Math.min(n - 1, i + 1)], lat = pts[i][1];
@@ -7599,7 +7702,8 @@ function glTcConeBand(pts, radKm) {   // 중심 진로 pts([[lon,lat]]) + 반경
     L.push([pts[i][0] + px * rLon, pts[i][1] + py * rLat]);
     R.push([pts[i][0] - px * rLon, pts[i][1] - py * rLat]);
   }
-  const ring = L.concat(R.reverse()); ring.push(ring[0]); return ring;
+  const ring = L.concat(R.reverse()); ring.push(ring[0]);
+  return { type: "Polygon", coordinates: [ring] };
 }
 function glClearTyphoonModelCone() {
   if (!_glMap) return;
@@ -7634,26 +7738,32 @@ function glDrawTyphoonModels() {
       const tr = s.tracks && s.tracks[m];
       if (!tr || tr.length < 2) return;
       const col = GL_TYPH_MODEL_COLOR[m] || "#ccc";
-      feats.push({ type: "Feature", geometry: { type: "LineString", coordinates: glNormalizeLine(tr.map(p => [p.lat, p.lon])) },
-        properties: { color: col, name: (s.name || "") + " · " + GL_TYPH_MODEL_LABEL[m], dashed: false } });   // ★glNormalizeLine 은 [lat,lng]→[lng,lat] 스왑. 실선(케이싱 halo)
-      tr.forEach(p => { if (p.step % 24 === 0) dots.push({ lat: p.lat, lng: p.lon, _m: m, _name: s.name, _step: p.step, _mslp: p.mslp }); });
+      const LOWCONF_H = 120;   // 5일 초과분(120h~168h)은 진로 신뢰도 급락 → 흐린 점선으로 분리
+      const nm = (s.name || "") + " · " + GL_TYPH_MODEL_LABEL[m];
+      const main = tr.filter(p => p.step <= LOWCONF_H);          // 0~5일 = 실선
+      const tail = tr.filter(p => p.step >= LOWCONF_H);          // 5~7일 = 점선(120h 포함해 실선과 연결)
+      if (main.length >= 2)   // ★glNormalizeLine 은 [lat,lng]→[lng,lat] 스왑. 실선(케이싱 halo)
+        feats.push({ type: "Feature", geometry: { type: "LineString", coordinates: glNormalizeLine(main.map(p => [p.lat, p.lon])) },
+          properties: { color: col, name: nm, dashed: false } });
+      if (tail.length >= 2)   // 5~7일 저신뢰 = 점선
+        feats.push({ type: "Feature", geometry: { type: "LineString", coordinates: glNormalizeLine(tail.map(p => [p.lat, p.lon])) },
+          properties: { color: col, name: nm + " (5~7일·저신뢰)", dashed: true } });
+      tr.forEach(p => { if (p.step % 24 === 0) dots.push({ lat: p.lat, lng: p.lon, _m: m, _name: s.name, _step: p.step, _mslp: p.mslp, _low: p.step > LOWCONF_H }); });
     });
     // 반경/원뿔
-    if (_glTyphoonModel === "all") {   // 3모델 스프레드 = 불확실성 반경(모델 발산폭)
-      const cen = [], rad = [];
-      steps.forEach(st => {
-        const ps = ["gfs", "ecmwf", "icon"].map(m => (s.tracks[m] || []).find(p => p.step === st)).filter(Boolean);
-        if (ps.length < 2) return;
-        const clon = ps.reduce((a, p) => a + p.lon, 0) / ps.length, clat = ps.reduce((a, p) => a + p.lat, 0) / ps.length;
-        const r = Math.max(...ps.map(p => glTcKmDist(clat, clon, p.lat, p.lon))) + 15;
-        cen.push([clon, clat]); rad.push(r);
+    if (_glTyphoonModel === "all") {   // 3모델: 각 모델의 진로오차 원뿔을 모델색으로 '겹쳐' 표시
+      //   → 세 원뿔이 겹치는 곳 = 모델 합의(색이 진해짐), 갈라지는 곳 = 발산. 개별 모델 반경이 다 드러남.
+      ["gfs", "ecmwf", "icon"].forEach(m => {
+        const tr = s.tracks[m];
+        if (!tr || tr.length < 2) return;
+        const geom = glTcConeBand(tr.map(p => [p.lon, p.lat]), tr.map(p => glTcErrorKm(p.step)));
+        if (geom) coneFeats.push({ type: "Feature", geometry: geom, properties: { color: GL_TYPH_MODEL_COLOR[m] } });
       });
-      if (cen.length >= 2) { const ring = glTcConeBand(cen, rad); if (ring) coneFeats.push({ type: "Feature", geometry: { type: "Polygon", coordinates: [ring] }, properties: { color: "#9fb3c8" } }); }
     } else {   // 단일 모델: 통계적 진로오차 원뿔(시간에 따라 확대)
       const tr = s.tracks[_glTyphoonModel];
       if (tr && tr.length >= 2) {
-        const ring = glTcConeBand(tr.map(p => [p.lon, p.lat]), tr.map(p => glTcErrorKm(p.step)));
-        if (ring) coneFeats.push({ type: "Feature", geometry: { type: "Polygon", coordinates: [ring] }, properties: { color: GL_TYPH_MODEL_COLOR[_glTyphoonModel] } });
+        const geom = glTcConeBand(tr.map(p => [p.lon, p.lat]), tr.map(p => glTcErrorKm(p.step)));
+        if (geom) coneFeats.push({ type: "Feature", geometry: geom, properties: { color: GL_TYPH_MODEL_COLOR[_glTyphoonModel] } });
       }
     }
   });
@@ -7662,8 +7772,8 @@ function glDrawTyphoonModels() {
     glTyphoonModelCone(coneFeats);   // 먼저(아래) — 진로선·점이 위에
     glAddLineLayer("typhoon-model", feats, { width: 2.6, opacity: 0.95 });   // 실선·굵게 → 경로 뚜렷
     glAddPointMarkers("typhoon-model-pts", dots,
-      p => `<div style="width:9px;height:9px;border-radius:50%;background:${GL_TYPH_MODEL_COLOR[p._m]};border:1.5px solid #fff;box-shadow:0 0 3px rgba(0,0,0,.8);transform:translate(-50%,-50%)"></div>`,
-      p => `<b style="color:${GL_TYPH_MODEL_COLOR[p._m]}">${p._name || ""} · ${GL_TYPH_MODEL_LABEL[p._m]}</b><br>+${p._step}h · ${p._mslp}hPa`,
+      p => `<div style="width:${p._low ? 7 : 9}px;height:${p._low ? 7 : 9}px;border-radius:50%;background:${GL_TYPH_MODEL_COLOR[p._m]};border:1.5px ${p._low ? "dashed" : "solid"} #fff;box-shadow:0 0 3px rgba(0,0,0,.8);opacity:${p._low ? 0.55 : 1};transform:translate(-50%,-50%)"></div>`,
+      p => `<b style="color:${GL_TYPH_MODEL_COLOR[p._m]}">${p._name || ""} · ${GL_TYPH_MODEL_LABEL[p._m]}</b><br>+${p._step}h · ${p._mslp}hPa${p._low ? " <span style='color:#f59e0b'>(5일↑·저신뢰)</span>" : ""}`,
       null);
   });
 }
@@ -8409,7 +8519,10 @@ function getFiltered() {
   //   2일 창으로 이 시차를 흡수하고, KST 아침에 비는 문제도 함께 막는다.
   let latestCut = null;
   if (r === "today") {
-    const latest = newsAll.reduce((m, n) => (n.date > m ? n.date : m), "");
+    // 실제 오늘(UTC) 이하의 가장 최근 날짜 — 미래 날짜 뉴스(예: 예정된 개기일식)가 '최신'을
+    //   미래로 끌어가 실제 최근 뉴스가 통째로 숨는 것 방지.
+    const _todayUTC = new Date().toISOString().slice(0, 10);
+    const latest = newsAll.reduce((m, n) => ((n.date > m && n.date <= _todayUTC) ? n.date : m), "");
     if (latest) {
       const d = new Date(latest + "T00:00:00Z");
       d.setUTCDate(d.getUTCDate() - 1);
@@ -8546,7 +8659,7 @@ function render() {
   items.forEach(n => {
     const icon = L.divIcon({
       className: "",
-      html: `<div class="news-marker cat-${n.category}${n.src === "grok" ? " grok-src" : ""}"></div>`,
+      html: `<div class="news-marker cat-${n.category}${srcMarkerClass(n)}"></div>`,
       iconSize: [8, 8],
       iconAnchor: [4, 4],
     });
@@ -8586,9 +8699,34 @@ function locLabel(n) {
   return n.city && n.city !== n.country ? `${n.city}, ${n.country}` : n.country;
 }
 
-// 출처 배지: Grok 실시간 검색으로 수집된 뉴스에만 표시(GDELT는 무표시)
+// 조사 AI 모델 라벨: 실제 조사 엔진/모델(run_ai 폴백 반영) → 표시명 + 배지 색 클래스
+function aiSrcLabel(engine, model) {
+  const m = (model || "").toLowerCase();
+  if (engine === "claude") {
+    const label = m.includes("sonnet") ? "Sonnet 5"
+                : m.includes("haiku")  ? "Haiku 4.5"
+                : m.includes("opus")   ? "Opus 4.8" : "Claude";
+    return { label, cls: "src-claude", who: "Claude(" + label + ")" };
+  }
+  if (engine === "gemini") return { label: "Gemini", cls: "src-gemini", who: "Gemini" };
+  // grok(기본·폴백) — 모델 문자열에서 버전 추출(grok-4.5 → 4.5, grok-4.6 → 4.6)
+  const v = m.match(/(\d+\.?\d*)/);
+  return { label: "Grok " + (v ? v[1] : "4.5"), cls: "src-grok", who: "Grok" };
+}
+
+// 지도 마커 링 색: 조사 엔진별 (Claude=주황 · Grok=보라 · Gemini=청록)
+function srcMarkerClass(n) {
+  if (n.src !== "grok") return "";
+  const e = n.engine || "grok";
+  return e === "claude" ? " claude-src" : e === "gemini" ? " gemini-src" : " grok-src";
+}
+
+// 출처 배지: AI가 조사·수집한 뉴스에만 표시(GDELT는 무표시)
 function srcTag(n) {
-  if (n.src === "grok") return `<span class="src-grok" title="Grok 실시간 검색으로 수집">🔍 Grok</span>`;
+  if (n.src === "grok") {
+    const a = aiSrcLabel(n.engine || "grok", n.model);
+    return `<span class="${a.cls}" title="${a.who} 실시간 검색·조사로 수집">🔍 ${a.label}</span>`;
+  }
   if (n.src === "grok-tech") return `<span class="src-grok" title="Grok 웹 실검색·글로벌 테크 딜${n.source ? " · 출처 " + n.source : ""}${n.theme ? " · " + n.theme : ""}">🔍 테크딜${n.theme ? " · " + n.theme : ""}</span>`;
   if (n.src === "gdelt-doc") return `<span class="src-doc" title="GDELT DOC API·기업/테크 주제 검색으로 수집${n.theme ? " · " + n.theme : ""}">🏢 기업·테크${n.theme ? " · " + n.theme : ""}</span>`;
   if (n.src === "press") return `<span class="src-doc" title="국내 언론 RSS 정식 보도 (속보 트랙에서 이관)">📰 ${n.source || "언론"}</span>`;
@@ -8601,7 +8739,7 @@ function popupHtml(n) {
     <div class="ptitle">${n.title}</div>
     <div>${n.summary}</div>
     <div class="pmeta">📍 ${locLabel(n)} · ${fmtWhen(n)} ${srcTag(n)}</div>
-    ${n.url ? `<div style="margin-top:6px"><a href="${n.url}" target="_blank">기사 보기 →</a></div>` : ""}
+    ${n.url ? `<div style="margin-top:6px"><a href="${n.url}" target="_blank">${n.urlSearch ? "기사 검색 →" : "기사 보기 →"}</a></div>` : ""}
   </div>`;
 }
 
@@ -9547,7 +9685,7 @@ function openMacroModal(ids) {
     const rel = [...(s.releases || [])].sort((a, b) => seriesPeriodKey(a.period).localeCompare(seriesPeriodKey(b.period)));
     const labels = rel.map(r => r.period);
     const fmt = macroFmt(s.unit);
-    const lastIdx = labels.length - 1, startIdx = Math.max(0, labels.length - 12);
+    const lastIdx = labels.length - 1, startIdx = 0;   // 초기 뷰=전체 이력(2022~) 표시. 이후 팬/줌으로 조정 가능.
     // YoY(전년비) — 기존 act/cons
     buildMacroChart("macroCv_" + i, labels,
       rel.map(r => r.act != null ? r.act : null),
@@ -9780,8 +9918,19 @@ async function loadMarketBrief() {
     // 최신 갱신 시각(작업 C가 기록한 generated, UTC) → KST 표시
     let genTxt = "";
     if (b.generated) { const g = new Date(b.generated); if (!isNaN(g)) genTxt = ` · 🕒 갱신 ${g.toLocaleString("ko-KR", { timeZone: "Asia/Seoul", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })} KST`; }
+    // 생성 AI 배지 — Claude=주황 / Grok=보라 / Gemini=청록 (모델·effort 함께 표기)
+    let genBadge = "";
+    if (b.generator && b.generator.ai) {
+      const ai = String(b.generator.ai).toLowerCase();
+      const col = ai === "grok" ? "#7c3aed" : ai === "claude" ? "#ff8c2b" : ai === "gemini" ? "#159a9a" : "#5a6472";
+      const name = ai === "grok" ? "Grok" : ai === "claude" ? "Claude" : ai.charAt(0).toUpperCase() + ai.slice(1);
+      const parts = [name];
+      if (b.generator.model) parts.push(b.generator.model);
+      if (b.generator.effort) parts.push("effort " + b.generator.effort);
+      genBadge = `<span class="b-gen" style="background:${col}" title="이 브리핑을 생성한 AI·모델·추론강도">🤖 ${parts.join(" · ")}</span>`;
+    }
     box.innerHTML = `<div class="brief-card">
-      <div class="b-date">📊 일일 시장 브리핑 · ${b.date || ""}${genTxt} (AI 분석 — 참고용, 투자판단 아님)</div>
+      <div class="b-date">📊 일일 시장 브리핑 · ${b.date || ""}${genTxt} ${genBadge}(AI 분석 — 참고용, 투자판단 아님)</div>
       <div class="b-head">${colorizePct(b.headline || "")}</div>
       ${topMoversHtml()}
       ${flowHtml}
@@ -9791,7 +9940,7 @@ async function loadMarketBrief() {
 }
 
 // ---- 경제·실적 발표 캘린더 (econ-calendar.json, Grok 작업 E) ----
-const ECON_FLAG = { "미국": "🇺🇸", "한국": "🇰🇷", "일본": "🇯🇵", "중국": "🇨🇳", "유럽": "🇪🇺" };
+const ECON_FLAG = { "미국": "🇺🇸", "한국": "🇰🇷", "일본": "🇯🇵", "중국": "🇨🇳", "유럽": "🇪🇺", "독일": "🇩🇪", "영국": "🇬🇧" };
 let econCalItems = null;       // 로드된 전체 캘린더(누적 store 우선)
 let econCalView = "upcoming";  // "upcoming"(다가오는) | "past"(지난 발표)
 async function loadEconCalendar() {
@@ -9869,15 +10018,26 @@ function renderEconCalendar() {
       ? `<a class="${cls}" href="${x.source}" target="_blank" rel="noopener">${inner}</a>`
       : `<div class="${cls}">${inner}</div>`;
   };
+  // 개별 종목 '실적'은 '시장 페이지에 표시되는 종목'(mktData 주식 그룹)만 표시 — 거시·중앙은행·원자재·환율 지표는 전부 유지.
+  //   ▸ 추적 종목은 mktData 를 참조하므로, 사용자가 시장 페이지에 종목을 추가하면 그 종목 실적도 자동 포함(수동 갱신 불필요).
+  //   ▸ 실적인데 kind 가 '거시'로 잘못 태깅된 경우(예: 티커 없는 'Roku 2분기 실적 발표')도 title 로 포착해 필터.
+  //   ▸ mktData 미로드 시엔 필터 보류(전부 표시): 실적 숨김보다 표시가 안전.
+  const _trackedTk = new Set((mktData || [])
+    .filter(s => s.group === "주식 - 미국" || s.group === "주식 - 한국")
+    .map(s => s.id));
+  const _isEarnings = x => x.kind === "실적" || /실적/.test(x.title || "");
+  const econVisible = x => !_isEarnings(x)                    // 순수 거시·시장 지표 → 항상 표시
+    || _trackedTk.size === 0                                  // 종목목록 미로드 → 보류(표시)
+    || !!(x.ticker && _trackedTk.has(x.ticker));              // 실적류 → 시장 페이지 종목만
   let items;
   if (econCalView === "past") {
     // 지난 발표: KST 기준 이미 발표시각이 지난 것(날짜+시각)만, 최신순.
-    items = econCalItems.filter(x => evDt(x) <= nowKST)
+    items = econCalItems.filter(x => evDt(x) <= nowKST && econVisible(x))
                  .sort((a, b) => evDt(b).localeCompare(evDt(a)))
                  .slice(0, 80);
   } else {
     // 발표 예정: KST 기준 아직 발표시각이 안 온 것만(완료분은 '지난'으로 이동), 이른 순.
-    items = econCalItems.filter(x => evDt(x) > nowKST)
+    items = econCalItems.filter(x => evDt(x) > nowKST && econVisible(x))
                  .sort((a, b) => evDt(a).localeCompare(evDt(b)))
                  .slice(0, 24);
   }
@@ -10088,15 +10248,20 @@ showMode((location.search.match(/[?&]legacy=(news|commodity)/) || [])[1] || "new
 //   → 지도·UI 가 먼저 그려지고(빈 지도), 로드 완료 시 뉴스가 자연히 채워짐(첫 페인트 비차단).
 //   두 파일은 서로 독립(순서 무관) — 각자 로드되면 해당 부분만 렌더(NEWS_DATA/NEWS_DIGEST 는 typeof 가드).
 function loadNewsData() {
+  // ⚠ 캐시버스트 필수 — no-cache 헤더가 일부 브라우저(특히 모바일)에서 신뢰성 있게 재검증되지 않아
+  //   버전 없이 로드하면 오래된 캐시본이 고착돼 '뉴스 0건'처럼 보인다(모바일 실측).
+  //   항상 최신(?t=Date.now())으로 로드 — no-cache 미작동·재배포 직후 stale 을 확실히 회피.
+  //   (news-data.js 는 첫 페인트 후 비동기 로드라 초기 렌더를 막지 않음)
+  const _nv = "?t=" + Date.now();
   // 세계 주요 뉴스(디제스트) — 상대적으로 작아 먼저 채워짐
   const dg = document.createElement("script");
-  dg.src = "news-digest.js";
+  dg.src = "news-digest.js" + _nv;
   dg.onload = () => { try { renderDigest(); } catch (e) {} };
   dg.onerror = () => {};   // 없어도 지도·목록은 정상
   document.body.appendChild(dg);
   // 지도 마커·목록 데이터(용량 큼) — 로드되면 newsAll 교체 후 전체 재렌더
   const nd = document.createElement("script");
-  nd.src = "news-data.js";
+  nd.src = "news-data.js" + _nv;
   nd.onload = () => {
     if (typeof NEWS_DATA !== "undefined") newsAll = NEWS_DATA;
     try { render(); } catch (e) {}      // 마커·목록·디제스트·개수 채움

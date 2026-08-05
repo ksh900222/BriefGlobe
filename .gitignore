@@ -12,6 +12,7 @@ fetch.log
 # AI 가용성 마커(run_ai 양방향 폴백 · 로컬 전용)
 .grok_down
 .claude_down
+.news_engine.json
 .last_task_acd2
 .last_daily_de
 nohup.out
@@ -51,6 +52,8 @@ temp-*-f*.png
 cloud-*-f*.png
 precip-*-f*.png
 sst-*-f*.png
+sst-anom.png
+enso-status.json
 pressure-*-f*.png
 wind-meta.json
 icon_regrid_index.npz

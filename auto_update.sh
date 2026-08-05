@@ -105,6 +105,7 @@ _run_grok_once() {
     # 성공(rc=0)이면 무조건 성공 처리 — 출력 본문에 402/billing 있어도 오탐 금지(잔액소진 검사 안 함)
     if [ "$rc" -eq 0 ]; then
       rm -f "$GROK_DOWN"
+      RUN_AI_ENGINE="grok"; RUN_AI_MODEL="$gmodel"; RUN_AI_EFFORT="$effort"   # 성공 엔진 기록(브리핑 배지용)
       rm -f "$tmp"; return 0
     fi
     # light 모델이 CLI에 없으면 heavy로 1회 재시도
@@ -146,6 +147,7 @@ _run_claude_once() {
   fi
   if [ "$rc" -eq 0 ]; then
     rm -f "$CLAUDE_DOWN"
+    RUN_AI_ENGINE="claude"; RUN_AI_MODEL="$model"; RUN_AI_EFFORT="$effort"   # 성공 엔진 기록(브리핑 배지용)
     rm -f "$tmp"; return 0
   fi
   # 종료코드 비0이어도 한도 문구가 있으면 한도로 취급(이미 위에서 처리)
@@ -167,7 +169,7 @@ _run_gemini_once() {
     echo "  ⚠ Gemini 한도/미인증 → .gemini_down (6h 스킵)"
     rm -f "$tmp"; return 2
   fi
-  if [ "$rc" -eq 0 ]; then rm -f "$tmp"; return 0; fi
+  if [ "$rc" -eq 0 ]; then RUN_AI_ENGINE="gemini"; RUN_AI_MODEL="$model"; RUN_AI_EFFORT=""; rm -f "$tmp"; return 0; fi
   echo "  ⚠ Gemini 실패(rc=$rc): $label"
   rm -f "$tmp"; return 1
 }
@@ -179,6 +181,7 @@ run_ai() {
   local label="$1" turns="$2" model="$3" prompt="$4"
   local gmodel="${5:-$GROK_MODEL_HEAVY}"
   local effort="${6:-$GROK_EFFORT_DEFAULT}"   # Grok reasoning effort
+  RUN_AI_ENGINE=""; RUN_AI_MODEL=""; RUN_AI_EFFORT=""   # 이번 호출 성공 엔진 기록(성공 시 _run_*_once가 세팅)
   local ceffort="${7:-low}"                   # Claude effort (기본 low=절약; 판단작업만 medium)
   local prefer_claude="${8:-0}"               # 1=Claude(haiku) 우선 위임·Grok 폴백(종목뉴스 제외 조사작업). 0=기존 Grok 우선.
   local grok_skip=0 claude_skip=0 grc=1 crc=1
@@ -292,6 +295,13 @@ fi
 # 🌀 태풍 모델별 진로(자체 MSLP 추적) — pressure 텍스처 + typhoons.json 필요
 "$PY" track_typhoons.py || echo "  ⚠ 태풍 모델진로 추적 실패(건너뜀)"
 
+# 해수면 이상수온(OISST) + 엘니뇨/라니냐(ONI) — 하루 1회(관측분석·느리게 변함). 산출: sst-anom.png · enso-status.json
+SSTA_MARK="$PROJ/.last_sst_anom"
+if [ "$(( $(date +%s) - $(stat -f %m "$SSTA_MARK" 2>/dev/null || echo 0) ))" -gt 72000 ]; then
+  echo "[이상수온] OISST 이상수온 + ENSO 상태 갱신…"
+  if "$PY" fetch_sst_anomaly.py; then touch "$SSTA_MARK"; else echo "  ⚠ 이상수온 갱신 실패(다음 기회에)"; fi
+fi
+
 # 1) 뉴스 수집 + merge (GDELT, 무료)
 #    이 명령이 '완전히 끝나고 성공(exit 0)'해야만 아래 grok으로 넘어감.
 echo "[1/2] GDELT 수집 시작…"
@@ -317,14 +327,25 @@ TRANSLATE_PROMPT="이 폴더의 task_translate.md를 읽고 그 지시(번역)�
 너가 직접 번역가다 — ANTHROPIC_API_KEY나 batch_translate.py 같은 스크립트를 찾지 말고(불필요), 각 제목을 네가 직접 한국어로 번역해 저장해. \
 to_translate.json의 모든 항목을 번역해 translations.json에 저장하고 'python3 merge_news.py'를 실행하기를, \
 to_translate.json이 빈 배열([])이 될 때까지 반복. 끝나면 종료."
+# 번역 Grok→Gemini 최종 폴백: Grok 실패(잔액/한도) 시 Gemini(설치·인증돼 있으면)로 넘김.
+#   Claude+Grok 동시 소진 때 번역이 멈춰 뉴스 디제스트가 정체되던 문제 대응(2026-08).
+_translate_grok_then_gemini() {
+  _run_grok_once "번역·Grok폴백" 120 "$TRANSLATE_PROMPT" "$GROK_MODEL_LIGHT"
+  local rc=$?
+  if [ "$rc" -ne 0 ] && [ -x "$GEMINI" ] && ! _marker_active "$GEMINI_DOWN" 360; then
+    echo "  ⚠ Grok 번역 실패 → Gemini($GEMINI_MODEL) 폴백"
+    _run_gemini_once "번역·Gemini폴백" "$GEMINI_MODEL" "$TRANSLATE_PROMPT"; rc=$?
+  fi
+  return $rc
+}
 run_translate() {
-  # 번역=LIGHT 모델(grok-4.5). Claude 한도면 Grok light.
+  # 번역=LIGHT 모델(grok-4.5). Claude 한도면 Grok → Gemini.
   if _marker_active "$CLAUDE_DOWN" 360; then
     echo "  · Claude 한도 중 → 번역 Grok($GROK_MODEL_LIGHT)"
-    _run_grok_once "번역" 120 "$TRANSLATE_PROMPT" "$GROK_MODEL_LIGHT"
+    _translate_grok_then_gemini
     return $?
   fi
-  # 평시: haiku 직접(저렴) → 실패/한도면 Grok light
+  # 평시: haiku 직접(저렴) → 실패/한도면 Grok → Gemini
   local tmp rc
   tmp="$(mktemp -t runai_tr)"
   echo "  → Claude(haiku, effort=low) 번역"
@@ -343,7 +364,7 @@ run_translate() {
       echo "  ⚠ Claude 번역 실패(rc=$rc) → Grok($GROK_MODEL_LIGHT) 폴백"
     fi
     rm -f "$tmp"
-    _run_grok_once "번역·Grok폴백" 120 "$TRANSLATE_PROMPT" "$GROK_MODEL_LIGHT"
+    _translate_grok_then_gemini
     return $?
   fi
   rm -f "$tmp"; return 1
@@ -376,9 +397,12 @@ if [ "$ACD2_AGE" -gt 3000 ]; then
   echo "[3/4] 뉴스(동아시아 조사) (Claude haiku effort=low 우선·Grok 폴백)…"
   if run_ai "뉴스(동아시아)" 200 haiku \
 "이 폴더의 task_asia-news.md 를 읽고 그 지시만 수행해줘 (브리핑·번역·종목뉴스는 다른 단계가 담당하니 하지 마). \
-동아시아 중심 최신 뉴스를 조사해 grok-news.json에 저장하고, 끝나면 'python3 merge_news.py'를 실행한 뒤 종료해." \
+동아시아 중심 최신 뉴스를 조사해 grok-news.json에 저장한 뒤 종료해 (merge_news.py 실행은 아래 셸이 자동 처리하니 하지 마)." \
     "$GROK_MODEL_HEAVY" "$GROK_EFFORT_DEFAULT" "low" "1"; then
     AC_OK=1
+    # 실제 조사 엔진/모델(run_ai 폴백 반영)을 라벨용으로 기록 후 merge → 뉴스 배지에 실제 AI/모델 표시
+    printf '{"engine":"%s","model":"%s"}\n' "$RUN_AI_ENGINE" "$RUN_AI_MODEL" > "$PROJ/.news_engine.json"
+    "$PY" merge_news.py || true
   else
     echo "  ⚠ 뉴스 조사 종료(에러 가능)"
   fi
@@ -389,6 +413,7 @@ if [ "$ACD2_AGE" -gt 3000 ]; then
 market-digest.json·macro-digest.json과 오늘 뉴스를 종합 분석해 시장 브리핑(돈의 흐름)을 market-brief.json에 저장하고 종료해." \
     "$GROK_MODEL_HEAVY" "$GROK_EFFORT_DEFAULT" "medium"; then
     BRIEF_OK=1
+    "$PY" stamp_brief_gen.py "$RUN_AI_ENGINE" "$RUN_AI_MODEL" "$RUN_AI_EFFORT"   # 생성 AI/모델/effort 배지 기록
   else
     echo "  ⚠ 시장 브리핑 종료(에러 가능)"
   fi
@@ -490,6 +515,7 @@ if [ "$BRIEF_AGE" -gt 14400 ]; then
 "이 폴더의 task_brief.md를 읽고 시장 브리핑만 수행해줘. \
 market-digest.json·macro-digest.json과 오늘 뉴스를 분석해 market-brief.json에 저장하고 종료해." \
     "$GROK_MODEL_HEAVY" "$GROK_EFFORT_DEFAULT" "medium" \
+    && "$PY" stamp_brief_gen.py "$RUN_AI_ENGINE" "$RUN_AI_MODEL" "$RUN_AI_EFFORT" \
     || { echo "  ⚠ 브리핑 폴백 실패"; notify_fail "시장 브리핑 4시간+ 미갱신 — Grok·Claude 모두 실패"; }
 fi
 

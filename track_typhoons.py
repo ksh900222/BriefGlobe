@@ -24,7 +24,9 @@ MAX_JUMP_DEG = 5.0      # 한 스텝 이동이 이보다 크면 추적 실패로
 DEPTH_MIN = 1.5         # 중심이 탐색환(ring) 평균보다 최소 이만큼 깊어야 '진짜 저기압'(평평한 골 배제)
 HARD_STOP_HPA = 1008.0  # 최소기압 상한(소멸)
 FILL_MARGIN = 16.0      # 초기기압+이만큼 넘으면 채워짐(약화)으로 보고 중단(강한 태풍도 일생 추적)
-HORIZON_H = 120         # 모델 진로 표시 상한(5일) — 그 이상은 TC 진로 신뢰도 낮음
+HORIZON_H = 168         # 모델 진로 표시 상한(7일) — 기상 텍스처가 f168까지 있어 무료로 여기까지.
+                        #   단 5일(120h) 초과분은 TC 진로 신뢰도 급락 → 프론트에서 흐린 점선으로 구분 표시.
+LOWCONF_H = 120         # 이 시각(5일) 초과 진로점은 저신뢰(lowConf) 플래그 → 흐린 점선 렌더
 
 
 def load_meta():
@@ -126,7 +128,7 @@ def main():
         _write({"updated": None, "storms": [], "note": str(e)})
         return
     prange = meta.get("pressureRange", [920, 1080])
-    steps = [s["step"] for s in meta["steps"] if s["step"] <= HORIZON_H]   # 5일까지만(신뢰도)
+    steps = [s["step"] for s in meta["steps"] if s["step"] <= HORIZON_H]   # 7일까지(120h 초과분은 프론트에서 저신뢰 점선)
     models = [m["key"] for m in meta["models"]]
 
     try:

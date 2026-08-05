@@ -28,6 +28,7 @@ cp commodities.js semi-supply.js shipping.js military.js economy.js country-prof
 cp typhoons.json typhoon-tracks.json "$PUB/" 2>/dev/null || true   # 태풍 예보(있을 때만; fetch_typhoons.py 산출)
 cp wind-*-f*.png temp-*-f*.png cloud-*-f*.png precip-*-f*.png sst-*-f*.png pressure-*-f*.png wind-meta.json "$PUB/" 2>/dev/null || true   # 💨🌡️☁️ 다모델·다층·다시각 바람(R=u·G=v)+기온·구름(R=값) 텍스처+메타(fetch_weather.py)
 cp aq-*-f*.png aq-meta.json "$PUB/" 2>/dev/null || true   # 🌫️ 대기질(CAMS) PM2.5·PM10·NO2·SO2·O3·CO 다시각 텍스처+메타(fetch_airquality.py)
+cp sst-anom.png enso-status.json "$PUB/" 2>/dev/null || true   # 🌡️ 이상수온(OISST) 텍스처 + ENSO 상태(fetch_sst_anomaly.py)
 
 echo "배포 파일: $(ls "$PUB" | wc -l | tr -d ' ')개 ($(du -sh "$PUB" | cut -f1))"
 /opt/homebrew/bin/npx wrangler pages deploy "$PUB" --project-name "$PROJECT_NAME" --commit-dirty=true

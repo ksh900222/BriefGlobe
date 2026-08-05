@@ -20,11 +20,13 @@ import re
 import statistics
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import quote
 
 HERE = Path(__file__).resolve().parent
 STORE_PATH = HERE / "news-store.json"      # GDELT
 GROK_PATH = HERE / "grok-news.json"        # Grok 조사 뉴스 (선택)
 GROK_TECH_PATH = HERE / "grok-tech-news.json"  # 작업 F: Grok 글로벌 테크 딜 실검색(선택)
+NEWS_ENGINE_PATH = HERE / ".news_engine.json"  # 동아시아 뉴스(작업 A) 실제 조사 엔진/모델 — 라벨용(run_ai 폴백 반영)
 TRANS_PATH = HERE / "translations.json"          # Grok 번역(이번 실행 출력)
 TRANS_STORE_PATH = HERE / "translations-store.json"  # 번역 영구 누적본
 DIGEST_STORE_PATH = HERE / "digest-store.json"   # 좌표 없는 중요 뉴스(종합) 누적본
@@ -58,17 +60,32 @@ def norm_cat(c):
 #   "{행위자} · {사건유형}" (예: "British · 공격", "Poland · 요구") 형태로 합성한다.
 #   내용이 빈약(행위자+CAMEO 코드뿐)해 지도·번역 모두에서 제외한다.
 #   판정: 제목의 마지막 " · " 뒤 조각이 CAMEO 한글 라벨과 정확히 일치.
+#   또는 "{나라} - {액션}" 형태 (영문 CAMEO: "Egypt - Drone attack" 등)
 SYNTH_ACTS = {
     "공개 성명", "호소", "협력 의사 표명", "협의", "외교 협력",
     "물질적 협력", "원조 제공", "양보", "조사", "요구",
     "비난", "거부", "위협", "시위", "무력 시위",
     "관계 축소", "강압", "공격", "교전", "대량 폭력", "사건",
 }
+SYNTH_ACTS_EN = {
+    "statement", "appeal", "express intent", "consult", "diplomatic cooperation",
+    "material cooperation", "provide aid", "concession", "investigation", "demand",
+    "condemn", "refuse", "threaten", "protest", "armed show",
+    "reduce relations", "coerce", "attack", "fight", "violent attack", "event",
+    "drone attack", "airstrike", "bombing", "shelling",
+}
 def is_synth_title(title):
     t = (title or "").strip()
-    if " · " not in t:
-        return False
-    return t.rsplit(" · ", 1)[-1].strip() in SYNTH_ACTS
+    # 한글 합성 제목: "행위자 · 액션"
+    if " · " in t:
+        return t.rsplit(" · ", 1)[-1].strip() in SYNTH_ACTS
+    # 영문 합성 제목: "Country - Action"
+    if " - " in t:
+        parts = t.split(" - ")
+        if len(parts) == 2:
+            action = parts[1].strip().lower()
+            return action in SYNTH_ACTS_EN or any(action.startswith(a.lower()) for a in SYNTH_ACTS_EN)
+    return False
 
 # ------------------------------------------------------------
 # 제목 키워드 기반 주제 분류 (GDELT 의 CAMEO 분류를 보정)
@@ -228,9 +245,38 @@ def grok_importance(it):
         return 6
 
 
-def normalize_grok(items, src="grok"):
+def _news_search_url(title):
+    """제목으로 구글 뉴스 검색 URL(한국어). 기사 원문 링크가 없을 때의 대체."""
+    return "https://news.google.com/search?q=" + quote((title or "").strip()) + "&hl=ko&gl=KR&ceid=KR:ko"
+
+
+def _resolve_article_url(url, title):
+    """기사 원문 URL이면 그대로, 언론사 홈/섹션(기사 식별자 없는 URL)이면 제목 뉴스검색으로 대체.
+       Grok 웹검색이 정확한 기사 링크 대신 도메인/섹션을 주면 '기사 보기'가 홈으로 튀는 문제 방지.
+       판정은 보수적 — 기사 식별자(연속숫자 6+ / 긴 슬러그 / id류 쿼리)가 있으면 원문으로 인정.
+       반환: (url, is_search)"""
+    u = (url or "").strip()
+    m = re.match(r"https?://[^/]+(/[^?#]*)?(\?[^#]*)?", u)
+    if not m:
+        return _news_search_url(title), True          # URL 형식 아님 → 검색
+    path = (m.group(1) or "").strip("/")
+    query = m.group(2) or ""
+    for s in [x for x in path.split("/") if x]:
+        if re.search(r"\d{6,}", s):                    # 기사 id(연속 숫자 6+)
+            return u, False
+        if len(s) >= 20 and re.search(r"[A-Za-z가-힣]", s):   # 긴 슬러그
+            return u, False
+    if re.search(r"(id|idx|no|article|aid|seq)\w*=\w*\d{4,}", query, re.I):
+        return u, False                                # ?idxno=123456 류
+    return _news_search_url(title), True               # 식별자 없음 → 홈/섹션 → 검색
+
+
+def normalize_grok(items, src="grok", engine_meta=None):
     """Grok 출력 항목을 표준 형식으로 변환 + 좌표 보정.
-    src="grok-tech"(작업 F)면 theme(기업·테크 섹터)을 보존해 프론트 테크 칩에 합류."""
+    src="grok-tech"(작업 F)면 theme(기업·테크 섹터)을 보존해 프론트 테크 칩에 합류.
+    engine_meta={engine,model}: 이 트랙을 실제로 조사한 AI/모델(폴백 반영). 프론트 배지 라벨·색상용."""
+    eng = (engine_meta or {}).get("engine") or ""
+    mdl = (engine_meta or {}).get("model") or ""
     out = []
     for it in items:
         title = (it.get("title") or "").strip()
@@ -243,8 +289,9 @@ def normalize_grok(items, src="grok"):
             # 도시도 좌표도 없으면 지도에 못 올림
             continue
         lat, lng = coord
-        url = (it.get("url") or "").strip()
-        base = url or (title + city)
+        orig_url = (it.get("url") or "").strip()
+        base = orig_url or (title + city)         # id 해시는 원본 기준(안정 — 대체 URL로 바뀌어도 id 불변)
+        url, url_search = _resolve_article_url(orig_url, title)   # 홈/섹션이면 제목 뉴스검색으로 대체
         date = (it.get("date") or "").strip()
         if not re.match(r"\d{4}-\d{2}-\d{2}", date):
             date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -261,6 +308,12 @@ def normalize_grok(items, src="grok"):
             "relevance": grok_importance(it),   # 종합 브리핑 랭킹용(0 고정 탈출)
             "src": src,
         }
+        if eng:                                 # 실제 조사 엔진/모델(폴백 반영) → 프론트 배지 라벨·색상
+            item["engine"] = eng
+            if mdl:
+                item["model"] = mdl
+        if url_search:                          # 원문 링크 없어 제목 뉴스검색으로 대체됨 → 프론트가 '기사 검색'으로 표기
+            item["urlSearch"] = True
         th = (it.get("theme") or "").strip()    # 작업 F: 기업·테크 섹터(프론트 칩 드릴다운용)
         if th:
             item["theme"] = th
@@ -360,7 +413,8 @@ def build_output():
             it["category"] = t
 
     grok_raw = load_json(GROK_PATH)
-    grok = normalize_grok(grok_raw)
+    news_engine = load_json(NEWS_ENGINE_PATH) if NEWS_ENGINE_PATH.exists() else None
+    grok = normalize_grok(grok_raw, engine_meta=news_engine)
 
     # 작업 F: Grok 글로벌 테크 딜 실검색(전문·1차·다국어 소스) → 별도 파일에서 합류.
     #   grok-news.json(작업 A)을 매시간 덮어쓰므로 충돌 피하려 파일 분리. src=grok-tech.
@@ -416,6 +470,19 @@ def build_output():
         if cur is None or _weight(it) > _weight(cur):
             by_path[p] = it
     merged = list(by_path.values())
+
+    # 🛡️ 미래 날짜 방역(근본 방지) — 뉴스 date 는 '수집/발생 시점'이라 미래일 수 없다.
+    #   예정 이벤트 뉴스(예: '개기일식 8월 12일')가 미래 date 로 들어오면 어디선가 max(date) 로
+    #   '최신일'을 잡을 때 미래로 하이재킹돼 실제 최근 뉴스가 통째로 숨는다(디제스트·지도영역뉴스 빔).
+    #   date 를 today 이하로 캡해 데이터 원천에서 차단(예정일 정보는 title/summary 에 남음).
+    #   → '최신' 계산이 어떤 코드 경로에 있든 다시는 미래 날짜에 속지 않는다.
+    _today_s = today.strftime("%Y-%m-%d")
+    _capped = sum(1 for it in merged if (it.get("date") or "") > _today_s)
+    for it in merged:
+        if (it.get("date") or "") > _today_s:
+            it["date"] = _today_s
+    if _capped:
+        print(f"  🛡️ 미래 날짜 뉴스 {_capped}건 → today({_today_s}) 로 캡(최신일 하이재킹 방지)")
 
     # 번역 누적: 이번 Grok 출력(translations.json)을 영구 누적본에 병합 후 적용
     #   → 매 실행마다 일부만 번역해도 사라지지 않고 쌓임
@@ -510,6 +577,9 @@ def build_output():
             continue
         dig_items.append(it)
     dig_items.extend(press_dig)   # 좌표 없는 정식기사(RSS) → 디제스트 후보 합류(이미 한국어)
+    for it in dig_items:          # 🛡️ 디제스트 후보도 미래 날짜 캡(merged 와 동일 방역)
+        if (it.get("date") or "") > _today_s:
+            it["date"] = _today_s
 
     # 국가별 보도량 기준선(중앙값) — '그 나라 평소 대비 얼마나 큰 사건인가'(상대 중요도)용.
     #   언론사 많은 나라(미국 등)는 절대 보도량이 구조적으로 높아 상위를 독식 → 그 나라
@@ -562,10 +632,14 @@ def build_output():
     BRIEF_MAX, BRIEF_PER_CC, BRIEF_PER_CAT = 100, 14, 28
     GROK_QUOTA, GROK_PER_CAT = 14, 5   # 동아시아(Grok) 최소 보장 자리
     # 최근 2일(데이터상 최신일 + 전날)만 — 지도 '최신' 필터와 동일, 오늘 뉴스 우선.
+    #   ⚠ 미래 날짜 뉴스(예: 예정된 개기일식 등)가 max(date) 를 미래로 끌어올려 '최근 2일' 창이
+    #      미래로 밀리면 실제 최근 뉴스가 전부 제외돼 디제스트가 1건만 남는다 → today 이하로 클램프.
     pool_all = merged + dig_items
     _dd = [it.get("date", "") for it in pool_all if it.get("date")]
     brief_max = max(_dd) if _dd else ""
     brief_max_d = datetime.strptime(brief_max, "%Y-%m-%d").date() if brief_max else today
+    if brief_max_d > today:
+        brief_max_d = today   # 미래 예정 이벤트가 '최신일'을 하이재킹하지 못하게
     brief_cut = (brief_max_d - timedelta(days=1)).strftime("%Y-%m-%d") if brief_max else ""
     pool = [it for it in pool_all if it.get("date", "") >= brief_cut]
     seen, ranked = set(), []

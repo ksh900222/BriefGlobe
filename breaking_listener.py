@@ -40,6 +40,8 @@ GROK_MODEL_HEAVY = os.environ.get("GROK_MODEL_HEAVY", "grok-4.5")
 CLAUDE_DOWN = HERE / ".claude_down"
 CLAUDE_DOWN_MIN = 360   # 6시간(분)
 BATCH_SEC = 20          # 메시지 모아서 처리(CLI 호출 절약)
+BATCH_MAX = 20          # AI 1콜당 최대 메시지 — 청크가 크면 심사 프롬프트가 커져 180s 타임아웃(특히 메인
+                        #   파이프라인 claude 와 동시 실행 시). 20건이면 타임아웃 내 안정 처리, 대형 백로그도 소화.
 REQUEUE_MAX = 500       # 심사 실패 시 큐 복원 상한(장시간 장애 대비 — 초과 시 가장 오래된 것부터 폐기)
 PENDING_FILE = HERE / ".breaking_pending.json"   # 심사 실패 백로그 디스크 저장(프로세스 크래시·재부팅에도 유실 방지)
 POLL_SEC = 60           # 폴링 안전망 주기(푸시 누락 대비 주 수신 경로)
@@ -463,7 +465,11 @@ async def run_listener():
         if not queue:
             flush_posts()   # 새 메시지 없어도 밀린 POST는 재시도
             continue
-        batch, queue[:] = queue[:], []
+        # 최신부터 처리(newest-first) — '실시간 속보'라 최근 메시지가 우선. 틱당 최대 BATCH_MAX 건.
+        #   대형 백로그(장애 복구) 시 낡은 앞부분은 REQUEUE_MAX 상한으로 자연 폐기되고, 신선한 속보가
+        #   먼저 반영돼 실시간성이 유지된다. (평시엔 큐가 작아 순서 무관하게 전량 처리)
+        batch = queue[-BATCH_MAX:]
+        del queue[-len(batch):]
         if len(seen) > 5000:   # seen 무한 증식 방지
             seen.clear()
         try:
@@ -471,15 +477,21 @@ async def run_listener():
             log(f"배치 {len(batch)}건 → 반영 {len(n)}건")
         except Exception as ex:
             # 심사(AI)/네트워크 실패 시 배치를 버리지 않고 큐로 복원 → 다음 틱 재시도(유실 방지).
-            # 실패한 batch(먼저 들어온 것)를 앞에, 처리 중 새로 쌓인 queue를 뒤에 두고 시간순 유지.
-            # 장시간 장애로 무한증식하지 않도록 상한을 두되, 오래된 것부터 버려 최신 속보를 우선 보존.
-            merged = batch + queue
+            # newest-first 와 일관: 실패한 batch(방금 처리하려던 최신분)를 뒤(최신 위치)로 되돌려
+            # 다음 틱에 우선 재시도. 상한 초과 시 앞(가장 오래된)부터 폐기해 최신 속보를 보존.
+            merged = queue + batch
             queue[:] = merged[-REQUEUE_MAX:]
             dropped = len(merged) - len(queue)
             msg = f"⚠ 배치 심사 실패({len(batch)}건) — 큐 복원({len(queue)}건) 후 재시도: {str(ex)[:80]}"
             if dropped:
                 msg += f" · 상한초과 최고령 {dropped}건 폐기"
             log(msg)
+        # 큐 상한 — 성공 경로에서도 신규 유입이 처리 속도를 앞지르면 백로그가 무한 증식하므로
+        #   REQUEUE_MAX 로 묶는다(newest-first 라 앞쪽=최고령부터 폐기 → 최신 속보 우선 보존).
+        if len(queue) > REQUEUE_MAX:
+            _drop = len(queue) - REQUEUE_MAX
+            del queue[:_drop]
+            log(f"⚠ 큐 상한({REQUEUE_MAX}) 초과 — 최고령 {_drop}건 폐기(백로그 {len(queue)})")
         # 백로그를 디스크에 동기화: 성공 시 queue 비어 파일 제거, 실패 시 백로그 저장.
         # (정상 상태에선 queue 비고 파일도 없어 no-op — 불필요한 쓰기 없음)
         if queue or PENDING_FILE.exists():
