@@ -2357,7 +2357,7 @@ function ensureExtras() {
   // 거시 데이터는 자주 갱신되는데 .js가 브라우저 4h 캐시(존 TTL)에 고착돼 옛 버전이 뜨는 문제 →
   //   macro-data.js 만 캐시버스트로 로드(index.html은 no-cache라 새 HTML이 늘 최신 데이터를 당겨옴).
   // 파이프라인이 매 갱신 재생성하는 데이터 파일 — 항상 최신(캐시버스트). 정적 레이어 데이터(semi·commodities 등)는 제외(브라우저 캐시 허용).
-  const _FRESH = new Set(["macro-data.js", "market-data.js", "macro-series.js", "earnings-series.js", "stocks-info.js", "stocks-news.js"]);
+  const _FRESH = new Set(["macro-data.js", "market-data.js", "macro-series.js", "earnings-series.js", "stocks-info.js", "stocks-news.js", "news-data.js", "news-digest.js", "news-archive.js"]);
   _extrasPromise = Promise.all(EXTRA_SCRIPTS.map(src => new Promise(res => {
     const s = document.createElement("script");
     s.async = false;   // 삽입(배열) 순서대로 실행 보장 — commodities.js 가 semi-supply.js 보다 먼저 실행(레이스 방지)
@@ -8709,9 +8709,12 @@ function aiSrcLabel(engine, model) {
     return { label, cls: "src-claude", who: "Claude(" + label + ")" };
   }
   if (engine === "gemini") return { label: "Gemini", cls: "src-gemini", who: "Gemini" };
-  // grok(기본·폴백) — 모델 문자열에서 버전 추출(grok-4.5 → 4.5, grok-4.6 → 4.6)
-  const v = m.match(/(\d+\.?\d*)/);
-  return { label: "Grok " + (v ? v[1] : "4.5"), cls: "src-grok", who: "Grok" };
+  if (engine === "grok") {   // 실제 Grok — 모델 문자열에서 버전 추출(grok-4.5 → 4.5, grok-4.6 → 4.6)
+    const v = m.match(/(\d+\.?\d*)/);
+    return { label: "Grok " + (v ? v[1] : "4.5"), cls: "src-grok", who: "Grok" };
+  }
+  // engine 불명(구버전 캐시 데이터 등) — 특정 엔진으로 단정하지 않음(Grok으로 오표시 방지)
+  return { label: "AI", cls: "src-grok", who: "AI" };
 }
 
 // 지도 마커 링 색: 조사 엔진별 (Claude=주황 · Grok=보라 · Gemini=청록)
@@ -9091,10 +9094,15 @@ let stockNativeKRW = false;     // 한국 종목: 재무·자산·주가가 원�
 
 function isKrTicker(t) { return /\.KS$/.test(t || ""); }
 function isNum(v) { return typeof v === "number" && isFinite(v); }
-// 갱신 시점의 원/달러 환율(₩ per $) — market-data 의 KRW=X 최신 종가
+// 시세 현재값: 라이브(kisNow, ~20분 갱신·KIS/api quotes) 우선, 없으면 정적 종가(closes 마지막).
+//   카드 표시(priceOf)와 동일 규칙 — 모달도 카드와 같은 최신값을 쓰게 통일.
+function mktLast(s) {
+  if (!s || !s.closes || !s.closes.length) return null;
+  return (typeof s.kisNow === "number" && s.kisNow > 0) ? s.kisNow : s.closes[s.closes.length - 1];
+}
+// 갱신 시점의 원/달러 환율(₩ per $) — KRW=X 의 라이브(kisNow) 우선, 없으면 최신 종가
 function usdKrwRate() {
-  const s = mktData.find(x => x.id === "KRW=X");
-  return (s && s.closes.length) ? s.closes[s.closes.length - 1] : null;
+  return mktLast(mktData.find(x => x.id === "KRW=X"));
 }
 // $B 금액 → 통화별 표기 (USD=$B, KRW=조원, 환율 곱). 한국종목은 값이 이미 조원(네이티브) → 변환 안 함.
 function fmtMoneyB(v) {
@@ -9167,7 +9175,7 @@ function renderStockDynamic() {
   const box = document.getElementById("finTableBox");
   if (box) box.innerHTML = finTableHtml(info, stockFinMode);
   const series = mktData.find(s => s.id === stockCurTicker);
-  const raw = series ? series.closes[series.closes.length - 1] : null;
+  const raw = mktLast(series);   // 라이브(kisNow) 우선 — 카드 현재가와 일치
   const pxEl = document.getElementById("stockPx");
   if (pxEl) pxEl.textContent = fmtSharePrice(raw, series ? series.unit : "$");
   const mcEl = document.getElementById("stockMktCap");
