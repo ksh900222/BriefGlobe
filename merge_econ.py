@@ -25,6 +25,7 @@
 ============================================================
 """
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -56,6 +57,31 @@ def _key(it):
 def _has_actual(it):
     a = it.get("actual")
     return a is not None and str(a).strip() != ""
+
+
+def is_bad_earnings(it):
+    """실적 이벤트인데 실제 발표가 아닌 것을 판정(True=제외).
+       AI(특히 폴백)가 확정 발표일을 모를 때 미래 분기를 현재 날짜에 당겨 넣거나
+       '가이던스'(전망) 같은 비(非)이벤트를 만들어내던 문제를 결정론적으로 차단.
+       ⚠️ 이미 실제값(actual)이 있는 발표는 진짜 이벤트이므로 절대 제외하지 않는다."""
+    if not isinstance(it, dict) or it.get("kind") != "실적":
+        return False
+    if _has_actual(it):                      # 실제값 있으면 확정된 발표 → 보존
+        return False
+    title = it.get("title") or ""
+    # (a) 가이던스·전망은 실적 '발표' 이벤트가 아님
+    if re.search(r"가이던스|guidance|전망치", title, re.I):
+        return True
+    # (b) 'N월말'(회계분기 종료월)이 발표일보다 1~6개월 뒤 = 아직 끝나지도 않은 분기를
+    #     현재/과거 날짜에 배치한 것 → 실적 발표 불가(발표는 분기 종료 후).
+    date = it.get("date") or ""
+    m = re.search(r"(\d{1,2})\s*월말", title)
+    if m and re.match(r"\d{4}-\d{2}", date):
+        end_month = int(m.group(1))
+        d_year, d_month = int(date[:4]), int(date[5:7])
+        if 0 < ((d_year * 12 + end_month) - (d_year * 12 + d_month)) <= 6:
+            return True
+    return False
 
 
 def merge(rolling, store):
@@ -115,6 +141,13 @@ def main(argv):
 
     merged = merge(rolling, store)
     merged = prune(merged)
+    # sanity: 미래 분기 오배치·가이던스 등 '실제 발표가 아닌' 실적 이벤트 제거(actual 있는 건 보존)
+    bad = [x for x in merged if is_bad_earnings(x)]
+    if bad:
+        print(f"  🧹 실적 캘린더 정리: 미래분기 오배치·가이던스 {len(bad)}건 제외")
+        for x in bad:
+            print(f"     − {x.get('date')} {x.get('ticker') or ''} {x.get('title')}")
+    merged = [x for x in merged if not is_bad_earnings(x)]
     merged.sort(key=lambda x: ((x.get("date") or ""), (x.get("time") or "")))
 
     store_path.write_text(
