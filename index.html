@@ -3746,7 +3746,7 @@ class GlTyphoonToggle {
   onRemove() { this._el.remove(); this._map = undefined; }
 }
 // 🌀 태풍 진로 모델 선택기 — 우하단(기상 모델 선택기와 동일 UI). 태풍 켤 때만 표시.
-const TY_MODELS = [[null, "공식"], ["gfs", "GFS"], ["ecmwf", "ECMWF"], ["icon", "ICON"], ["all", "3모델"]];
+const TY_MODELS = [[null, "공식"], ["gfs", "GFS"], ["ecmwf", "ECMWF"], ["aigfs", "AI-GFS"], ["all", "3모델"]];
 class GlTyphoonModelSelector {
   onAdd(map) {
     this._map = map;
@@ -7624,13 +7624,15 @@ function loadTyphoons(cb) {
 }
 function typhoonStorms() { return (TYPHOON_DATA && TYPHOON_DATA.storms) || []; }
 
-// 🌀 태풍 모델별 진로(GFS/ECMWF/ICON) — typhoon-tracks.json(track_typhoons.py: 자체 MSLP 저기압 추적, 근사 7일·5일↑ 점선=저신뢰).
-//   공식 예보(NHC/HKO)에 더해, 각 모델 기압장에서 태풍 중심을 스텝별로 추적한 진로를 겹쳐 비교.
-let _glTyphoonModel = null;   // null=공식만 · "gfs"|"ecmwf"|"icon" · "all"(3모델 비교)
+// 🌀 태풍 모델별 진로(GFS/ECMWF/AI-GFS) — typhoon-tracks.json(track_typhoons.py: 각 기관 **공식 보텍스 트래커**
+//   산출물 = NCEP ATCF(GFS·AI-GFS) + ECMWF Open Data TC 트랙 BUFR. 태풍별로 분리 산출되어 인접 태풍이 섞이지 않는다.
+//   공식 예보(NHC/JTWC)에 더해 모델 간 진로 발산을 비교(일치=신뢰↑). 최대 7일·5일↑ 점선=저신뢰.
+//   ※ ICON 은 DWD 가 TC 트랙 산출물을 공개하지 않아 제외 — 대신 NCEP AI 모델(AI-GFS). 기상 오버레이의 ICON 과는 무관.
+let _glTyphoonModel = null;   // null=공식만 · "gfs"|"ecmwf"|"aigfs" · "all"(3모델 비교)
 let _typhoonTracks = null, _typhoonTracksLoaded = false, _typhoonTracksLoading = false;
-// 파란 바다·회색 육지 모두에서 대비 강한 색(GFS 파랑→금색, ICON 연녹→진녹, ECMWF 마젠타)
-const GL_TYPH_MODEL_COLOR = { gfs: "#ffd23f", ecmwf: "#ff3d9a", icon: "#22c55e" };
-const GL_TYPH_MODEL_LABEL = { gfs: "GFS", ecmwf: "ECMWF", icon: "ICON" };
+// 파란 바다·회색 육지 모두에서 대비 강한 색(GFS 금색, ECMWF 마젠타, AI-GFS 진녹)
+const GL_TYPH_MODEL_COLOR = { gfs: "#ffd23f", ecmwf: "#ff3d9a", aigfs: "#22c55e" };
+const GL_TYPH_MODEL_LABEL = { gfs: "GFS", ecmwf: "ECMWF", aigfs: "AI-GFS" };
 function loadTyphoonTracks(cb) {
   if (_typhoonTracksLoaded) { if (cb) cb(); return; }
   if (_typhoonTracksLoading) return;
@@ -7730,7 +7732,7 @@ function glDrawTyphoonModels() {
   glClearTyphoonModels();
   if (!state.typhoon || !_glTyphoonModel || !_typhoonTracks) return;
   const storms = _typhoonTracks.storms || [];
-  const models = _glTyphoonModel === "all" ? ["gfs", "ecmwf", "icon"] : [_glTyphoonModel];
+  const models = _glTyphoonModel === "all" ? ["gfs", "ecmwf", "aigfs"] : [_glTyphoonModel];
   const steps = (_typhoonTracks.steps || []);
   const feats = [], dots = [], coneFeats = [];
   storms.forEach(s => {
@@ -7753,7 +7755,7 @@ function glDrawTyphoonModels() {
     // 반경/원뿔
     if (_glTyphoonModel === "all") {   // 3모델: 각 모델의 진로오차 원뿔을 모델색으로 '겹쳐' 표시
       //   → 세 원뿔이 겹치는 곳 = 모델 합의(색이 진해짐), 갈라지는 곳 = 발산. 개별 모델 반경이 다 드러남.
-      ["gfs", "ecmwf", "icon"].forEach(m => {
+      ["gfs", "ecmwf", "aigfs"].forEach(m => {
         const tr = s.tracks[m];
         if (!tr || tr.length < 2) return;
         const geom = glTcConeBand(tr.map(p => [p.lon, p.lat]), tr.map(p => glTcErrorKm(p.step)));
@@ -7837,19 +7839,22 @@ function typhoonPopupHtml(s) {
     `<div class="pmeta">${s.basinLabel} · 최대풍속 ${s.maxWindKt != null ? s.maxWindKt + "kt(" + ktToKmh(s.maxWindKt) + "km/h)" : "—"}` +
     `${s.mslp != null ? " · 중심기압 " + s.mslp + "hPa" : ""}</div></div>`;
 }
-// 🌀 모델 선택 시(GFS/ECMWF/ICON/3모델) 그 모델(들)의 예측 진로별 중심기압 — 모델마다 값이 다르다.
-//   출처: typhoon-tracks.json(각 모델 기압장에서 태풍 중심 추적). 공식 예보와 별개 근사.
+// 🌀 모델 선택 시(GFS/ECMWF/AI-GFS/3모델) 그 모델(들)의 예측 진로별 중심기압 — 모델마다 값이 다르다.
+//   출처: typhoon-tracks.json(각 기관 공식 보텍스 트래커 산출물). 공식 예보와는 별개의 모델 원자료.
 function typhoonModelTrackHtml(s) {
   const sel = _glTyphoonModel;
   if (!sel || !_typhoonTracks || !Array.isArray(_typhoonTracks.storms)) return "";
-  const models = sel === "all" ? ["gfs", "ecmwf", "icon"] : [sel];
+  const models = sel === "all" ? ["gfs", "ecmwf", "aigfs"] : [sel];
   const st = _typhoonTracks.storms.find(x => x.id === s.id || (x.name && s.name && x.name === s.name));
   if (!st || !st.tracks) return "";
-  const cyc = _typhoonTracks.cycle ? new Date(_typhoonTracks.cycle) : null;
-  const MNAME = { gfs: "GFS", ecmwf: "ECMWF", icon: "ICON" }, MCOL = { gfs: "#4fa3ff", ecmwf: "#ff8f4f", icon: "#8fd15a" };
+  // cycle 은 모델별 사이클 시각 맵({gfs,ecmwf,aigfs}) — 소스마다 발표 지연이 달라 사이클이 어긋날 수 있다.
+  //   (이전엔 객체를 통째로 new Date() 에 넘겨 항상 Invalid Date → '+Nh' 로만 표시되던 버그)
+  const CYC = _typhoonTracks.cycle || {};
+  const MNAME = { gfs: "GFS", ecmwf: "ECMWF", aigfs: "AI-GFS" }, MCOL = { gfs: "#4fa3ff", ecmwf: "#ff8f4f", aigfs: "#8fd15a" };
   let out = "";
   models.forEach(mk => {
     const trk = st.tracks[mk]; if (!trk || !trk.length) return;
+    const cyc = CYC[mk] ? new Date(CYC[mk]) : null;
     const rows = trk.map(p => {
       const t = cyc && !isNaN(cyc) ? new Date(cyc.getTime() + p.step * 3600e3) : null;
       const time = t ? glFmtKST(t) : "+" + p.step + "h";
@@ -8720,14 +8725,15 @@ function aiSrcLabel(engine, model) {
 // 지도 마커 링 색: 조사 엔진별 (Claude=주황 · Grok=보라 · Gemini=청록)
 function srcMarkerClass(n) {
   if (n.src !== "grok") return "";
-  const e = n.engine || "grok";
-  return e === "claude" ? " claude-src" : e === "gemini" ? " gemini-src" : " grok-src";
+  // engine 불명 시 일반 AI색(보라=grok-src)로만 처리 — 특정 엔진 단정 안 함.
+  return n.engine === "claude" ? " claude-src" : n.engine === "gemini" ? " gemini-src" : " grok-src";
 }
 
 // 출처 배지: AI가 조사·수집한 뉴스에만 표시(GDELT는 무표시)
 function srcTag(n) {
   if (n.src === "grok") {
-    const a = aiSrcLabel(n.engine || "grok", n.model);
+    // engine 없는(구버전 캐시) 항목은 "grok"으로 단정하지 말고 aiSrcLabel 내부 중립("AI") 폴백에 맡긴다.
+    const a = aiSrcLabel(n.engine, n.model);
     return `<span class="${a.cls}" title="${a.who} 실시간 검색·조사로 수집">🔍 ${a.label}</span>`;
   }
   if (n.src === "grok-tech") return `<span class="src-grok" title="Grok 웹 실검색·글로벌 테크 딜${n.source ? " · 출처 " + n.source : ""}${n.theme ? " · " + n.theme : ""}">🔍 테크딜${n.theme ? " · " + n.theme : ""}</span>`;

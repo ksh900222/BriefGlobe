@@ -291,8 +291,9 @@ fi
 # 💨 기상 텍스처(GFS/ECMWF/ICON 바람·기온·구름·강수·기압·해수온)는 이 파이프라인에서 분리됨.
 #   → 독립 launchd 잡(com.worldinfo.weather · fetch_weather.sh)이 3h마다 생성.
 #   이유: GFS 다운로드가 멈추면(과거 hang) 이 순차 파이프라인 전체가 잠겨 뉴스·배포까지 마비됐음.
-#   생성된 wind-*.png 등은 여기서 배포만 실어감(deploy_cf.sh 화이트리스트). track_typhoons 는 디스크의 최신 pressure 텍스처 사용.
-# 🌀 태풍 모델별 진로(자체 MSLP 추적) — pressure 텍스처 + typhoons.json 필요
+#   생성된 wind-*.png 등은 여기서 배포만 실어감(deploy_cf.sh 화이트리스트).
+# 🌀 태풍 모델별 진로(GFS·ECMWF·AI-GFS) — 각 기관 공식 보텍스 트래커 산출물을 원격에서 직접 받는다.
+#   NCEP ATCF(NOMADS) + ECMWF Open Data TC 트랙 BUFR. 기상 텍스처와 무관해졌고 typhoons.json 만 선행 필요.
 "$PY" track_typhoons.py || echo "  ⚠ 태풍 모델진로 추적 실패(건너뜀)"
 
 # 해수면 이상수온(OISST) + 엘니뇨/라니냐(ONI) — 하루 1회(관측분석·느리게 변함). 산출: sst-anom.png · enso-status.json
