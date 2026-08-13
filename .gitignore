@@ -141,3 +141,75 @@ market-brief.json
 
 # launchd 설정 — 홈 경로(사용자명) 하드코딩 · 본인 시스템 전용
 com.worldinfo.*.plist
+
+# ── 주식뉴스 수집/실적 백필 스크래치·일회성 스크립트·중간 산출물 ──
+#    파이프라인·실험이 흘려놓는 임시물. 로컬만 두고 remote 미연결.
+#    (주의: 추적 중인 merge_news.py·check_routes.py 는 아래 패턴에 안 걸리도록 개별 지정)
+_*.json
+.stocks_news_*
+.supplemental_news_temp.json
+.ticker_news_temp.json
+.last_sst_anom
+stocks_news_*
+stocks-news-*
+stock_news_*
+*stocks_news*.py
+gen_*.py
+collect_*.py
+build_*.py
+add_*news*
+supplement_*
+extract_*.py
+process_*actual*.py
+backfill_*
+balance_backfill*
+agent_news.json
+collected_news_*
+extracted*.json
+news_extract*.json
+final_*.py
+final_template.json
+update_*.py
+analyze_*.py
+fill_*.py
+fetch_supplement*
+enhance_*.py
+create_final*.py
+get_stocks_news.py
+auto_translate*.py
+batch_translate*.py
+full_actuals*.py
+QUICK_REFERENCE.py
+macro-indicators-*research.json
+sns_accounts.json
+news_collection_summary.txt
+# 개별 지정(브로드 패턴이 실제 추적 파일과 충돌하는 것 회피)
+merge_news_data.py
+merge_stocks_news.py
+merge_final.py
+check_pending.py
+check_current_stocks_news.js
+# 조사·백필 리포트(문서류)
+BALANCE_BACKFILL_*.md
+STOCK_NEWS_FINAL_REPORT.md
+
+# ── 잔여 스크래치(밸런스시트 백필·SNS 수집·검색 실험) ──
+.extracted_news.json
+_tmp_*
+add_*.py
+search_*.py
+korean_stocks_news_*
+us_stocks_news_*
+series-delta-balance.json
+series-delta-korean.json
+earnings_balance*
+EARNINGS_BALANCE*
+generate_korean*.py
+integrate_*.py
+merge_balance*
+merge_news_sns.js
+news_sns_collection_*
+BALANCE_SHEET_RESEARCH_SUMMARY.txt
+QUICK_REFERENCE_BALANCE_SHEET.txt
+README_BALANCE_SHEET_RESEARCH.md
+NEWS_COLLECTION_REPORT.md
