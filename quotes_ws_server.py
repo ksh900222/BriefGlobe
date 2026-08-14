@@ -208,6 +208,69 @@ async def broadcaster():
                         CLIENTS.discard(c)
 
 
+# ---------------- 실시간 군용기(ADS-B) 중계 ----------------
+# 왜 Mac 을 경유하나: 커뮤니티 ADS-B 관측망이 데이터센터 IP 를 막는다.
+#   airplanes.live  → 전 IP 403(공개 API 폐쇄, contact 요구)
+#   adsb.lol /v2/mil → 200 이지만 항상 total 0(피드 고갈)
+#   adsb.fi         → 가정용 IP 정상 / Cloudflare Workers 이그레스는 403
+# 그래서 살아있는 adsb.fi 를 집 IP 에서 받아 중계한다. CF /api/mil-aircraft 는 폴백으로 유지.
+MIL_SOURCES = [
+    ("adsb.fi", "https://opendata.adsb.fi/api/v2/mil"),
+    ("adsb.lol", "https://api.adsb.lol/v2/mil"),
+]
+MIL_TTL = 8.0                   # 프론트 갱신주기(8초)와 동일 — 원천 호출을 늘리지 않는다
+MIL_FILL = ["t", "desc", "r", "ownOp", "flight", "category", "gs", "track",
+            "true_heading", "alt_baro", "lat", "lon", "squawk"]
+_mil_cache = {"at": 0.0, "body": None}
+_mil_lock = threading.Lock()
+
+
+def _fetch_mil_one(url):
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (compatible; world-info-map/1.0; +https://briefglobe.com)",
+        "Accept": "application/json",
+    })
+    with urllib.request.urlopen(req, timeout=8) as r:
+        data = json.loads(r.read().decode("utf-8", "replace"))
+    return data.get("ac") or []
+
+
+def _build_mil():
+    """관측망별로 받아 hex 기준 병합. 한 곳이 죽어도 나머지로 계속(부분 결과 허용)."""
+    by_hex, sources, diag = {}, {}, {}
+    for name, url in MIL_SOURCES:
+        try:
+            lst = _fetch_mil_one(url)
+            diag[name] = f"ok {len(lst)}"
+        except Exception as e:
+            lst, diag[name] = [], f"err {type(e).__name__}: {str(e)[:60]}"
+        sources[name] = len(lst)
+        for a in lst:
+            hx = a.get("hex") if isinstance(a, dict) else None
+            if not hx:
+                continue
+            cur = by_hex.get(hx)
+            if cur is None:
+                by_hex[hx] = dict(a, _srcs=[name])
+            else:
+                cur["_srcs"].append(name)
+                for f in MIL_FILL:      # 빈 필드만 다른 관측망 값으로 보충
+                    if cur.get(f) in (None, "") and a.get(f) not in (None, ""):
+                        cur[f] = a[f]
+    ac = list(by_hex.values())
+    return {"ac": ac, "total": len(ac), "sources": sources, "diag": diag,
+            "via": "mac", "now": int(time.time() * 1000)}
+
+
+def _mil_body():
+    with _mil_lock:                       # TTL 캐시 — 동시 요청이 원천을 두드리지 않게
+        if _mil_cache["body"] and (time.monotonic() - _mil_cache["at"]) < MIL_TTL:
+            return _mil_cache["body"]
+        body = json.dumps(_build_mil()).encode()
+        _mil_cache.update(at=time.monotonic(), body=body)
+        return body
+
+
 # ---------------- HTTP 서버(/quotes REST, http.server 스레드) ----------------
 class Handler(BaseHTTPRequestHandler):
     def _cors(self):
@@ -223,6 +286,15 @@ class Handler(BaseHTTPRequestHandler):
             _last_access = time.monotonic()
             with _lock:
                 body = json.dumps({"updated": time.time(), "quotes": dict(CACHE)}).encode()
+            self.send_response(200); self._cors()
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.end_headers(); self.wfile.write(body); return
+        if self.path.startswith("/mil-aircraft"):
+            try:
+                body = _mil_body()
+            except Exception as e:      # 여기서 죽어도 시세 서버는 계속 살아있어야 한다
+                body = json.dumps({"ac": [], "total": 0, "via": "mac",
+                                   "error": str(e)[:120]}).encode()
             self.send_response(200); self._cors()
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.end_headers(); self.wfile.write(body); return

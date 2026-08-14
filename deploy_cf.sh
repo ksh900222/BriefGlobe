@@ -20,7 +20,8 @@ rm -rf "$PUB"; mkdir -p "$PUB"
 cp index.html "$PUB/"
 cp _headers "$PUB/"   # 캐시 규칙(HTML/데이터 no-cache) — 옛 버전 고착 방지
 cp favicon.ico favicon-16.png favicon-32.png apple-touch-icon.png icon-192.png icon-512.png site.webmanifest "$PUB/" 2>/dev/null || true   # 🌍 favicon/앱아이콘(남색 지구본·금색 배경)
-cp news-data.js news-archive.js news-digest.js market-data.js market-brief.json stocks-info.js stocks-news.js earnings-series.js macro-series.js macro-data.js chartjs-plugin-zoom.min.js econ-calendar.json econ-calendar-store.json "$PUB/" 2>/dev/null || true
+# news-archive-*.js = 아카이브 조각(CF Pages 파일당 25MiB 한도 때문에 분할). 빠지면 과거 뉴스가 안 뜬다.
+cp news-data.js news-archive.js news-archive-*.js news-digest.js market-data.js market-brief.json stocks-info.js stocks-news.js earnings-series.js macro-series.js macro-data.js chartjs-plugin-zoom.min.js econ-calendar.json econ-calendar-store.json "$PUB/" 2>/dev/null || true
 cp mac-quotes.json "$PUB/" 2>/dev/null || true   # 하이브리드: Mac 실시간 시세 터널 URL(프런트가 우선 폴링, 실패 시 /api/quotes 폴백)
 cp land-lite.json countries-defense.geojson "$PUB/" 2>/dev/null || true
 cp commodities.js semi-supply.js shipping.js military.js economy.js country-profiles.js country-resources.js bri.js pipelines.js \

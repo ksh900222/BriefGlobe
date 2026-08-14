@@ -545,9 +545,31 @@ def build_output():
         f"const NEWS_DATA = {json.dumps(recent, **compact)};\n",
         encoding="utf-8",
     )
+    # 아카이브는 조각으로 나눠 쓴다 — Cloudflare Pages 는 파일당 25MiB 를 넘기면 배포 자체가 실패한다.
+    #   news-archive.js  = 조각 수만 알리는 초경량 매니페스트
+    #   news-archive-N.js = 실제 데이터(각 ~8MB). index.html loadArchive 가 순서대로 이어붙인다.
+    for old in HERE.glob("news-archive-*.js"):
+        old.unlink()
+    ARCHIVE_CHUNK_BYTES = 8 * 1024 * 1024
+    chunks, cur, cur_bytes = [], [], 0
+    for it in items_sorted:
+        b = len(json.dumps(it, **compact).encode())
+        if cur and cur_bytes + b > ARCHIVE_CHUNK_BYTES:
+            chunks.append(cur); cur, cur_bytes = [], 0
+        cur.append(it); cur_bytes += b
+    if cur or not chunks:
+        chunks.append(cur)
+    for i, ch in enumerate(chunks, 1):
+        (HERE / f"news-archive-{i}.js").write_text(
+            f"/* 자동 생성 · {stamp} · 아카이브 조각 {i}/{len(chunks)} */\n"
+            f"NEWS_ARCHIVE = NEWS_ARCHIVE.concat({json.dumps(ch, **compact)});\n",
+            encoding="utf-8",
+        )
     (HERE / "news-archive.js").write_text(
-        f"/* 자동 생성 · {stamp} · 전체 기간({RETENTION_DAYS}일) 뉴스 — 지연 로딩용 */\n"
-        f"const NEWS_ARCHIVE = {json.dumps(items_sorted, **compact)};\n",
+        f"/* 자동 생성 · {stamp} · 전체 기간({RETENTION_DAYS}일) 뉴스 — 지연 로딩용 매니페스트\n"
+        f"   실제 데이터는 news-archive-1..{len(chunks)}.js */\n"
+        f"var NEWS_ARCHIVE = [];\n"
+        f"var NEWS_ARCHIVE_PARTS = {len(chunks)};\n",
         encoding="utf-8",
     )
 

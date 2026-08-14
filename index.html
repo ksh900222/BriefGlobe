@@ -2449,9 +2449,10 @@ function glRemoveWeather(map) {
 }
 function glSetWeatherLayer(map, l) {
   _glWeatherLayer = l;
+  glClampStepToActive();   // 레이어별 예보 지평이 다르면(AQ 5일 · 바람 7일) 현재 스텝을 새 범위로 스냅
   // 🌫️ 대기질 레이어면 aq-meta(변수 range·cycle) 먼저 로드 후 텍스처 재구성
   if (glIsAqLayer(l) && !_glAqMeta) {
-    glLoadAqMeta().then(() => { if (_glWindOn && _glWindOverlay) glReloadWindTexture(); glShowWxLegend(l); glUpdateWindTimeUI(); });
+    glLoadAqMeta().then(() => { glClampStepToActive(); if (_glWindOn && _glWindOverlay) glReloadWindTexture(); glShowWxLegend(l); glUpdateWindTimeUI(); });
   }
   try { if (GL_OWM_LAYERS.has(l)) { if (!map.getSource("wx")) glAddWeather(map); else map.getSource("wx").setTiles([glWxTileUrl(l)]); } } catch (e) {}
   glSyncOwmVisibility(map);   // #2 자체 래스터 레이어면 OWM 숨김, 아니면 OWM 불투명도 적용
@@ -3237,6 +3238,21 @@ function glRampCptA(ramp, min, max) {   // 알파 포함 정규화 램프 → cp
 const GL_AQ_LABELS = { aq_pm2p5: "PM2.5 초미세", aq_pm10: "PM10 미세", aq_go3: "오존 O₃",
   aq_no2: "NO₂ 이산화질소", aq_so2: "SO₂ 이산화황", aq_co: "CO 일산화탄소" };
 function glIsAqLayer(l) { return typeof l === "string" && l.indexOf("aq_") === 0; }
+// 현재 레이어의 예보 스텝 목록: 대기질 = CAMS 자체 스텝(0~120h/5일), 그 외 = 바람모델 스텝(0~168h/7일).
+//  (AQ와 바람은 예보 지평이 달라 시간바가 다른 배열을 써야 '정지 구간'이 안 생긴다.)
+function glActiveSteps() {
+  return glIsAqLayer(_glWeatherLayer)
+    ? ((_glAqMeta && _glAqMeta.steps) || [])
+    : ((_glWindMeta && _glWindMeta.steps) || []);
+}
+// 레이어 전환으로 현재 스텝이 새 레이어 스텝 목록에 없으면(예: 바람 +150h → AQ 최대 120h) 가장 가까운 스텝으로 스냅.
+function glClampStepToActive() {
+  const ss = glActiveSteps();
+  if (!ss.length || ss.some(s => s.step === _glWindStep)) return;
+  let best = ss[0].step, bd = Infinity;
+  ss.forEach(s => { const d = Math.abs(s.step - _glWindStep); if (d < bd) { bd = d; best = s.step; } });
+  _glWindStep = best;
+}
 function glAqVarRange(key) {   // aq-meta 에서 변수 range (없으면 폴백)
   const v = _glAqMeta && (_glAqMeta.vars || []).find(x => x.key === key);
   return v ? v.range : ({ pm2p5: [0, 200], pm10: [0, 400], go3: [0, 300], no2: [0, 200], so2: [0, 350], co: [0, 15000] }[key] || [0, 200]);
@@ -3676,7 +3692,7 @@ function glSetupWindTimebar() {
   cont.appendChild(bar);
   const slider = bar.querySelector("#glwt-slider"), label = bar.querySelector("#glwt-label");
   const playBtn = bar.querySelector(".glwt-play");
-  const steps = () => (_glWindMeta && _glWindMeta.steps) || [];
+  const steps = () => glActiveSteps();   // 레이어별 예보 스텝(AQ=0~120h · 그 외=바람 0~168h)
   // ▶ 재생: 스텝을 자동 순회(마지막→처음 반복). 텍스처 로드 여유로 700ms 간격.
   const stopPlay = () => { if (_glPlayTimer) { clearInterval(_glPlayTimer); _glPlayTimer = null; } _glPlaying = false; if (playBtn) playBtn.textContent = "▶"; };
   playBtn.addEventListener("click", () => {
@@ -5331,17 +5347,27 @@ async function refreshLiveAircraft() {
     _liveAcStatus(`🛰️ ${scope} 실시간 조회 자동 종료(15분) · 다시 누르면 재개`);
     return;
   }
-  let list = [];
-  try {
-    // 다중 관측망 병합 프록시(airplanes.live+adsb.lol+adsb.fi). 실패 시 airplanes.live 직접.
-    let res = await fetch("/api/mil-aircraft", { cache: "no-store" });
-    if (!res.ok) res = await fetch("https://api.airplanes.live/v2/mil", { cache: "no-store" });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const data = await res.json();
-    list = (data && data.ac) ? data.ac : [];
-  } catch (err) {
+  // ① Mac 터널(집 IP) 우선 → ② CF 프록시 폴백.
+  //   커뮤니티 ADS-B 관측망이 데이터센터 IP 를 막아 CF 에선 전 소스가 403/빈값이 된다.
+  //   빈 배열도 '실패'로 취급해 다음 소스로 넘어간다(HTTP 200 + total 0 이 실제 장애 모습).
+  let list = [], via = "", lastErr = "";
+  for (const [label, url, ms] of [["mac", "https://quotes.briefglobe.com/mil-aircraft", 4000],
+                                  ["cf", "/api/mil-aircraft", 8000]]) {
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), ms);
+      const res = await fetch(url, { cache: "no-store", signal: ctrl.signal });
+      clearTimeout(t);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      const ac = (data && Array.isArray(data.ac)) ? data.ac : [];
+      if (ac.length) { list = ac; via = label; break; }
+      lastErr = "원천 무응답";
+    } catch (err) { lastErr = (err && err.name === "AbortError") ? "시간초과" : ((err && err.message) || "네트워크"); }
+  }
+  if (!list.length) {   // 두 경로 모두 빈손 = 관측망 장애. '0대'와 구분해서 알린다.
     liveAircraftLayer.clearLayers();
-    _liveAcStatus(`🛰️ 실시간 군용기 조회 실패(${(err && err.message) || "네트워크"}) · 잠시 후 재시도`);
+    _liveAcStatus(`🛰️ 실시간 군용기 원천 장애(${lastErr}) · 공개 ADS-B 관측망 응답 없음 · 잠시 후 재시도`);
     return;
   }
   // 위치 유효 + (base 모드면 반경 내)만
@@ -5433,7 +5459,8 @@ async function refreshLiveAircraft() {
     try { byHex[_liveAcOpenHex].openPopup(); } catch (_) {}
   }
 
-  const ts = new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  const ts = new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+    + (via === "mac" ? " (직결)" : "");   // 어느 경로로 받았는지 — 장애 진단용
   const combatTxt = (combatCount ? ` · <span style="color:#ff6b6b;font-weight:800">⚠️ 전투·폭격기 ${combatCount}대</span>` : "")
     + (droneCount ? ` · <span style="color:#7fb0ff;font-weight:800">🛩️ 무인공격기 ${droneCount}대</span>` : "");
   if (_liveAcMode === "base") {
@@ -8476,11 +8503,25 @@ function loadArchive() {
   if (archiveState === "loading") return;
   archiveState = "loading";
   document.getElementById("dateRange").textContent = "과거 뉴스 불러오는 중…";
-  const s = document.createElement("script");
-  s.src = "news-archive.js?v=" + encodeURIComponent(typeof NEWS_UPDATED !== "undefined" ? NEWS_UPDATED : "");
-  s.onload = () => { archiveState = "done"; newsAll = NEWS_ARCHIVE; render(); };
-  s.onerror = () => { archiveState = "none"; document.getElementById("dateRange").textContent = "과거 뉴스 로딩 실패 — 다시 선택해 보세요"; };
-  document.body.appendChild(s);
+  // 아카이브는 조각 파일로 나뉘어 있다(CF Pages 파일당 25MiB 한도).
+  //   news-archive.js = 조각 수 매니페스트 → news-archive-1..N.js 를 순서대로 이어붙인다.
+  const v = encodeURIComponent(typeof NEWS_UPDATED !== "undefined" ? NEWS_UPDATED : "");
+  const loadScript = src => new Promise((ok, no) => {
+    const s = document.createElement("script");
+    s.src = src; s.onload = ok; s.onerror = () => no(new Error(src));
+    document.body.appendChild(s);
+  });
+  (async () => {
+    try {
+      await loadScript("news-archive.js?v=" + v);
+      const n = (typeof NEWS_ARCHIVE_PARTS === "number") ? NEWS_ARCHIVE_PARTS : 0;
+      for (let i = 1; i <= n; i++) await loadScript(`news-archive-${i}.js?v=${v}`);
+      archiveState = "done"; newsAll = NEWS_ARCHIVE; render();
+    } catch (_) {
+      archiveState = "none";
+      document.getElementById("dateRange").textContent = "과거 뉴스 로딩 실패 — 다시 선택해 보세요";
+    }
+  })();
 }
 
 function fmt(d) {
