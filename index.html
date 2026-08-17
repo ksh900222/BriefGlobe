@@ -867,9 +867,19 @@
     box-shadow: 0 0 4px rgba(0,0,0,.6);
   }
   .base-marker {
-    width: 22px; height: 16px; line-height: 1; text-align: center;
-    font-size: 15px;
-    filter: drop-shadow(0 0 2px #000) drop-shadow(0 0 1px #000);
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 22px; height: 18px; padding: 0 4px; box-sizing: border-box;
+    text-align: center; font-size: 13px; line-height: 1;
+    /* 국기 이모지 미지원 환경(Windows)에서도 마커가 확실히 보이도록 올리브(군사) 칩 배경 */
+    background: rgba(74,98,24,.92);
+    border: 1.5px solid rgba(255,255,255,.85); border-radius: 4px;
+    box-shadow: 0 0 4px rgba(0,0,0,.75);
+    color: #fff;
+  }
+  /* 기지 마커 안 국가코드 폴백(Windows): 칩 위에 흰 굵은 글씨로 키워 가독성↑ (fc-big의 .5em=7.5px 무력화) */
+  .base-marker .flagcode, .base-marker .flagcode.fc-big {
+    font-size: 12px; line-height: 1; padding: 0; letter-spacing: .2px;
+    background: none; color: #fff; font-weight: 800;
   }
   /* 국기 이모지 미지원 환경(Windows 등) 폴백: 2글자 국가코드 배지 */
   .flagcode {
@@ -908,10 +918,10 @@
     background: rgba(232,104,31,.12); border-left: 4px solid #e8681f; color: var(--text); }
   .ag-econ b { display: block; color: #ffae7a; font-size: 12px; margin-bottom: 4px; letter-spacing: .3px; }
   .base-marker.key {
-    border: 2px solid #ff1f1f; border-radius: 5px;
-    background: rgba(255,59,48,.16);
-    box-shadow: 0 0 6px rgba(255,59,48,.55);
-    width: 24px; height: 20px; line-height: 17px;
+    border: 1.5px solid #fff; border-radius: 5px;
+    background: rgba(214,32,28,.95);                 /* 솔리드 레드 — 전략 핵심(사용자 인지: 빨간색 유지) */
+    box-shadow: 0 0 7px rgba(255,59,48,.6);
+    min-width: 24px; height: 20px;
   }
   /* 국방력 국가 마커 (원자재 마커와 유사) */
   .defense-marker {
@@ -4065,7 +4075,7 @@ function glDrawMilitary() {
   if (typeof MILITARY_BASES === "undefined") return glClearGeo("military");
   glAddPointMarkers("military", MILITARY_BASES, b => {
     const flag = NATION_FLAG[b.nation] || "🎖️";
-    return `<div class="base-marker${b.key ? " key" : ""}">${flagHtml(flag, true)}</div>`;
+    return `<div class="base-marker${b.key ? " key" : ""}" title="${b.name} · ${b.nation} ${b.type || ""} · ${b.country}${b.key ? " · ★전략핵심" : ""}">${flagHtml(flag, true)}</div>`;
   }, b => {
     const flag = NATION_FLAG[b.nation] || "🎖️";
     // P5a: 작전반경 버튼(항공기·함정·잠수함)은 P5b에서 배선 — 팝업은 기본 정보
