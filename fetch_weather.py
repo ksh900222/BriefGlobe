@@ -25,7 +25,7 @@ fetch_weather.py — 💨 지구본 '흐르는 바람 입자'용 **다모델·�
 
 CLI(테스트용): --models gfs,ecmwf,icon  --steps 0,6,12  --max-step 168
 """
-import argparse, bz2, datetime, json, math, os, socket, subprocess, sys, urllib.request
+import argparse, bz2, datetime, glob, json, math, os, socket, subprocess, sys, urllib.request
 import numpy as np
 from PIL import Image
 
@@ -756,6 +756,46 @@ def main():
                     print(f"[icon] 완료 cycle={cyc.isoformat()} steps={done}")
         except Exception as e:
             sys.stderr.write(f"[icon] 전면 실패: {e}\n")
+
+    # ── sticky-meta: 이번 런에서 실패한 모델이라도 직전 성공 텍스처가 아직 신선하면
+    #    (직전 cycle 그대로 유지) meta.models 에서 빼지 않는다. 일시적 네트워크(DNS 등)
+    #    실패 한 번에 멀쩡한 모델이 통째로 사라지던 문제 방지. 디스크에 텍스처가 실제로
+    #    있고 직전 cycle 이 STICKY_MAX_AGE_H 이내일 때만 유지(오래되면 정직하게 드롭).
+    STICKY_MAX_AGE_H = 15
+    missing = [k for k in want if k not in ok_models]
+    if missing:
+        try:
+            with open(os.path.join(DIR, "wind-meta.json"), encoding="utf-8") as f:
+                prev_models = {m["key"]: m for m in json.load(f).get("models", [])}
+        except (OSError, ValueError):
+            prev_models = {}
+        now = datetime.datetime.now(datetime.timezone.utc)
+        _has = lambda pat: bool(glob.glob(os.path.join(DIR, pat)))
+        for k in missing:
+            pm = prev_models.get(k)
+            if not (pm and pm.get("cycle")):
+                continue
+            try:
+                age_h = (now - datetime.datetime.fromisoformat(pm["cycle"])).total_seconds() / 3600.0
+            except ValueError:
+                continue
+            if age_h > STICKY_MAX_AGE_H:
+                sys.stderr.write(f"[{k}] 이번 런 실패 · 직전 cycle {age_h:.0f}h 경과(>{STICKY_MAX_AGE_H}h) → 유지 안 함\n")
+                continue
+            if not _has(f"wind-{k}-*-f*.png"):          # 핵심(바람) 텍스처가 없으면 유지 무의미
+                sys.stderr.write(f"[{k}] 이번 런 실패 · 직전 텍스처 없음 → 유지 안 함\n")
+                continue
+            models_meta.append({**next(m for m in MODELS if m["key"] == k), "cycle": pm["cycle"]})
+            ok_models.add(k)
+            # 디스크에 실제로 있는 필드만 복원(전역 fields·cloudVar 일관성 유지)
+            if k in CLOUD_VAR and _has(f"cloud-{k}-f*.png"): got_cloud.add(k)
+            if _has(f"temp-{k}-*-f*.png"):    got_temp.add(k)
+            if _has(f"precip-{k}-f*.png"):    got_precip.add(k)
+            if _has(f"sst-{k}-f*.png"):       got_sst.add(k)
+            if _has(f"pressure-{k}-f*.png"):  got_pressure.add(k)
+            sys.stderr.write(f"[{k}] sticky 유지: 직전 cycle {pm['cycle']} ({age_h:.1f}h 경과) · 기존 텍스처 재사용\n")
+        # 선택기 노출 순서 일관성: want 순서(gfs,ecmwf,icon)로 정렬
+        models_meta.sort(key=lambda m: want.index(m["key"]) if m["key"] in want else 99)
 
     if not models_meta:
         sys.stderr.write("[fetch_weather] 모든 모델 실패 — meta 미갱신\n")
