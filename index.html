@@ -1647,6 +1647,10 @@ body.mode-geo1 #breakingPanel { display:none; }
       </details>
       <details class="digest-panel" id="areaPanel" open>
         <summary><span>📍 <span id="areaTitle">이 지도 영역의 뉴스</span> <small style="opacity:.7;font-weight:600">· 지도 이동 시 갱신</small></span> <b id="count">0건</b></summary>
+        <!-- 지역 필터: 검색 중일 때만 보인다(평소엔 이미 지도 영역 기준이라 불필요) -->
+        <label class="bk-area-filter" id="newsAreaFilter" hidden title="체크하면 검색 결과를 지금 보고 있는 지도 영역으로 한정합니다.">
+          <input type="checkbox" id="newsAreaOnly"><span>📍 이 지도 영역만</span>
+        </label>
         <div class="news-list" id="newsList"></div>
       </details>
     </div>
@@ -1758,6 +1762,7 @@ let state = {
   search: "",        // 뉴스 검색어(제목·요약·도시·국가 부분일치) — 기간∩카테고리∩지도영역과 AND 결합
   searchBreaking: false,  // ⚡속보도 검색어로 필터할지(체크박스). 기본 꺼짐=속보는 라이브 유지, 상태 미기억
   breakingAreaOnly: false, // ⚡속보를 '지금 보는 지도 영역'으로만 볼지(속보 패널 체크박스). 기본 꺼짐=전 세계
+  newsAreaOnly: false,     // 검색 중 결과를 지도 영역으로 한정할지(검색할 때만 보이는 체크박스). 기본 꺼짐=전 세계
   techTheme: null,   // 기업·테크 필터 시 특정 주제 드릴다운(null=전체)
   range: "today",     // 뉴스 기간 기본 "최신"(데이터상 가장 최근 날짜) (1주치는 마커 많아 버벅임)
   commodityType: "선택없음",  // 원자재 분류 — 기본은 선택없음 (빈 지도에서 시작)
@@ -2383,6 +2388,14 @@ bkToggle.querySelector("#searchBreakingChk").addEventListener("change", e => {
   state.searchBreaking = e.target.checked;
   if (typeof BreakingTrack !== "undefined" && BreakingTrack.syncSearch) BreakingTrack.syncSearch();   // 토글 즉시 속보 재필터/복원
 });
+// 검색 중에만 보이는 '이 지도 영역만'(뉴스 목록) — 체크하면 검색 결과를 화면 영역으로 한정
+(function bindNewsAreaOnly() {
+  const chk = document.getElementById("newsAreaOnly");
+  if (chk) chk.addEventListener("change", e => {
+    state.newsAreaOnly = e.target.checked;
+    if (typeof glUpdateList === "function") glUpdateList();
+  });
+})();
 // 뉴스 검색: '전체' 버튼 왼편(카테고리 행 맨 앞). 입력하는 대로 디바운스 후 render() → 지도 마커+영역 목록 동시 필터.
 const nsWrap = document.createElement("span");
 nsWrap.className = "news-search-wrap";
@@ -2399,6 +2412,10 @@ catWrap.appendChild(nsWrap);
     const v = inp.value.trim();
     if (v === state.search) return;   // 변화 없으면 재렌더 생략
     state.search = v;
+    if (!v) {                          // 검색 해제 → 지역 한정 체크박스도 초기화(다음 검색은 전 세계부터)
+      state.newsAreaOnly = false;
+      const c = document.getElementById("newsAreaOnly"); if (c) c.checked = false;
+    }
     render();                          // 지도 뉴스 마커 + '이 지도 영역의 뉴스' 목록 동시 갱신
     // 속보는 체크박스가 켜져 있을 때만 검색에 반응(꺼짐=라이브 유지 → 재렌더 생략).
     if (state.searchBreaking && typeof BreakingTrack !== "undefined" && BreakingTrack.syncSearch) BreakingTrack.syncSearch();
@@ -4034,15 +4051,21 @@ function glUpdateList() {
   if (!_glMap || state.mode !== "news1") return;
   const items = (typeof getFiltered === "function") ? getFiltered() : [];
   // 검색 중에는 지역(뷰포트) 제한 해제 — 검색은 '전 세계에서 찾기'가 기대에 맞다.
+  //   단 검색 중 나타나는 '이 지도 영역만' 체크박스를 켜면 다시 화면 영역으로 한정.
   //   검색어를 지우면(공백만 남아도 trim 후 빈 문자열) 자동으로 다시 화면 영역 기준.
   const searching = !!(state.search || "").trim();
+  const globalScope = searching && !state.newsAreaOnly;   // 전 세계로 볼지 여부
+  const af = document.getElementById("newsAreaFilter");   // 지역 체크박스는 검색 중에만 노출
+  if (af) af.hidden = !searching;
   let vis;
   try {
     const b = _glMap.getBounds();
-    vis = items.filter(n => isFinite(n.lat) && isFinite(n.lng) && (searching || b.contains([n.lng, n.lat])));
+    vis = items.filter(n => isFinite(n.lat) && isFinite(n.lng) && (globalScope || b.contains([n.lng, n.lat])));
   } catch (e) { vis = items.filter(n => isFinite(n.lat) && isFinite(n.lng)); }
   glSetNewsDots(vis);   // 점: 상위 500(중요도+최신)만 → 회전 부드럽게. 검색 중이면 전 세계 매칭이 대상.
-  setAreaHead(searching ? `"${(state.search || "").trim()}" 검색 · 전 세계` : "이 지도 영역의 뉴스", vis.length);
+  setAreaHead(searching
+    ? `"${(state.search || "").trim()}" 검색 · ${globalScope ? "전 세계" : "이 지도 영역"}`
+    : "이 지도 영역의 뉴스", vis.length);
   renderList(vis);      // 목록은 대상 전체(점 안 찍힌 뉴스도 여기 있음 → 클릭 시 선택 핀)
   sizeAreaList();
 }
