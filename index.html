@@ -3947,33 +3947,64 @@ function glNewsPopup(lng, lat, html) {
   _glNewsPopup = new maplibregl.Popup({ closeButton: true, maxWidth: "320px", offset: 12 })
     .setLngLat([lng, lat]).setHTML(html).addTo(_glMap);
 }
+// 지구본 뉴스 점: 회전 부드럽게 — 화면 안 뉴스 중 상위 MAX_GLOBE_DOTS(중요도+최신)만 소스에 반영.
+//   나머지는 우측 목록에만 존재하고, 목록/점 클릭 시 '선택 핀'(별도 레이어)으로 즉시 표시(500 상한과 무관).
+const MAX_GLOBE_DOTS = 500;
+function glNewsFeature(n) {
+  return { type: "Feature", geometry: { type: "Point", coordinates: [n.lng, n.lat] },
+    properties: { id: n.id, category: n.category, title: n.title || "", summary: n.summary || "",
+      date: n.date || "", city: n.city || "", country: n.country || "", url: n.url || "", src: n.src || "" } };
+}
+function glNewsDotRank(a, b) {   // 중요도(relevance) 높은 순 → 같으면 최신순
+  const ra = a.relevance || 0, rb = b.relevance || 0;
+  if (rb !== ra) return rb - ra;
+  return (b.datetime || (b.date || "") + "T00:00:00Z").localeCompare(a.datetime || (a.date || "") + "T00:00:00Z");
+}
+function glSetNewsDots(vis) {    // 화면 안(vis)에서 상위 N개만 점으로. 나머지는 목록에만.
+  const src = _glMap && _glMap.getSource("news");
+  if (!src) return;
+  const top = vis.length > MAX_GLOBE_DOTS ? [...vis].sort(glNewsDotRank).slice(0, MAX_GLOBE_DOTS) : vis;
+  src.setData({ type: "FeatureCollection", features: top.map(glNewsFeature) });
+}
+function glEnsureSelLayer() {    // '선택 핀' 레이어(1개·500 상한과 별개) — 목록/점 클릭한 뉴스를 강조
+  if (!_glMap || _glMap.getSource("news-sel")) return;
+  _glMap.addSource("news-sel", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+  _glMap.addLayer({ id: "news-sel-point", type: "circle", source: "news-sel",
+    paint: { "circle-color": "#ffd400",
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 6, 8, 10],
+      "circle-stroke-width": 2.5, "circle-stroke-color": "#fff", "circle-opacity": 1 } });
+}
+function glSelectNews(lng, lat) {   // 선택 핀을 이 좌표에 표시(다음 선택 전까지 유지)
+  glEnsureSelLayer();
+  const src = _glMap && _glMap.getSource("news-sel");
+  if (src && isFinite(lng) && isFinite(lat))
+    src.setData({ type: "FeatureCollection", features: [{ type: "Feature", geometry: { type: "Point", coordinates: [lng, lat] }, properties: {} }] });
+}
 function drawNewsGL() {
   if (!_glMap) return;
   try {
-    const items = (typeof getFiltered === "function") ? getFiltered()
-      : (typeof newsAll !== "undefined" ? newsAll : []);
-    const fc = { type: "FeatureCollection", features: items
-      .filter(n => isFinite(n.lat) && isFinite(n.lng))
-      .map(n => ({ type: "Feature", geometry: { type: "Point", coordinates: [n.lng, n.lat] },
-        properties: { id: n.id, category: n.category, title: n.title || "", summary: n.summary || "",
-          date: n.date || "", city: n.city || "", country: n.country || "", url: n.url || "", src: n.src || "" } })) };
-    const src = _glMap.getSource("news");
-    if (src) { src.setData(fc); if (_glMap.getLayer("news-point")) _glMap.setLayoutProperty("news-point", "visibility", "visible"); glUpdateList(); return; }
-    // 클러스터 없이 개별 점 — GL은 GPU 단일 레이어라 수천 점도 가볍고, 카테고리 색이 그대로 보임
-    _glMap.addSource("news", { type: "geojson", data: fc });
+    if (_glMap.getSource("news")) {   // 소스는 glUpdateList가 '화면 안 상위 N'으로 채운다
+      if (_glMap.getLayer("news-point")) _glMap.setLayoutProperty("news-point", "visibility", "visible");
+      glUpdateList();
+      return;
+    }
+    // 클러스터 없이 개별 점 — 단 소스에는 화면 안 상위 N만 넣어 회전 부하를 고정(GPU 점 수 상한)
+    _glMap.addSource("news", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
     _glMap.addLayer({ id: "news-point", type: "circle", source: "news",
       paint: { "circle-color": GL_CAT_COLORS,
         // 축소 시 살짝 작게·확대 시 크게 (밀집 구분 도움)
         "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 3.5, 4, 5, 8, 7],
         "circle-stroke-width": 1.2, "circle-stroke-color": "#fff", "circle-opacity": 0.95 } });
     _glMap.on("click", "news-point", e => {
-      const p = e.features[0].properties;
-      glNewsPopup(e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1], popupHtml(p));
+      const p = e.features[0].properties, c = e.features[0].geometry.coordinates;
+      glSelectNews(c[0], c[1]);
+      glNewsPopup(c[0], c[1], popupHtml(p));
     });
     _glMap.on("mouseenter", "news-point", () => _glMap.getCanvas().style.cursor = "pointer");
     _glMap.on("mouseleave", "news-point", () => _glMap.getCanvas().style.cursor = "");
-    _glMap.on("moveend", glUpdateList);   // 지도 이동 시 우측 목록을 보이는 영역으로 갱신
-    glUpdateList();                        // 최초 목록 채우기
+    glEnsureSelLayer();
+    _glMap.on("moveend", glUpdateList);   // 이동/줌 멈출 때 화면 안 상위 N 점 + 목록 갱신
+    glUpdateList();                        // 최초 채우기
   } catch (e) {
     _glMap.once("styledata", drawNewsGL);   // 스타일 아직 준비 전 → 준비되면 재시도
   }
@@ -3987,8 +4018,9 @@ function glUpdateList() {
     const b = _glMap.getBounds();
     vis = items.filter(n => isFinite(n.lat) && isFinite(n.lng) && b.contains([n.lng, n.lat]));
   } catch (e) { vis = items.filter(n => isFinite(n.lat) && isFinite(n.lng)); }
+  glSetNewsDots(vis);   // 지구본 점: 화면 안 상위 500(중요도+최신)만 → 회전 부드럽게(나머지는 목록에만)
   setAreaHead("이 지도 영역의 뉴스", vis.length);
-  renderList(vis);
+  renderList(vis);      // 목록은 화면 안 전체(점 안 찍힌 뉴스도 여기 있음 → 클릭 시 선택 핀)
   sizeAreaList();
 }
 // '이 지도 영역의 뉴스' 목록의 스크롤 높이를 남은 공간에 맞춰 잡는다.
@@ -8905,6 +8937,7 @@ function renderList(items) {
       const n = newsAll.find(x => x.id == el.dataset.id);
       if (!n) return;
       if (state.mode === "news1" && _glMap) {   // 뉴스_1: GL 지구본 이동 + 단일 팝업
+        glSelectNews(n.lng, n.lat);   // 상위 500 밖이라 점이 없던 뉴스도 '선택 핀'으로 즉시 표시
         _glMap.flyTo({ center: [n.lng, n.lat], zoom: 5, duration: 900 });
         glNewsPopup(n.lng, n.lat, popupHtml(n));
         return;
