@@ -153,10 +153,19 @@ def main(argv):
     #   AI 가 조사한 실적 이벤트는 프롬프트만으로 통제되지 않아 기계적으로 거른다.
     #   rolling window 라 다음 주기에 올바르게 다시 들어오므로 제거해도 자가치유된다.
     try:
-        from market_guard import check_calendar_item, load_universe
-        universe = load_universe()
-        rejected = [(x, check_calendar_item(x, universe)) for x in merged]
-        rejected = [(x, r) for x, r in rejected if r]
+        from market_guard import (check_calendar_item, correct_calendar_actual,
+                                  duplicate_earnings, load_ref, load_universe)
+        universe, ref = load_universe(), load_ref()
+        dup = duplicate_earnings(merged)     # 같은 티커·분기가 여러 줄(컨센서스도 제각각)
+        rejected = []
+        for x in merged:
+            r = check_calendar_item(x, universe, None, ref)
+            if id(x) in dup:
+                r = (r or []) + ["같은 티커·분기 중복 이벤트"]
+            if r:
+                rejected.append((x, r))
+            elif correct_calendar_actual(x, ref):
+                print(f"  🛡️ actual 공시 교정: {x.get('date')} {x.get('ticker')} → {x['actual']}")
         if rejected:
             print(f"  🛡️ market_guard: 실적 이벤트 {len(rejected)}건 차단")
             for x, r in rejected:

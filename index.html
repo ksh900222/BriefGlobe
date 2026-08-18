@@ -315,29 +315,20 @@
   #techThemeChips .cat-btn.active { background: rgba(217,119,6,.16); border-color: #d97706; color: #d97706; }
   /* ---------- 종합 브리핑 패널(오늘의 세계 주요 뉴스) ---------- */
   .digest-panel { border-bottom: 1px solid var(--border); background: var(--panel); }
+  /* 탭으로 하나씩 보므로 접기 없음 — summary 는 제목줄 역할만(클릭 불가·화살표 없음) */
   .digest-panel > summary {
-    cursor: pointer; padding: 10px 14px; font-weight: 700; font-size: 13px;
+    cursor: default; padding: 10px 14px; font-weight: 700; font-size: 13px;
     display: flex; align-items: center; gap: 8px; list-style: none; color: var(--text);
+    pointer-events: none; user-select: none;
   }
   .digest-panel > summary::-webkit-details-marker { display: none; }
-  .digest-panel > summary::before { content: "▸"; color: var(--muted); font-size: 11px; }
-  .digest-panel[open] > summary::before { content: "▾"; }
   .digest-panel > summary b { margin-left: auto; color: var(--muted); font-weight: 600; font-size: 12px; }
-  .digest-list { max-height: 42vh; overflow-y: auto; }
-  /* 속보·주요뉴스 목록 높이는 각 하단 핸들로 드래그 조절(값 localStorage 유지, 더블클릭=리셋).
-     id 규칙이 .digest-list(42vh)보다 우선. 세 섹션이 동시에 보이고 각자 캡을 가진다. */
-  #breakingList { max-height: var(--bk-h, 42vh); }
-  #digestList   { max-height: var(--dg-h, 42vh); }
-  .list-resizer {
-    height: 7px; flex: none; cursor: row-resize; background: var(--border);
-    position: relative; z-index: 4; transition: background .15s;
-  }
-  .list-resizer::before {
-    content: ""; position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 26px; height: 2px; border-radius: 2px; background: var(--muted); opacity: .6;
-  }
-  .list-resizer:hover, .list-resizer.dragging { background: var(--accent); }
+  .digest-list { overflow-y: auto; }
+  /* 탭 전환(한 번에 한 패널)으로 바뀌며 속보·주요뉴스도 지역목록처럼 남은 공간을 채운다.
+     드래그 높이조절(--bk-h/--dg-h·핸들)은 제거 — 세 목록 모두 고정 레이아웃. */
+  #breakingPanel[open], #digestPanel[open] { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+  #breakingPanel > summary, #digestPanel > summary { flex: none; }
+  #breakingList, #digestList { flex: 0 1 auto; min-height: 0; }   /* 높이는 sizeAreaList가 max-height로 고정 */
   /* 지도영역 패널: '펼쳤을 때만' flex — 닫힘 상태 기본 display를 유지해야 details 숨김이 작동.
      (예전엔 주요뉴스 펼치면 지역을 숨겼으나, 세 섹션 동시표시+개별 드래그로 전환하며 제거) */
   #areaPanel[open] { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
@@ -1631,19 +1622,17 @@ body.mode-geo1 #breakingPanel { display:none; }
     <!-- 뉴스 3종 전환 탭: 한 번에 하나만 표시(사이드바가 좁아 동시표시는 스크롤이 길어짐) -->
     <div class="aside-tabs" id="asideTabs">
       <button type="button" class="aside-tab" data-panel="breakingPanel">⚡ 속보 <b id="tabCntBreaking"></b></button>
-      <button type="button" class="aside-tab" data-panel="digestPanel">🌐 주요 <b id="tabCntDigest"></b></button>
-      <button type="button" class="aside-tab active" data-panel="areaPanel">📍 이 영역 <b id="tabCntArea"></b></button>
+      <button type="button" class="aside-tab" data-panel="digestPanel">🌐 주요뉴스 <b id="tabCntDigest"></b></button>
+      <button type="button" class="aside-tab active" data-panel="areaPanel">📍 해당 지역뉴스 <b id="tabCntArea"></b></button>
     </div>
     <div id="asidePanels">
       <details class="digest-panel" id="breakingPanel" hidden open>
         <summary><span>⚡ 실시간 속보 <small style="opacity:.7;font-weight:600">· 전 세계 실시간 · 소셜(미확인)+언론</small></span> <b id="breakingCount">0건</b></summary>
         <div class="digest-list" id="breakingList"></div>
-        <div class="list-resizer" data-list="breakingList" data-var="--bk-h" data-ls="wi_bk_h" title="드래그: 속보 목록 높이 조절 · 더블클릭: 기본값"></div>
       </details>
       <details class="digest-panel" id="digestPanel" hidden>
         <summary><span>🌐 세계 주요 뉴스 <small style="opacity:.7;font-weight:600">· 전 세계 · 오늘·어제 랭킹</small></span> <b id="digestCount">0건</b></summary>
         <div class="digest-list" id="digestList"></div>
-        <div class="list-resizer" data-list="digestList" data-var="--dg-h" data-ls="wi_dg_h" title="드래그: 주요뉴스 목록 높이 조절 · 더블클릭: 기본값"></div>
       </details>
       <details class="digest-panel" id="areaPanel" open>
         <summary><span>📍 <span id="areaTitle">이 지도 영역의 뉴스</span> <small style="opacity:.7;font-weight:600">· 지도 이동 시 갱신</small></span> <b id="count">0건</b></summary>
@@ -4046,13 +4035,16 @@ function glUpdateList() {
 //   <details>가 flex 자식을 안 가두는 quirk 때문에 CSS flex 로는 안 되고, 위쪽 패널(속보·디제스트)
 //   유무에 따라 가용 높이가 바뀌므로 JS 로 max-height 를 동적 계산한다.
 function sizeAreaList() {
-  const nl = document.getElementById("newsList");
-  if (!nl || !nl.offsetParent) return;                 // 숨김(상세/지정학 등)이면 건너뜀
-  const aside = nl.closest("aside");
-  if (!aside) return;
-  const off = nl.getBoundingClientRect().top - aside.getBoundingClientRect().top;
-  const avail = aside.clientHeight - off - 4;
-  nl.style.maxHeight = (avail > 60 ? avail : 60) + "px";
+  // 세 목록 모두 '남은 공간 채우기' 고정 — 드래그 높이조절 없이 사이드바 안에서 각자 스크롤.
+  ["newsList", "breakingList", "digestList"].forEach(id => {
+    const nl = document.getElementById(id);
+    if (!nl || !nl.offsetParent) return;               // 숨김(다른 탭/상세/지정학 등)이면 건너뜀
+    const aside = nl.closest("aside");
+    if (!aside) return;
+    const off = nl.getBoundingClientRect().top - aside.getBoundingClientRect().top;
+    const avail = aside.clientHeight - off - 4;
+    nl.style.maxHeight = (avail > 60 ? avail : 60) + "px";
+  });
 }
 // '세계 주요 뉴스'(digest) 목록 높이는 이제 CSS 변수 --dg-h(하단 핸들로 드래그, 기본 42vh)가 담당한다.
 //   예전의 '펼치면 남은 공간 전체 채우기(inline max-height)'는 세 섹션 동시표시로 전환하며 제거.
@@ -4081,6 +4073,11 @@ function syncAsideTabCounts() {   // 탭 라벨의 건수 = 각 패널 카운터
 (function bindAsideTabs() {
   document.querySelectorAll(".aside-tab").forEach(b =>
     b.addEventListener("click", () => setAsideTab(b.dataset.panel)));
+  // 접기 폐지: 탭으로 하나만 보므로 패널은 항상 펼친 상태 유지(키보드 등으로 닫혀도 되돌림)
+  ["breakingPanel", "digestPanel", "areaPanel"].forEach(pid => {
+    const el = document.getElementById(pid);
+    if (el) el.addEventListener("toggle", () => { if (!el.open) el.open = true; });
+  });
   setAsideTab("areaPanel");
   setInterval(syncAsideTabCounts, 1000);   // 속보·디제스트는 비동기 갱신이라 주기 동기화(가벼움)
 })();
@@ -8833,13 +8830,35 @@ function renderDigest() {
   });
 }
 
+// 하단 기간 라벨 + 실제 표시되는 뉴스의 날짜 범위. 아카이브 로딩 중이면 안내를 유지하고,
+//   로딩이 끝나면 실제 범위로 바꾼다(지구본·2D 공용 — 예전엔 2D 경로에만 있어 지구본에서
+//   '과거 뉴스 불러오는 중…'이 영원히 남았다).
+function updateDateLabels(items) {
+  const dl = document.getElementById("dateLabel"), dr = document.getElementById("dateRange");
+  if (!dl || !dr) return;
+  dl.textContent = RANGE_LABELS[state.range] || "전체 기간";
+  if (needsArchive(state.range) && archiveState !== "done") {
+    dr.textContent = archiveState === "none" ? "과거 뉴스 로딩 실패 — 다시 선택해 보세요" : "과거 뉴스 불러오는 중…";
+    return;
+  }
+  const arr = items || (typeof getFiltered === "function" ? getFiltered() : []);
+  if (arr.length) {
+    const ds = arr.map(n => n.date).sort();
+    const a = ds[0], b = ds[ds.length - 1];
+    dr.textContent = a === b ? fmtFull(a) : `${fmt(a)} ~ ${fmt(b)}`;
+  } else {
+    dr.textContent = "해당 기간 뉴스 없음";
+  }
+}
 function render() {
   if (state.mode === "news1") {
     // 긴 기간(최근 1주·전체)을 고르면 전체 아카이브를 지연 로드(news-data.js=4일치라 부족분 보충).
     //   로드 완료 시 onload 가 render() 를 재호출 → newsAll=NEWS_ARCHIVE 로 다시 그림.
     //   그 사이엔 현재 4일치로 우선 그려 화면이 비지 않게 한다(기본 '최신'은 로드 불필요).
     if (needsArchive(state.range) && archiveState !== "done") loadArchive();
-    drawNewsGL(); renderDigest(); return;   // GL 지도 + 세계 주요 뉴스(카테고리 필터 동기화)
+    drawNewsGL(); renderDigest();
+    updateDateLabels();   // 지구본 모드도 기간 라벨·날짜범위 갱신(로딩 끝나면 '불러오는 중…' 해제)
+    return;               // GL 지도 + 세계 주요 뉴스(카테고리 필터 동기화)
   }
   renderDigest();   // 종합 브리핑은 기간·영역과 무관 — 항상 최신 상태로
   // 15일 초과 기간인데 아카이브가 아직 없으면 먼저 받아온다 (로드 완료 시 재호출됨)
@@ -8850,16 +8869,7 @@ function render() {
   }
   const items = getFiltered();
 
-  // 기간 라벨 + 실제 표시되는 뉴스의 날짜 범위
-  document.getElementById("dateLabel").textContent = RANGE_LABELS[state.range] || "전체 기간";
-  if (items.length) {
-    const ds = items.map(n => n.date).sort();
-    const a = ds[0], b = ds[ds.length - 1];
-    document.getElementById("dateRange").textContent =
-      a === b ? fmtFull(a) : `${fmt(a)} ~ ${fmt(b)}`;
-  } else {
-    document.getElementById("dateRange").textContent = "해당 기간 뉴스 없음";
-  }
+  updateDateLabels(items);   // 기간 라벨 + 실제 표시되는 뉴스의 날짜 범위(공용)
 
   // 마커 다시 그리기 (기간+카테고리 필터된 전체)
   currentItems = items;

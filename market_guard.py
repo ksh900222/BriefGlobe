@@ -60,12 +60,26 @@ def _ko(name):
 
 
 # 유니버스 밖이지만 AI 가 자주 혼동해 끌어오는 회사들 — 이름 충돌 판정에만 쓴다.
+#   한국: 계열사끼리(LG·현대·SK) / 미국: 티커 약자가 비슷한 회사(XE=엑스에너지 vs Xerox).
 CONFUSABLE = [
     "LG화학", "LG디스플레이", "LG전자", "LG유플러스", "LG생활건강",
     "현대자동차", "현대차", "현대모비스", "현대글로비스", "현대엔지니어링",
     "현대증권", "현대제철", "기아", "카카오뱅크", "카카오페이", "네이버파이낸셜",
     "삼성SDI", "삼성물산", "삼성바이오로직스", "SK스퀘어", "SK텔레콤", "포스코",
+    "Xerox", "제록스", "Exelon", "Eni",
 ]
+
+
+def _aliases(display):
+    """'엑스에너지 (X-Energy)' → {'엑스에너지', 'X-Energy'} — 한글·영문 표기 둘 다."""
+    out = set()
+    ko = _ko(display)
+    if ko:
+        out.add(ko)
+    m = re.search(r"\(([^)]+)\)", display or "")
+    if m:
+        out.add(m.group(1).strip())
+    return out
 
 
 def name_conflict(ticker, text, universe=None):
@@ -73,18 +87,22 @@ def name_conflict(ticker, text, universe=None):
 
     가장 긴 이름을 우선 매칭한다 — 'LG화학'이 있는 문장에서 'LG'만 보고
     003550(LG 지주)으로 오인하는 것을 막기 위해서다.
+    한글·영문 표기를 모두 본다 — 미국 종목 제목은 영문이라('Xerox 2분기 실적' on XE)
+    한글만 대조하면 통과해 버린다.
     """
     universe = universe if universe is not None else load_universe()
-    own = _ko(universe.get(ticker, ""))
+    own = _aliases(universe.get(ticker, ""))
     text = text or ""
-    names = {_ko(n) for n in universe.values()} | set(CONFUSABLE)
+    names = set(CONFUSABLE)
+    for disp in universe.values():
+        names |= _aliases(disp)
     hits = sorted((n for n in names if n and n in text), key=len, reverse=True)
     if not hits:
         return None                      # 회사명 언급 없음 → 판단 보류(통과)
     best = hits[0]
     # 정확히 일치할 때만 통과. 부분일치를 허용하면 짧은 이름이 뚫린다 —
     #   003550(LG 지주)의 'LG' 가 'LG화학' 안에 들어 있어 오검증을 통과했었다.
-    return None if best == own else best
+    return None if best in own else best
 
 
 # ------------------------------------------------------------
@@ -246,6 +264,37 @@ def correct_quarter(ticker, q, ref, universe=None):
 # ------------------------------------------------------------
 # 캘린더 이벤트 1건 판정
 # ------------------------------------------------------------
+def duplicate_earnings(items):
+    """같은 티커·같은 회계분기가 두 번 이상 잡힌 이벤트 중 버릴 것들의 id 집합.
+
+    AI 가 같은 발표를 날짜·컨센서스만 달리해 중복 생성한다
+    (엔비디아 FY2027 2분기가 8/26·8/27 두 줄, 컨센서스도 서로 다름).
+    남길 기준: actual 있는 것 > 날짜 빠른 것 (실제 발표가 확정된 쪽을 신뢰).
+    """
+    groups = {}
+    for it in items:
+        if not isinstance(it, dict) or it.get("kind") != "실적":
+            continue
+        qe = quarter_end(it.get("title"))
+        tk = it.get("ticker")
+        if not qe or not tk:
+            continue
+        groups.setdefault((tk, qe), []).append(it)
+    drop = set()
+    for (tk, qe), grp in groups.items():
+        if len(grp) < 2:
+            continue
+        grp.sort(key=lambda x: (0 if _has_actual_str(x.get("actual")) else 1,
+                                x.get("date") or ""))
+        for extra in grp[1:]:
+            drop.add(id(extra))
+    return drop
+
+
+def _has_actual_str(a):
+    return a is not None and str(a).strip() != ""
+
+
 def correct_calendar_actual(it, ref):
     """캘린더 실적 이벤트의 actual 문자열을 공시값과 대조해 교정(교정하면 True).
 
@@ -322,9 +371,12 @@ def audit(fix=False):
         if not path.exists():
             continue
         items = json.loads(path.read_text(encoding="utf-8"))
+        dup = duplicate_earnings(items)
         kept, dropped, retouched = [], [], []
         for it in items:
             r = check_calendar_item(it, universe, today, ref)
+            if id(it) in dup:
+                r = r + ["같은 티커·분기 중복 이벤트"] if r else ["같은 티커·분기 중복 이벤트"]
             if r:
                 dropped.append((it, r))
                 continue
