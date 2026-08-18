@@ -2360,7 +2360,8 @@ catWrap.appendChild(nsWrap);
     const v = inp.value.trim();
     if (v === state.search) return;   // 변화 없으면 재렌더 생략
     state.search = v;
-    render();                          // 지도 마커 + '이 지도 영역의 뉴스' 목록 동시 갱신
+    render();                          // 지도 뉴스 마커 + '이 지도 영역의 뉴스' 목록 동시 갱신
+    if (typeof BreakingTrack !== "undefined" && BreakingTrack.syncSearch) BreakingTrack.syncSearch();   // ⚡속보 마커도 같이 필터
   };
   inp.addEventListener("input", () => {          // 실시간(디바운스 250ms). 한글은 조합완료값이 들어옴.
     nsWrap.classList.toggle("has-q", !!inp.value);
@@ -10485,7 +10486,10 @@ window.BreakingTrack = (function () {
   function renderMarkers() {
     markers.forEach(m => m.remove()); markers = [];
     if (state.mode !== "news1" || typeof _glMap === "undefined" || !_glMap || typeof maplibregl === "undefined") return;
-    alive().filter(it => isFinite(it.lat) && isFinite(it.lng) && it.status !== "confirmed").forEach(it => {
+    const q = (state.search || "").trim().toLowerCase();   // 뉴스 검색어 활성 시 속보 마커도 같이 필터(지도 일관성)
+    const matchQ = it => !q || (it.title || "").toLowerCase().includes(q) || (it.summary || "").toLowerCase().includes(q)
+      || (it.city || "").toLowerCase().includes(q) || (it.country || "").toLowerCase().includes(q);
+    alive().filter(it => isFinite(it.lat) && isFinite(it.lng) && it.status !== "confirmed" && matchQ(it)).forEach(it => {
       const fresh = Date.now() - it.ts < TICKER_MS;
       const el = document.createElement("div");
       el.className = "bk-marker" + (fresh ? " pulse" : " dim");
@@ -10512,7 +10516,7 @@ window.BreakingTrack = (function () {
   fetchItems();
   setInterval(fetchItems, POLL_MS);
   setInterval(renderAll, 30000);   // 폴링 사이에도 상대시각·30분 경계 갱신
-  return { go: goTo, onModeChange: () => setTimeout(renderAll, 200), refresh: fetchItems };
+  return { go: goTo, onModeChange: () => setTimeout(renderAll, 200), refresh: fetchItems, syncSearch: renderMarkers };
 })();
 
 // ── 모바일: 페이지 확대(핀치·더블탭) 차단 — 단, 지도 캔버스의 자체 핀치줌은 유지 ──
