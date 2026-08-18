@@ -4021,14 +4021,17 @@ function drawNewsGL() {
 function glUpdateList() {
   if (!_glMap || state.mode !== "news1") return;
   const items = (typeof getFiltered === "function") ? getFiltered() : [];
+  // 검색 중에는 지역(뷰포트) 제한 해제 — 검색은 '전 세계에서 찾기'가 기대에 맞다.
+  //   검색어를 지우면(공백만 남아도 trim 후 빈 문자열) 자동으로 다시 화면 영역 기준.
+  const searching = !!(state.search || "").trim();
   let vis;
   try {
     const b = _glMap.getBounds();
-    vis = items.filter(n => isFinite(n.lat) && isFinite(n.lng) && b.contains([n.lng, n.lat]));
+    vis = items.filter(n => isFinite(n.lat) && isFinite(n.lng) && (searching || b.contains([n.lng, n.lat])));
   } catch (e) { vis = items.filter(n => isFinite(n.lat) && isFinite(n.lng)); }
-  glSetNewsDots(vis);   // 지구본 점: 화면 안 상위 500(중요도+최신)만 → 회전 부드럽게(나머지는 목록에만)
-  setAreaHead("이 지도 영역의 뉴스", vis.length);
-  renderList(vis);      // 목록은 화면 안 전체(점 안 찍힌 뉴스도 여기 있음 → 클릭 시 선택 핀)
+  glSetNewsDots(vis);   // 점: 상위 500(중요도+최신)만 → 회전 부드럽게. 검색 중이면 전 세계 매칭이 대상.
+  setAreaHead(searching ? `"${(state.search || "").trim()}" 검색 · 전 세계` : "이 지도 영역의 뉴스", vis.length);
+  renderList(vis);      // 목록은 대상 전체(점 안 찍힌 뉴스도 여기 있음 → 클릭 시 선택 핀)
   sizeAreaList();
 }
 // '이 지도 영역의 뉴스' 목록의 스크롤 높이를 남은 공간에 맞춰 잡는다.
