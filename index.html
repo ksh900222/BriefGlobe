@@ -95,6 +95,14 @@
   }
   .ns-clear:hover { opacity: 1; }
   .news-search-wrap.has-q .ns-clear { display: inline; }
+  /* ⚡속보 필터 체크박스(검색창 왼편) — 켜면 검색어로 속보도 좁힘 */
+  .bk-filter-toggle {
+    display: inline-flex; align-items: center; gap: 5px; cursor: pointer; white-space: nowrap;
+    border: 1px solid var(--border); background: var(--panel-2);
+    border-radius: 999px; padding: 5px 11px; font-size: 12.5px; color: var(--text); user-select: none;
+  }
+  .bk-filter-toggle:hover { border-color: var(--accent); }
+  .bk-filter-toggle input { accent-color: var(--accent); cursor: pointer; margin: 0; }
   .cat-btn {
     border: 1px solid var(--border);
     background: var(--panel-2);
@@ -1729,6 +1737,7 @@ let state = {
   mode: "news1",      // 기본 = GL 뉴스 지도(뉴스_1). 옛 Leaflet은 "news"|"commodity"(?legacy로만)
   category: "전체",   // 뉴스 카테고리
   search: "",        // 뉴스 검색어(제목·요약·도시·국가 부분일치) — 기간∩카테고리∩지도영역과 AND 결합
+  searchBreaking: false,  // ⚡속보도 검색어로 필터할지(체크박스). 기본 꺼짐=속보는 라이브 유지, 상태 미기억
   techTheme: null,   // 기업·테크 필터 시 특정 주제 드릴다운(null=전체)
   range: "today",     // 뉴스 기간 기본 "최신"(데이터상 가장 최근 날짜) (1주치는 마커 많아 버벅임)
   commodityType: "선택없음",  // 원자재 분류 — 기본은 선택없음 (빈 지도에서 시작)
@@ -2344,6 +2353,16 @@ function setTechTheme(theme) {
 
 // ---- 카테고리 버튼 만들기 (뉴스 헤더) ----
 const catWrap = document.getElementById("categories");
+// ⚡속보 필터 체크박스: 검색창 왼편. 기본 꺼짐(속보는 라이브). 켜면 검색어로 속보 마커+패널까지 좁힘. 상태 미기억.
+const bkToggle = document.createElement("label");
+bkToggle.className = "bk-filter-toggle";
+bkToggle.title = "체크하면 검색어로 ⚡실시간 속보(마커·목록)도 함께 좁힙니다. 기본은 속보를 그대로 둡니다.";
+bkToggle.innerHTML = '<input type="checkbox" id="searchBreakingChk"><span>⚡ 속보</span>';
+catWrap.appendChild(bkToggle);
+bkToggle.querySelector("#searchBreakingChk").addEventListener("change", e => {
+  state.searchBreaking = e.target.checked;
+  if (typeof BreakingTrack !== "undefined" && BreakingTrack.syncSearch) BreakingTrack.syncSearch();   // 토글 즉시 속보 재필터/복원
+});
 // 뉴스 검색: '전체' 버튼 왼편(카테고리 행 맨 앞). 입력하는 대로 디바운스 후 render() → 지도 마커+영역 목록 동시 필터.
 const nsWrap = document.createElement("span");
 nsWrap.className = "news-search-wrap";
@@ -2361,7 +2380,8 @@ catWrap.appendChild(nsWrap);
     if (v === state.search) return;   // 변화 없으면 재렌더 생략
     state.search = v;
     render();                          // 지도 뉴스 마커 + '이 지도 영역의 뉴스' 목록 동시 갱신
-    if (typeof BreakingTrack !== "undefined" && BreakingTrack.syncSearch) BreakingTrack.syncSearch();   // ⚡속보 마커도 같이 필터
+    // 속보는 체크박스가 켜져 있을 때만 검색에 반응(꺼짐=라이브 유지 → 재렌더 생략).
+    if (state.searchBreaking && typeof BreakingTrack !== "undefined" && BreakingTrack.syncSearch) BreakingTrack.syncSearch();
   };
   inp.addEventListener("input", () => {          // 실시간(디바운스 250ms). 한글은 조합완료값이 들어옴.
     nsWrap.classList.toggle("has-q", !!inp.value);
@@ -10473,10 +10493,17 @@ window.BreakingTrack = (function () {
     }, state.mode === "news1" ? 0 : 600);
   }
 
+  // ⚡속보 검색 필터: 검색어 없거나 체크박스 꺼짐이면 전부 통과(라이브). 켜졌을 때만 검색어로 좁힘.
+  function bkSearchFilter(it) {
+    const q = (state.search || "").trim().toLowerCase();
+    if (!q || !state.searchBreaking) return true;
+    return (it.title || "").toLowerCase().includes(q) || (it.summary || "").toLowerCase().includes(q)
+      || (it.city || "").toLowerCase().includes(q) || (it.country || "").toLowerCase().includes(q);
+  }
   function renderTicker() {
     const bar = document.getElementById("breakingBar"), track = document.getElementById("bkTrack");
     if (!bar || !track) return;
-    const fresh = alive().filter(it => Date.now() - it.ts < TICKER_MS && it.status !== "confirmed");
+    const fresh = alive().filter(it => Date.now() - it.ts < TICKER_MS && it.status !== "confirmed" && bkSearchFilter(it));
     if (!fresh.length) { bar.hidden = true; track.innerHTML = ""; return; }
     track.innerHTML = fresh.map(it =>
       `<a onclick="BreakingTrack.go('${esc(it.id)}')">${esc(it.title)}<span class="bk-age">${esc(it.channel || "")} · ${rel(it.ts)}</span></a>`).join("");
@@ -10486,10 +10513,7 @@ window.BreakingTrack = (function () {
   function renderMarkers() {
     markers.forEach(m => m.remove()); markers = [];
     if (state.mode !== "news1" || typeof _glMap === "undefined" || !_glMap || typeof maplibregl === "undefined") return;
-    const q = (state.search || "").trim().toLowerCase();   // 뉴스 검색어 활성 시 속보 마커도 같이 필터(지도 일관성)
-    const matchQ = it => !q || (it.title || "").toLowerCase().includes(q) || (it.summary || "").toLowerCase().includes(q)
-      || (it.city || "").toLowerCase().includes(q) || (it.country || "").toLowerCase().includes(q);
-    alive().filter(it => isFinite(it.lat) && isFinite(it.lng) && it.status !== "confirmed" && matchQ(it)).forEach(it => {
+    alive().filter(it => isFinite(it.lat) && isFinite(it.lng) && it.status !== "confirmed" && bkSearchFilter(it)).forEach(it => {
       const fresh = Date.now() - it.ts < TICKER_MS;
       const el = document.createElement("div");
       el.className = "bk-marker" + (fresh ? " pulse" : " dim");
@@ -10503,7 +10527,7 @@ window.BreakingTrack = (function () {
     const panel = document.getElementById("breakingPanel"), list = document.getElementById("breakingList"),
       cnt = document.getElementById("breakingCount");
     if (!panel || !list) return;
-    const arr = alive();
+    const arr = alive().filter(bkSearchFilter);   // 체크박스 켜지고 검색어 있을 때만 좁아짐(아니면 전체)
     if (!arr.length) { panel.hidden = true; return; }
     cnt.textContent = arr.length + "건";
     list.innerHTML = arr.map(it => `<div class="bk-item" onclick="BreakingTrack.go('${esc(it.id)}')">
@@ -10516,7 +10540,7 @@ window.BreakingTrack = (function () {
   fetchItems();
   setInterval(fetchItems, POLL_MS);
   setInterval(renderAll, 30000);   // 폴링 사이에도 상대시각·30분 경계 갱신
-  return { go: goTo, onModeChange: () => setTimeout(renderAll, 200), refresh: fetchItems, syncSearch: renderMarkers };
+  return { go: goTo, onModeChange: () => setTimeout(renderAll, 200), refresh: fetchItems, syncSearch: renderAll };
 })();
 
 // ── 모바일: 페이지 확대(핀치·더블탭) 차단 — 단, 지도 캔버스의 자체 핀치줌은 유지 ──
