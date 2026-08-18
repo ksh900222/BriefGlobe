@@ -10615,7 +10615,7 @@ window.BreakingTrack = (function () {
   const POLL_MS = 60000, TICKER_MS = 30 * 60000, SHOW_MS = 24 * 3600000;
   const testMode = new URLSearchParams(location.search).has("breakingTest");
   let items = [];          // {id,title,summary,lat,lng,category,channel,url,ts(ms),status,srcCount,leadMin,confirmedUrl}
-  let markers = [];        // maplibregl.Marker[]
+  // (속보 마커는 DOM 마커 → GL 원 레이어("breaking")로 전환 — renderMarkers 참고)
   const esc = s => String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const rel = ts => { const m = Math.floor((Date.now() - ts) / 60000);
     return m < 1 ? "방금" : m < 60 ? m + "분 전" : m < 1440 ? Math.floor(m / 60) + "시간 전" : Math.floor(m / 1440) + "일 전"; };
@@ -10695,18 +10695,58 @@ window.BreakingTrack = (function () {
     track.style.animationDuration = Math.max(18, fresh.reduce((s, it) => s + it.title.length, 0) * 0.28) + "s";
     bar.hidden = false;
   }
+  // ── 속보 마커: GL 원 레이어(예전엔 DOM 마커 700+개) ──────────────────────────
+  //  왜: maplibregl.Marker 는 개당 HTML 요소라, 지구본을 돌리면 매 프레임 700여 개의
+  //      CSS transform 을 다시 계산해야 했다(뉴스 점과 달리 GPU 배치가 안 됨).
+  //      Windows(ANGLE→D3D11·내장그래픽)에서 특히 비싸 회전·줌이 끊겼다.
+  //      GL 원 레이어는 개수와 무관하게 한 번의 배치 그리기로 끝난다.
+  //  펄스(최근 30분) 는 애니메이션 대신 '바깥 링'으로 구분 — 상시 리페인트 비용 0.
+  function bkEnsureLayers() {
+    if (typeof _glMap === "undefined" || !_glMap) return false;
+    if (_glMap.getSource("breaking")) return true;
+    if (typeof _glStyleLoaded !== "undefined" && !_glStyleLoaded) return false;
+    try {
+      _glMap.addSource("breaking", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+      // 최근 30분(fresh) 표시용 바깥 링 — 예전 CSS 펄스의 정지 버전
+      _glMap.addLayer({
+        id: "breaking-pulse", type: "circle", source: "breaking",
+        filter: ["==", ["get", "fresh"], 1],
+        paint: { "circle-radius": 14, "circle-color": "rgba(0,0,0,0)",
+                 "circle-stroke-color": "#ff5f52", "circle-stroke-width": 2, "circle-stroke-opacity": 0.55 },
+      });
+      _glMap.addLayer({
+        id: "breaking-point", type: "circle", source: "breaking",
+        paint: {
+          "circle-radius": ["case", ["==", ["get", "fresh"], 1], 9, 8],
+          "circle-color": ["case", ["==", ["get", "fresh"], 1], "#c62828", "#8d4a12"],
+          "circle-stroke-width": 2, "circle-stroke-color": "#fff",
+          "circle-opacity": ["case", ["==", ["get", "fresh"], 1], 1, 0.85],
+        },
+      });
+      _glMap.on("click", "breaking-point", e => {
+        const id = e.features && e.features[0] && e.features[0].properties.id;
+        if (id) goTo(id);
+      });
+      _glMap.on("mouseenter", "breaking-point", () => { _glMap.getCanvas().style.cursor = "pointer"; });
+      _glMap.on("mouseleave", "breaking-point", () => { _glMap.getCanvas().style.cursor = ""; });
+      return true;
+    } catch (e) { return false; }
+  }
   function renderMarkers() {
-    markers.forEach(m => m.remove()); markers = [];
-    if (state.mode !== "news1" || typeof _glMap === "undefined" || !_glMap || typeof maplibregl === "undefined") return;
-    alive().filter(it => isFinite(it.lat) && isFinite(it.lng) && it.status !== "confirmed" && bkSearchFilter(it)).forEach(it => {
-      const fresh = Date.now() - it.ts < TICKER_MS;
-      const el = document.createElement("div");
-      el.className = "bk-marker" + (fresh ? " pulse" : " dim");
-      el.innerHTML = '<div class="bk-core">⚡</div>';
-      el.addEventListener("click", e => { e.stopPropagation(); goTo(it.id); });
-      markers.push(new maplibregl.Marker({ element: el, anchor: "center", opacityWhenCovered: "0" })
-        .setLngLat([it.lng, it.lat]).addTo(_glMap));
+    if (typeof _glMap === "undefined" || !_glMap) return;
+    if (!bkEnsureLayers()) { _glMap.once("styledata", renderMarkers); return; }   // 스타일 준비 후 재시도
+    const on = state.mode === "news1";
+    ["breaking-pulse", "breaking-point"].forEach(id => {
+      if (_glMap.getLayer(id)) _glMap.setLayoutProperty(id, "visibility", on ? "visible" : "none");
     });
+    if (!on) return;
+    const now = Date.now();
+    const feats = alive()
+      .filter(it => isFinite(it.lat) && isFinite(it.lng) && it.status !== "confirmed" && bkSearchFilter(it))
+      .map(it => ({ type: "Feature", geometry: { type: "Point", coordinates: [it.lng, it.lat] },
+                    properties: { id: it.id, fresh: (now - it.ts < TICKER_MS) ? 1 : 0 } }));
+    const src = _glMap.getSource("breaking");
+    if (src) src.setData({ type: "FeatureCollection", features: feats });
   }
   function renderPanel() {
     const panel = document.getElementById("breakingPanel"), list = document.getElementById("breakingList"),
