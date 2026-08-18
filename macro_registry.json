@@ -1,0 +1,767 @@
+{
+ "_comment": "거시 시리즈 정규 레지스트리. 여기 없는 id 는 merge 가 생성하지 않고 거부한다. freq: monthly/quarterly=참조기간 종료 전 act 불가, meeting/weekly=예외.",
+ "series": {
+  "CN_CPI": {
+   "name": "중국 CPI (전년비)",
+   "country": "중국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "CPI"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "CHINA_CPI"
+   ]
+  },
+  "CN_INDPROD": {
+   "name": "중국 산업생산 (전년비)",
+   "country": "중국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "산업생산"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "CHINA_INDUSTRIAL",
+    "CHINA_INDUSTRIAL_PRODUCTION",
+    "CN_IIP",
+    "CN_INDUSTRIAL",
+    "CN_INDUSTRIAL_PROD",
+    "CN_INDUSTRIAL_PRODUCTION",
+    "China_Industrial"
+   ]
+  },
+  "CN_LPR1Y": {
+   "name": "중국 LPR (1년)",
+   "country": "중국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "LPR"
+    ]
+   },
+   "freq": "meeting",
+   "aliases": []
+  },
+  "CN_PPI": {
+   "name": "중국 PPI (전년비)",
+   "country": "중국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "PPI"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": []
+  },
+  "CN_RETAIL": {
+   "name": "중국 소매판매 (전년비)",
+   "country": "중국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "소매판매"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "CHINA_RETAIL",
+    "CHINA_RETAIL_SALES",
+    "CN_RETAIL_SALES",
+    "China_Retail"
+   ]
+  },
+  "DE_PMI": {
+   "name": "독일 제조업 PMI",
+   "country": "독일",
+   "unit": "지수",
+   "match": {
+    "any": [
+     "PMI"
+    ],
+    "not": []
+   },
+   "freq": "monthly",
+   "aliases": [
+    "DE_MANUFACTURING_PMI",
+    "GERMANY_PMI"
+   ]
+  },
+  "EU_GDP": {
+   "name": "유로존 GDP 성장률 (QoQ)",
+   "country": "유럽",
+   "unit": "%",
+   "match": {
+    "any": [
+     "GDP"
+    ],
+    "not": []
+   },
+   "freq": "quarterly",
+   "aliases": []
+  },
+  "EU_HICP": {
+   "name": "유로존 HICP (전년비)",
+   "country": "유럽",
+   "unit": "%",
+   "match": {
+    "any": [
+     "HICP",
+     "물가",
+     "CPI"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "EUROZONE_HICP"
+   ]
+  },
+  "EU_HICP_CORE": {
+   "name": "유로존 근원 HICP (전년비)",
+   "country": "유럽",
+   "unit": "%",
+   "match": {
+    "any": [
+     "근원 HICP",
+     "Core HICP"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "EUROZONE_HICP_CORE"
+   ]
+  },
+  "EU_PMI": {
+   "name": "유로존 제조업 PMI",
+   "country": "유럽",
+   "unit": "지수",
+   "match": {
+    "any": [
+     "PMI"
+    ],
+    "not": []
+   },
+   "freq": "monthly",
+   "aliases": [
+    "EA_MANUFACTURING_PMI",
+    "EUROZONE_PMI"
+   ]
+  },
+  "EU_RATE": {
+   "name": "ECB 기준금리 (MRO)",
+   "country": "유럽",
+   "unit": "%",
+   "match": {
+    "any": [
+     "ECB",
+     "금리 결정"
+    ]
+   },
+   "freq": "meeting",
+   "aliases": [
+    "ECB_DEPOSIT_RATE",
+    "ECB_RATE"
+   ]
+  },
+  "JP_CORE_CPI": {
+   "name": "일본 근원 CPI (전년비)",
+   "country": "일본",
+   "unit": "%",
+   "match": {
+    "any": [
+     "근원 CPI",
+     "코어 CPI"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "JAPAN_CORE_CPI"
+   ]
+  },
+  "JP_CPI": {
+   "name": "일본 전국 CPI (전년비)",
+   "country": "일본",
+   "unit": "%",
+   "match": {
+    "any": [
+     "CPI",
+     "소비자물가"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "JAPAN_CPI"
+   ]
+  },
+  "JP_PMI": {
+   "name": "일본 제조업 PMI",
+   "country": "일본",
+   "unit": "지수",
+   "match": {
+    "any": [
+     "PMI"
+    ],
+    "not": []
+   },
+   "freq": "monthly",
+   "aliases": []
+  },
+  "JP_RATE": {
+   "name": "일본 정책금리 (BOJ)",
+   "country": "일본",
+   "unit": "%",
+   "match": {
+    "any": [
+     "BOJ",
+     "정책금리",
+     "정책 성명"
+    ]
+   },
+   "freq": "meeting",
+   "aliases": [
+    "BOJ_RATE",
+    "JAPAN_POLICY_RATE",
+    "JP_BOJ_RATE"
+   ]
+  },
+  "JP_TOKYO_CPI": {
+   "name": "일본 도쿄 CPI (전년비)",
+   "country": "일본",
+   "unit": "%",
+   "match": {
+    "any": [
+     "도쿄 CPI",
+     "도쿄 코어 CPI"
+    ],
+    "not": [
+     "전국"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "JP_TOKYO_CORE_CPI"
+   ]
+  },
+  "KR_CPI": {
+   "name": "한국 CPI (전년비)",
+   "country": "한국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "소비자물가",
+     "CPI"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "KOREA_CPI"
+   ]
+  },
+  "KR_RATE": {
+   "name": "한국 기준금리 (한은)",
+   "country": "한국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "기준금리",
+     "금통위"
+    ]
+   },
+   "freq": "meeting",
+   "aliases": []
+  },
+  "KR_TRADE_EXP": {
+   "name": "한국 수출액 (월)",
+   "country": "한국",
+   "unit": "십억$",
+   "match": {
+    "any": [
+     "한국 수출",
+     "수출액"
+    ],
+    "not": []
+   },
+   "freq": "monthly",
+   "aliases": [
+    "KOREA_EXPORTS",
+    "KR_EXPORTS",
+    "KR_TRADE"
+   ]
+  },
+  "KR_TRADE_IMP": {
+   "name": "한국 수입액 (월)",
+   "country": "한국",
+   "unit": "십억$",
+   "match": {
+    "any": [
+     "한국 수입",
+     "수입액"
+    ],
+    "not": []
+   },
+   "freq": "monthly",
+   "aliases": [
+    "KOREA_IMPORTS",
+    "KR_IMPORTS"
+   ]
+  },
+  "UK_CPI": {
+   "name": "영국 CPI (전년비)",
+   "country": "영국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "CPI"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": []
+  },
+  "UK_RATE": {
+   "name": "영국 기준금리 (BoE)",
+   "country": "영국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "기준금리",
+     "영란은행",
+     "BoE"
+    ]
+   },
+   "freq": "meeting",
+   "aliases": [
+    "BOE_BASE_RATE",
+    "BOE_RATE",
+    "UK_BANK_RATE",
+    "UK_BASE_RATE",
+    "UK_BOE_RATE"
+   ]
+  },
+  "US_ADP": {
+   "name": "미국 ADP 민간고용 변화",
+   "country": "미국",
+   "unit": "천명",
+   "match": {
+    "any": [
+     "ADP"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_ADP_EMPLOY",
+    "US_ADP_EMPLOYMENT"
+   ]
+  },
+  "US_CONF": {
+   "name": "미국 CB 소비자신뢰지수",
+   "country": "미국",
+   "unit": "지수",
+   "match": {
+    "any": [
+     "소비자신뢰"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_CB_CONSUMER_CONFIDENCE",
+    "US_CONSUMER_CONFIDENCE"
+   ]
+  },
+  "US_CORE_CPI": {
+   "name": "미국 근원 CPI (Core, 전년비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "Core CPI",
+     "근원 CPI",
+     "근원CPI"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": []
+  },
+  "US_CORE_PCE": {
+   "name": "미국 근원 PCE (Core, 전년비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "Core PCE",
+     "근원 PCE"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": []
+  },
+  "US_CORE_PPI": {
+   "name": "미국 근원 PPI (Core, 전년비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "Core PPI",
+     "근원 PPI"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_PPI_CORE"
+   ]
+  },
+  "US_CORE_RETAIL": {
+   "name": "미국 근원 소매판매 (전월비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "근원 소매판매",
+     "소매판매(자동차 제외)",
+     "Core Retail"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_RETAIL_CORE",
+    "US_RETAIL_SALES_CORE",
+    "US_RETAIL_SALES_EX_AUTO"
+   ]
+  },
+  "US_CPI": {
+   "name": "미국 CPI (전년비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "CPI"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_CPI_HEADLINE"
+   ]
+  },
+  "US_DURABLE": {
+   "name": "미국 내구재 수주 (전월비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "내구재"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_DURABLE_GOODS",
+    "US_DURABLE_GOODS_ORDERS"
+   ]
+  },
+  "US_ECI": {
+   "name": "미국 고용비용지수 (전분기비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "고용비용",
+     "ECI"
+    ]
+   },
+   "freq": "quarterly",
+   "aliases": []
+  },
+  "US_FACTORY_ORDERS": {
+   "name": "미국 공장수주 (전월비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "공장수주",
+     "Factory Orders"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": []
+  },
+  "US_FFR": {
+   "name": "미국 기준금리 (FOMC 상단)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "FOMC",
+     "기준금리",
+     "금리 결정"
+    ]
+   },
+   "freq": "meeting",
+   "aliases": [
+    "FOMC_RATE",
+    "US_FEDERAL_FUNDS",
+    "US_FEDERAL_FUNDS_RATE",
+    "US_FED_FUNDS_RATE",
+    "US_FOMC_RATE"
+   ]
+  },
+  "US_GDP": {
+   "name": "미국 GDP 성장률 (QoQ 연율)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "GDP"
+    ]
+   },
+   "freq": "quarterly",
+   "aliases": [
+    "US_GDP_QOQ"
+   ]
+  },
+  "US_HOUSING_STARTS": {
+   "name": "미국 주택착공 (Housing Starts)",
+   "country": "미국",
+   "unit": "백만호",
+   "match": {
+    "any": [
+     "Housing Starts"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": []
+  },
+  "US_IMPORT_PRICE": {
+   "name": "미국 수입물가 (전월비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "수입"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": []
+  },
+  "US_INDPRO": {
+   "name": "미국 산업생산 (MoM)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "산업생산"
+    ],
+    "not": []
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_INDUSTRIAL_PRODUCTION"
+   ]
+  },
+  "US_ISM_MFG": {
+   "name": "미국 ISM 제조업 PMI",
+   "country": "미국",
+   "unit": "지수",
+   "match": {
+    "any": [
+     "ISM 제조업",
+     "ISM제조"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_ISM_MANUF",
+    "US_ISM_MANUFACTURING",
+    "US_ISM_PMI"
+   ]
+  },
+  "US_ISM_SVC": {
+   "name": "미국 ISM 서비스 PMI",
+   "country": "미국",
+   "unit": "지수",
+   "match": {
+    "any": [
+     "ISM 서비스",
+     "ISM비제조",
+     "ISM 비제조"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_ISM_SERVICE",
+    "US_ISM_SERVICES"
+   ]
+  },
+  "US_JOBLESS": {
+   "name": "미국 신규 실업수당 청구",
+   "country": "미국",
+   "unit": "천건",
+   "match": {
+    "any": [
+     "신규실업수당",
+     "실업수당"
+    ]
+   },
+   "freq": "weekly",
+   "aliases": [
+    "US_JOBLESS_CLAIMS",
+    "US_JOBLESS_CLAIMS_WEEKLY",
+    "WEEKLY_JOBLESS_CLAIMS"
+   ]
+  },
+  "US_JOLTS": {
+   "name": "미국 JOLTS 구인건수",
+   "country": "미국",
+   "unit": "백만",
+   "match": {
+    "any": [
+     "구인",
+     "JOLTs",
+     "JOLTS",
+     "Job Openings"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_JOLTS_OPENINGS"
+   ]
+  },
+  "US_MICH": {
+   "name": "미국 미시간대 소비심리",
+   "country": "미국",
+   "unit": "지수",
+   "match": {
+    "any": [
+     "미시간"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_CONSUMER_SENTIMENT",
+    "US_MICHIGAN_SENTIMENT",
+    "US_SENTIMENT"
+   ]
+  },
+  "US_NEWHOME": {
+   "name": "미국 신규주택판매",
+   "country": "미국",
+   "unit": "천호",
+   "match": {
+    "any": [
+     "신규주택"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_NEW_HOME_SALES"
+   ]
+  },
+  "US_NFP": {
+   "name": "미국 비농업 고용 변화",
+   "country": "미국",
+   "unit": "천명",
+   "match": {
+    "any": [
+     "비농업",
+     "Nonfarm"
+    ],
+    "not": []
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_NONFARM_PAYROLLS"
+   ]
+  },
+  "US_PCE": {
+   "name": "미국 PCE 물가 (전년비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "PCE"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": []
+  },
+  "US_PPI": {
+   "name": "미국 PPI (전년비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "PPI"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": []
+  },
+  "US_RETAIL": {
+   "name": "미국 소매판매 (전월비)",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "소매판매"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_RETAIL_SALES",
+    "US_Retail"
+   ]
+  },
+  "US_SP_PMI": {
+   "name": "미국 S&P글로벌 종합 PMI",
+   "country": "미국",
+   "unit": "지수",
+   "match": {
+    "any": [
+     "S&P 글로벌",
+     "S&P글로벌"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_PMI",
+    "US_PMI_COMPOSITE",
+    "US_S&P_GLOBAL_PMI"
+   ]
+  },
+  "US_TRADE": {
+   "name": "미국 무역수지",
+   "country": "미국",
+   "unit": "십억$",
+   "match": {
+    "any": [
+     "무역수지"
+    ],
+    "not": []
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_TRADE_BALANCE",
+    "US_TRADE_DEFICIT"
+   ]
+  },
+  "US_UNEMP": {
+   "name": "미국 실업률",
+   "country": "미국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "고용상황",
+     "실업률",
+     "NFP"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "US_UNEMPLOYMENT",
+    "US_UNEMPLOYMENT_RATE"
+   ]
+  }
+ }
+}

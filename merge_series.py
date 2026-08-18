@@ -215,7 +215,60 @@ def _merge_metric_obj(cur, new):
 
 
 # ---------- macro ----------
+def _macro_canonical(delta):
+    """delta 의 시리즈 id 를 레지스트리 기준으로 정규화하고, 미등록 id 는 버린다.
+
+    ⚠️ 이게 거시 오염의 근원이었다 — 예전엔 AI 가 보낸 id 가 없으면 그대로 새 시리즈를
+    만들어줘서, 한 지표가 매 주기 새 이름으로 갈라져 130개까지 늘었다
+    (US_ISM_MFG / US_ISM_MANUFACTURING / US_ISM_PMI / US_ISM_MANUF …).
+    이제 **AI 는 시리즈를 만들 수 없다.** 새 지표가 필요하면 macro_registry.json 에 등록한다.
+    """
+    try:
+        from market_guard import alias_map, load_macro_registry
+    except ImportError:
+        return delta, []
+    reg = load_macro_registry()
+    if not reg:
+        return delta, []
+    amap = alias_map(reg)
+    out, rejected = {}, []
+    for sid, dser in (delta or {}).items():
+        cid = sid if sid in reg else amap.get(sid)
+        if not cid:
+            rejected.append(sid)
+            continue
+        # 숫자가 아닌 값·형식 틀린 period 는 **병합 전에** 떨군다.
+        #   나중에 정리하면 이미 기존 정상값을 덮어쓴 뒤라 데이터가 후퇴한다.
+        clean = []
+        for r in dser.get("releases") or []:
+            if not re.fullmatch(r"\d{4}-\d{2}", str(r.get("period") or "")):
+                rejected.append(f"{sid}[period={r.get('period')}]")
+                continue
+            r = dict(r)
+            for f in ("cons", "act", "momCons", "momAct"):
+                if r.get(f) is not None and not isinstance(r[f], (int, float)):
+                    rejected.append(f"{sid}[{r['period']}.{f}=비숫자]")
+                    r[f] = None
+            clean.append(r)
+        dser = dict(dser, releases=clean)
+        if cid in out:                      # 별칭 여러 개가 같은 정규로 접힐 수 있다
+            out[cid].setdefault("releases", []).extend(clean)
+        else:
+            out[cid] = dser
+    return out, rejected
+
+
 def merge_macro(cur, delta):
+    delta, rejected = _macro_canonical(delta)
+    if rejected:
+        ids = [x for x in rejected if "[" not in x]
+        rows = [x for x in rejected if "[" in x]
+        if ids:
+            print(f"  🛡️ 미등록 시리즈 {len(ids)}건 거부(macro_registry.json 에 없음): "
+                  + ", ".join(ids[:8]) + (" …" if len(ids) > 8 else ""))
+        if rows:
+            print(f"  🛡️ 형식 위반 회차 {len(rows)}건 거부(period 형식·비숫자 값): "
+                  + ", ".join(rows[:6]) + (" …" if len(rows) > 6 else ""))
     added_series, added_rel, updated_rel = 0, 0, 0
     for sid, dser in (delta or {}).items():
         if sid not in cur:
@@ -373,6 +426,11 @@ def main(argv):
         a_s, a_r, u_r = merge_macro(cur, delta["macro"])
         _resort_macro(cur)   # delta 밖 시리즈까지 전체 시간순 재정렬(self-heal)
         write_js(macro_file, "MACRO_SERIES", header or MACRO_HEADER, cur)
+        try:                 # 발표 전 실적·형식 위반·중복 회차 정리(market_guard)
+            from market_guard import audit_macro
+            audit_macro(fix=True)
+        except Exception as e:
+            print(f"  ⚠ 거시 검증 건너뜀: {type(e).__name__}: {e}")
         print(f"✔ macro 병합: 시리즈 총 {len(cur)} (신규 {a_s}) · 회차 추가 {a_r}·갱신 {u_r} → {macro_file.name}")
 
     if delta.get("earnings"):

@@ -457,9 +457,218 @@ def audit(fix=False):
     return total_drop + len(drop_tk) + len(dup) + len(corrections)
 
 
+# ============================================================
+# 거시 시리즈(macro-series.js) 검증 — 실적과 별개의 계통 오염이 있었다.
+#   AI 가 매 주기 새 id 를 만들어 한 지표가 시리즈 4개로 쪼개지고(US_ISM_MFG /
+#   US_ISM_MANUFACTURING / US_ISM_PMI / US_ISM_MANUF), period 에 발표일을 넣고,
+#   숫자 자리에 문장을 넣고, **아직 발표되지 않은 달에 실적을 채워** 넣었다.
+#   (8월 ISM 서비스에 7월 실적 54.1 이 복제돼 '컨센서스 하회'로 그려졌다)
+# ============================================================
+MACRO_FILE = HERE / "macro-series.js"
+MACRO_REGISTRY = HERE / "macro_registry.json"
+
+
+def load_macro_registry():
+    """{id: {name,country,unit,match,freq,aliases}} — 없으면 {} (검증 건너뜀)."""
+    if not MACRO_REGISTRY.exists():
+        return {}
+    try:
+        return json.loads(MACRO_REGISTRY.read_text(encoding="utf-8")).get("series", {})
+    except (ValueError, OSError):
+        return {}
+
+
+def alias_map(reg):
+    return {a: cid for cid, meta in reg.items() for a in (meta.get("aliases") or [])}
+
+
+def period_end_date(period, freq):
+    """참조기간의 마지막 날. 'YYYY-MM' 만 받는다(형식 검증은 별도)."""
+    m = re.fullmatch(r"(\d{4})-(\d{2})", period or "")
+    if not m:
+        return None
+    y, mo = int(m.group(1)), int(m.group(2))
+    nxt = date(y + (mo == 12), (mo % 12) + 1, 1)
+    return date.fromordinal(nxt.toordinal() - 1)
+
+
+def release_gate_bad(period, freq, today=None):
+    """참조기간이 아직 안 끝났는데 act 가 있으면 사유 문자열.
+
+    발표는 참조기간이 **끝난 뒤** 집계·공표된다. 8월 ISM 은 8월이 끝나야 나온다.
+    외부 피드 없이도 확정 판정이 되는 규칙이라 이걸 1차 방어선으로 쓴다.
+    정책금리(meeting)는 그 달 회의일에 결정되고, 실업수당(weekly)은 매주 나오므로 제외.
+    """
+    if freq in ("meeting", "weekly"):
+        return None
+    end = period_end_date(period, freq)
+    if not end:
+        return None
+    today = today or date.today()
+    if today <= end:
+        return f"참조기간({period}) 종료 전({end}) — 실적이 존재할 수 없음"
+    return None
+
+
+def event_ref_period(ev):
+    """캘린더 이벤트 제목의 '8월 CPI' → 참조월 '2026-08'.
+
+    참조월은 발표일보다 앞이다(8월 CPI 는 9월에 발표). 제목의 'N월' 을 발표일 기준
+    가장 가까운 과거 달로 해석한다.
+    """
+    m = re.search(r"(\d{1,2})\s*월", ev.get("title") or "")
+    if not m:
+        return None
+    try:
+        d = datetime.strptime((ev.get("date") or "")[:10], "%Y-%m-%d").date()
+    except (ValueError, TypeError):
+        return None
+    mo = int(m.group(1))
+    if not 1 <= mo <= 12:
+        return None
+    year = d.year if mo <= d.month else d.year - 1
+    return f"{year}-{mo:02d}"
+
+
+def scheduled_releases(reg, today=None):
+    """{(series_id, period): 발표예정일} — 아직 오지 않은 발표만.
+
+    AI 가 조사한 캘린더 일정(시각까지 반영된 KST 날짜)을 그대로 신뢰해,
+    '발표 전인데 act 가 있는' 회차를 참조기간 규칙보다 더 촘촘히 잡는다.
+    """
+    out = {}
+    today = today or date.today()
+    for path in (CALENDAR_STORE, CALENDAR):
+        if not path.exists():
+            continue
+        try:
+            items = json.loads(path.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            continue
+        for ev in items:
+            if not isinstance(ev, dict) or ev.get("kind") != "거시":
+                continue
+            try:
+                d = datetime.strptime((ev.get("date") or "")[:10], "%Y-%m-%d").date()
+            except (ValueError, TypeError):
+                continue
+            if d <= today:
+                continue                    # 이미 발표된 건 게이트 대상이 아니다
+            p = event_ref_period(ev)
+            if not p:
+                continue
+            title = ev.get("title") or ""
+            for sid, meta in reg.items():
+                if meta.get("country") != ev.get("country"):
+                    continue
+                mt = meta.get("match") or {}
+                if not any(k in title for k in (mt.get("any") or [])):
+                    continue
+                if any(k in title for k in (mt.get("not") or [])):
+                    continue
+                key = (sid, p)
+                if key not in out or d < out[key]:
+                    out[key] = d
+    return out
+
+
+def audit_macro(fix=False, today=None):
+    """거시 시리즈를 레지스트리 기준으로 통합·검증. (문제건수, 로그) 반환."""
+    from merge_series import read_js, write_js
+    reg = load_macro_registry()
+    if not reg:
+        print("### macro-series.js: 레지스트리 없음 — 건너뜀")
+        return 0
+    today = today or date.today()
+    amap = alias_map(reg)
+    sched = scheduled_releases(reg, today)
+    header, cur = read_js(MACRO_FILE, "MACRO_SERIES")
+    log = []
+
+    merged_cnt = 0
+    for sid in list(cur):
+        canon = amap.get(sid)
+        if canon is None and sid not in reg:
+            log.append(f"  ✗ 미등록 시리즈 제거: {sid} ({len(cur[sid].get('releases') or [])}회차)")
+            del cur[sid]
+            continue
+        if canon is None:
+            continue
+        # 별칭 → 정규로 회차 이관(값 보존). 같은 period 는 빈 필드만 채운다.
+        dst = cur.setdefault(canon, {**{k: v for k, v in reg[canon].items()
+                                        if k in ("name", "country", "unit", "match")},
+                                     "releases": []})
+        by_p = {r.get("period"): r for r in dst.get("releases") or []}
+        for r in cur[sid].get("releases") or []:
+            tgt = by_p.get(r.get("period"))
+            if tgt is None:
+                dst.setdefault("releases", []).append(r)
+                by_p[r.get("period")] = r
+            else:
+                for k, v in r.items():
+                    if tgt.get(k) in (None, "") and v not in (None, ""):
+                        tgt[k] = v
+        log.append(f"  ⇢ 별칭 통합: {sid} → {canon} ({len(cur[sid].get('releases') or [])}회차)")
+        merged_cnt += 1
+        del cur[sid]
+
+    # 정규 시리즈 메타를 레지스트리로 고정 + 회차 정제
+    dropped_rows, gated, retyped = 0, 0, 0
+    for sid, meta in reg.items():
+        if sid not in cur:
+            continue
+        s = cur[sid]
+        for k in ("name", "country", "unit", "match"):
+            s[k] = meta[k]
+        keep, seen = [], {}
+        for r in s.get("releases") or []:
+            p = r.get("period")
+            if not re.fullmatch(r"\d{4}-\d{2}", str(p or "")):
+                log.append(f"  ✗ period 형식 위반 제거: {sid} '{p}'")
+                dropped_rows += 1
+                continue
+            for f in ("cons", "act", "momCons", "momAct"):
+                if r.get(f) is not None and not isinstance(r[f], (int, float)):
+                    log.append(f"  ✎ 숫자 아님 → null: {sid} {p} {f}={str(r[f])[:40]}")
+                    r[f] = None
+                    retyped += 1
+            why = None
+            if r.get("act") is not None:
+                why = release_gate_bad(p, meta.get("freq"), today)
+                if not why and (sid, p) in sched:
+                    why = f"캘린더상 발표예정일 {sched[(sid, p)]} — 아직 발표 전"
+            if why:
+                log.append(f"  ✎ 미발표 실적 제거: {sid} {p} act={r['act']} — {why}")
+                r["act"] = None
+                r["momAct"] = None
+                gated += 1
+            if p in seen:                       # 같은 회차 중복 → 빈 필드만 병합
+                base = seen[p]
+                for k, v in r.items():
+                    if base.get(k) in (None, "") and v not in (None, ""):
+                        base[k] = v
+                dropped_rows += 1
+                continue
+            seen[p] = r
+            keep.append(r)
+        keep.sort(key=lambda r: r.get("period") or "")
+        s["releases"] = keep
+
+    print(f"### macro-series.js: 시리즈 {len(cur)}개 "
+          f"(통합 {merged_cnt} · 회차정리 {dropped_rows} · 타입교정 {retyped} · 미발표실적 {gated})")
+    for line in log:
+        print(line)
+    if fix:
+        write_js(MACRO_FILE, "MACRO_SERIES", header, cur)
+        print(f"  → 저장 완료 (시리즈 {len(cur)}개)")
+    return len(log)
+
+
 def main(argv):
     fix = "--fix" in argv
     n = audit(fix=fix)
+    print()
+    n += audit_macro(fix=fix)
     print(f"\n{'교정 완료' if fix else '점검 완료'} — 문제 {n}건"
           f"{'' if fix else ' (--fix 로 정리)'}")
     return 0

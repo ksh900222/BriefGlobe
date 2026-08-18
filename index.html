@@ -323,6 +323,13 @@
   }
   .digest-panel > summary::-webkit-details-marker { display: none; }
   .digest-panel > summary b { margin-left: auto; color: var(--muted); font-weight: 600; font-size: 12px; }
+  /* 속보 지역 필터 체크박스(패널 헤더 아래 한 줄) */
+  .bk-area-filter {
+    flex: none; display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;
+    padding: 4px 14px 8px; font-size: 12px; color: var(--muted);
+  }
+  .bk-area-filter input { accent-color: var(--accent); cursor: pointer; margin: 0; }
+  .bk-area-filter:hover { color: var(--text); }
   .digest-list { overflow-y: auto; }
   /* 탭 전환(한 번에 한 패널)으로 바뀌며 속보·주요뉴스도 지역목록처럼 남은 공간을 채운다.
      드래그 높이조절(--bk-h/--dg-h·핸들)은 제거 — 세 목록 모두 고정 레이아웃. */
@@ -1628,6 +1635,10 @@ body.mode-geo1 #breakingPanel { display:none; }
     <div id="asidePanels">
       <details class="digest-panel" id="breakingPanel" hidden open>
         <summary><span>⚡ 실시간 속보 <small style="opacity:.7;font-weight:600">· 전 세계 실시간 · 소셜(미확인)+언론</small></span> <b id="breakingCount">0건</b></summary>
+        <!-- 지역 필터: 체크하면 지금 지도에 보이는 영역의 속보만(해제=전 세계 전부) -->
+        <label class="bk-area-filter" title="체크하면 지금 보고 있는 지도 영역의 속보만 표시합니다.">
+          <input type="checkbox" id="bkAreaOnly"><span>📍 이 지도 영역만</span>
+        </label>
         <div class="digest-list" id="breakingList"></div>
       </details>
       <details class="digest-panel" id="digestPanel" hidden>
@@ -1746,6 +1757,7 @@ let state = {
   category: "전체",   // 뉴스 카테고리
   search: "",        // 뉴스 검색어(제목·요약·도시·국가 부분일치) — 기간∩카테고리∩지도영역과 AND 결합
   searchBreaking: false,  // ⚡속보도 검색어로 필터할지(체크박스). 기본 꺼짐=속보는 라이브 유지, 상태 미기억
+  breakingAreaOnly: false, // ⚡속보를 '지금 보는 지도 영역'으로만 볼지(속보 패널 체크박스). 기본 꺼짐=전 세계
   techTheme: null,   // 기업·테크 필터 시 특정 주제 드릴다운(null=전체)
   range: "today",     // 뉴스 기간 기본 "최신"(데이터상 가장 최근 날짜) (1주치는 마커 많아 버벅임)
   commodityType: "선택없음",  // 원자재 분류 — 기본은 선택없음 (빈 지도에서 시작)
@@ -10642,6 +10654,14 @@ window.BreakingTrack = (function () {
     return (it.title || "").toLowerCase().includes(q) || (it.summary || "").toLowerCase().includes(q)
       || (it.city || "").toLowerCase().includes(q) || (it.country || "").toLowerCase().includes(q);
   }
+  // 지역 필터: 체크 시 지금 지도에 보이는 영역의 속보만(좌표 없는 글로벌 속보는 제외).
+  //   해제(기본)면 전 세계 전부 통과.
+  function bkAreaFilter(it) {
+    if (!state.breakingAreaOnly) return true;
+    if (!(typeof _glMap !== "undefined" && _glMap)) return true;
+    if (!isFinite(it.lat) || !isFinite(it.lng)) return false;
+    try { return _glMap.getBounds().contains([it.lng, it.lat]); } catch (e) { return true; }
+  }
   function renderTicker() {
     const bar = document.getElementById("breakingBar"), track = document.getElementById("bkTrack");
     if (!bar || !track) return;
@@ -10669,15 +10689,31 @@ window.BreakingTrack = (function () {
     const panel = document.getElementById("breakingPanel"), list = document.getElementById("breakingList"),
       cnt = document.getElementById("breakingCount");
     if (!panel || !list) return;
-    const arr = alive().filter(bkSearchFilter);   // 체크박스 켜지고 검색어 있을 때만 좁아짐(아니면 전체)
-    if (!arr.length) { panel.hidden = true; return; }
+    const arr = alive().filter(bkSearchFilter).filter(bkAreaFilter);   // 검색(옵션)+지역(옵션) 필터
+    // 지역 필터로 0건이 되어도 패널은 열어 둔다(탭으로 고른 상태에서 사라지면 혼란) — 안내 문구 표시.
     cnt.textContent = arr.length + "건";
+    if (!arr.length) {
+      panel.hidden = false;
+      list.innerHTML = state.breakingAreaOnly
+        ? `<div class="empty">이 지도 영역에는 속보가 없습니다.<br>지도를 옮기거나 '이 지도 영역만'을 해제해 보세요.</div>`
+        : `<div class="empty">표시할 속보가 없습니다.</div>`;
+      return;
+    }
     list.innerHTML = arr.map(it => `<div class="bk-item" onclick="BreakingTrack.go('${esc(it.id)}')">
       <div class="bk-title">${esc(it.title)}</div>
       <div class="bk-meta">${badges(it)}<span>${esc(it.channel || "")}</span><span>${rel(it.ts)}</span></div></div>`).join("");
     panel.hidden = false;
   }
   function renderAll() { renderTicker(); renderMarkers(); renderPanel(); }
+
+  // 지역 필터 체크박스 + 지도 이동 시 재필터(체크됐을 때만 — 꺼져 있으면 불필요한 재렌더 안 함)
+  (function bindAreaOnly() {
+    const chk = document.getElementById("bkAreaOnly");
+    if (chk) chk.addEventListener("change", e => { state.breakingAreaOnly = e.target.checked; renderPanel(); });
+    const onMove = () => { if (state.breakingAreaOnly) renderPanel(); };
+    if (typeof _glMap !== "undefined" && _glMap) _glMap.on("moveend", onMove);
+    else setTimeout(() => { if (typeof _glMap !== "undefined" && _glMap) _glMap.on("moveend", onMove); }, 2500);
+  })();
 
   fetchItems();
   setInterval(fetchItems, POLL_MS);
