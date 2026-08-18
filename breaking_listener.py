@@ -22,6 +22,7 @@ import asyncio, json, os, re, subprocess, sys, uuid
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from urllib import request as urlreq
+from text_corrections import correct_item   # 반복 사실오류·외래어표기 결정론 교정
 
 HERE = Path(__file__).resolve().parent
 STORE = HERE / "breaking-store.json"
@@ -110,6 +111,7 @@ PROMPT = """너는 국제 속보 데스크다. 아래 메시지들을 심사해 
    (이 서비스의 핵심 도메인). 다만 "[북한단신]·[북한날씨]"류 정형 단신, 내부 기념행사·현장시찰·
    화환/추모 등 의례성 보도, 인물 동정은 버려라.
 2. 가치 있으면 recent(최근 사건 목록)와 대조 — 같은 사건(유형 동일 + 위치 ~50km + 시간대 겹침)이면 merge, 아니면 new.
+   ⭐ 사실 앵커(2026 기준): 대한민국 대통령은 이재명(2025.6 취임)이다 — '이준석 대통령' 금지. 외래어 인명은 표준표기(Kushner→쿠슈너). 현직 직책·인물이 불확실하면 추측하지 말 것.
 3. new 항목: 한국어 제목(간결한 사실 서술)과 2문장 요약을 써라.
    - srcType이 "social"(텔레그램 등 미확인 소셜)이면 "~로 전해졌다", "확인되지 않았다" 같은 유보 표현 필수.
    - srcType이 "press"(정식 언론 보도)면 유보 표현 없이 보도 내용을 사실 서술로.
@@ -300,7 +302,7 @@ def process_batch(msgs, do_post=True):
         except Exception:
             continue
         if r.get("action") == "new" and r.get("item", {}).get("title"):
-            it = r["item"]
+            it = correct_item(r["item"])   # 사실오류·외래어표기 교정(title/summary 등)
             it.update({"id": uuid.uuid4().hex[:10], "ts": m["ts"], "channel": m["channel"],
                        "url": m.get("url", ""), "status": "breaking", "srcCount": 1,
                        "srcType": m.get("srcType", "social"),   # press=정식보도(프론트 배지 구분)

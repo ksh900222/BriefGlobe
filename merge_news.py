@@ -21,6 +21,7 @@ import statistics
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote
+from text_corrections import apply_corrections, correct_item   # 반복 사실오류·외래어표기 결정론 교정
 
 HERE = Path(__file__).resolve().parent
 STORE_PATH = HERE / "news-store.json"      # GDELT
@@ -297,8 +298,8 @@ def normalize_grok(items, src="grok", engine_meta=None):
             date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         item = {
             "id": ("gt" if src == "grok-tech" else "g") + hashlib.md5(base.encode()).hexdigest()[:11],
-            "title": title,
-            "summary": (it.get("summary") or "").strip(),
+            "title": apply_corrections(title),                        # 사실오류·표기 교정(id 해시는 원본 title 기준이라 불변)
+            "summary": apply_corrections((it.get("summary") or "").strip()),
             "category": norm_cat(it.get("category")),
             "city": city or country,
             "country": country or city,
@@ -528,6 +529,8 @@ def build_output():
     merged = [it for it in merged if not is_synth_title(it.get("title"))]
     n_synth = before_synth - len(merged)
 
+    for it in merged:      # 최종 일괄 교정 — 모든 소스(GDELT·grok·번역·속보) 커버: 반복 사실오류·외래어표기
+        correct_item(it)
     items_sorted = sorted(merged, key=lambda x: x.get("date", ""))
     now = datetime.now(timezone.utc)
     stamp = now.strftime("%Y-%m-%d %H:%M UTC")
