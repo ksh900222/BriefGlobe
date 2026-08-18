@@ -220,6 +220,18 @@
      사이드바 리사이저와 동일한 조작(드래그/더블클릭 토글, 위치는 localStorage 유지). */
   /* 3패널(속보·주요뉴스·영역뉴스)을 담는 컨테이너 — 세로 공간이 부족하면(특히 모바일) 스크롤로
      아래 패널까지 도달 가능하게. overflow 가 없으면 넘친 하위 패널이 잘려 아예 안 보였음. */
+  /* 뉴스 3종 전환 탭 — 선택한 패널만 보이게(.tab-hidden) */
+  .aside-tabs { display: flex; gap: 4px; padding: 6px 8px 0; flex: none; }
+  .aside-tab {
+    flex: 1 1 0; min-width: 0; border: 1px solid var(--border); background: var(--panel-2);
+    color: var(--text); border-radius: 8px 8px 0 0; padding: 6px 4px; font-size: 12px;
+    cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .72;
+  }
+  .aside-tab:hover { opacity: .95; }
+  .aside-tab.active { opacity: 1; border-color: var(--accent); background: rgba(79,140,255,.16); font-weight: 700; }
+  .aside-tab b { font-weight: 700; opacity: .75; font-size: 11px; }
+  .digest-panel.tab-hidden { display: none !important; }
+  body.mode-geo1 .aside-tabs, body.mode-commodity .aside-tabs { display: none; }
   #asidePanels { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; }
   aside.detail-open #asidePanels { flex: 0 0 var(--aside-split, 0px); overflow: hidden; }
   .resizer-y {
@@ -250,6 +262,7 @@
      quirk 가 있어(flex:1 이 무시됨), 스크롤 높이는 JS(sizeAreaList)가 max-height 로 잡는다. */
   #areaPanel { flex: 1 1 auto; min-height: 0; }
   .news-list { overflow-y: auto; }
+  .vl-spacer { flex: none; pointer-events: none; }   /* 가상 스크롤: 안 그린 구간의 높이를 대신 차지 */
   .news-item {
     padding: 13px 16px;
     border-bottom: 1px solid var(--border);
@@ -1615,6 +1628,12 @@ body.mode-geo1 #breakingPanel { display:none; }
     <!-- 선택 항목 ↔ 뉴스 패널 분할 바: 선택 항목이 열리면 아래 뉴스 3종이 밀려나고,
          이 바를 위로 드래그하면 원하는 만큼 다시 꺼내 볼 수 있음(더블클릭=토글). -->
     <div class="resizer-y" id="asideSplit" title="드래그: 뉴스 목록 보기/숨기기 · 더블클릭: 토글"></div>
+    <!-- 뉴스 3종 전환 탭: 한 번에 하나만 표시(사이드바가 좁아 동시표시는 스크롤이 길어짐) -->
+    <div class="aside-tabs" id="asideTabs">
+      <button type="button" class="aside-tab" data-panel="breakingPanel">⚡ 속보 <b id="tabCntBreaking"></b></button>
+      <button type="button" class="aside-tab" data-panel="digestPanel">🌐 주요 <b id="tabCntDigest"></b></button>
+      <button type="button" class="aside-tab active" data-panel="areaPanel">📍 이 영역 <b id="tabCntArea"></b></button>
+    </div>
     <div id="asidePanels">
       <details class="digest-panel" id="breakingPanel" hidden open>
         <summary><span>⚡ 실시간 속보 <small style="opacity:.7;font-weight:600">· 전 세계 실시간 · 소셜(미확인)+언론</small></span> <b id="breakingCount">0건</b></summary>
@@ -4039,6 +4058,32 @@ function sizeAreaList() {
 //   예전의 '펼치면 남은 공간 전체 채우기(inline max-height)'는 세 섹션 동시표시로 전환하며 제거.
 //   (호출부 호환을 위해 함수는 no-op 로 남겨 둠 — inline maxHeight 를 걸면 --dg-h 를 덮어버리므로 걸지 않는다.)
 function sizeDigestList() { /* no-op: digestList 높이는 CSS 변수 --dg-h 가 제어 */ }
+// ── 뉴스 3종 탭 전환: 선택한 패널만 표시(나머지는 .tab-hidden). 개수는 탭에 함께 표기 ──
+//    패널의 hidden 속성은 '데이터 없음'을 뜻하므로 건드리지 않고, 별도 클래스로만 제어한다.
+let asideTab = "areaPanel";
+function setAsideTab(id) {
+  asideTab = id;
+  ["breakingPanel", "digestPanel", "areaPanel"].forEach(pid => {
+    const el = document.getElementById(pid);
+    if (el) el.classList.toggle("tab-hidden", pid !== id);
+    const btn = document.querySelector(`.aside-tab[data-panel="${pid}"]`);
+    if (btn) btn.classList.toggle("active", pid === id);
+  });
+  const open = document.getElementById(id);
+  if (open) open.open = true;                 // 탭으로 고른 패널은 항상 펼친 상태
+  if (typeof sizeAreaList === "function") sizeAreaList();
+  if (id === "areaPanel" && typeof glUpdateList === "function") glUpdateList();   // 숨김 중 스킵된 목록 갱신 복구
+}
+function syncAsideTabCounts() {   // 탭 라벨의 건수 = 각 패널 카운터와 동기화
+  const g = (from, to) => { const s = document.getElementById(from), t = document.getElementById(to); if (s && t) t.textContent = s.textContent || ""; };
+  g("breakingCount", "tabCntBreaking"); g("digestCount", "tabCntDigest"); g("count", "tabCntArea");
+}
+(function bindAsideTabs() {
+  document.querySelectorAll(".aside-tab").forEach(b =>
+    b.addEventListener("click", () => setAsideTab(b.dataset.panel)));
+  setAsideTab("areaPanel");
+  setInterval(syncAsideTabCounts, 1000);   // 속보·디제스트는 비동기 갱신이라 주기 동기화(가벼움)
+})();
 // 레이아웃이 바뀌는 모든 계기에 재계산: 창 리사이즈·사이드바 리사이저·패널 접기/펼치기.
 (function bindAreaListSizing() {
   const run = () => { sizeAreaList(); sizeDigestList(); };
@@ -8911,17 +8956,20 @@ function popupHtml(n) {
 }
 
 // ---- 사이드 리스트 ----
-function renderList(items) {
-  const list = document.getElementById("newsList");
-  if (items.length === 0) {
-    list.innerHTML = `<div class="empty">해당 조건의 뉴스가 없습니다.<br>카테고리나 날짜를 바꿔보세요.</div>`;
-    return;
-  }
-  // 최신순 정렬 — 시각(datetime)이 있으면 분 단위까지, 없으면 날짜 기준
-  const whenKey = (n) => n.datetime || (n.date + "T00:00:00Z");
-  const sorted = [...items].sort((a, b) => whenKey(b).localeCompare(whenKey(a)));
-  list.innerHTML = sorted.map((n, i) => `
-    <div class="news-item cat-${n.category}" data-id="${n.id}">
+// ── '이 지도 영역의 뉴스' 목록: 가변 높이 가상 스크롤 ──────────────────────────
+//  왜: 전 지구 줌아웃 + 긴 기간이면 화면 안 뉴스가 5만 건을 넘어, 전부 DOM 으로 그리면
+//      moveend 마다 3~9초씩 얼어붙었다. 보이는 근처(window)만 DOM 으로 만들고 위·아래는
+//      스페이서(빈 div)로 높이를 채워 스크롤바·스크롤 위치를 정상 유지한다.
+//  가변 높이: 행마다 제목 줄 수가 달라 높이가 다르므로, 실제 렌더된 행 높이를 측정해
+//      기억(_vlH)하고 미측정 행은 평균(_vlAvg)으로 추정한다. 스크롤하며 점점 정확해진다.
+const VL_BUFFER = 8;             // 화면 위·아래 여유 행 수(스크롤 시 빈칸 깜빡임 방지)
+let _vlItems = [];               // 현재 목록(정렬된 전체 — 검색·필터는 이 배열에 이미 적용됨)
+let _vlH = new Map();            // id → 실측 행 높이(px)
+let _vlAvg = 96;                 // 미측정 행 추정 높이(실측 평균으로 갱신)
+let _vlBound = false;
+function vlRowH(n) { return _vlH.get(n.id) || _vlAvg; }
+function vlItemHtml(n) {
+  return `<div class="news-item cat-${n.category}" data-id="${n.id}">
       <div class="meta">
         <span class="badge">${n.category}</span>
         <span>${fmtWhen(n)}</span>
@@ -8929,11 +8977,56 @@ function renderList(items) {
       </div>
       <div class="title">${n.title}</div>
       <div class="loc">📍 ${locLabel(n)}</div>
-    </div>`).join("");
-
-  // 리스트 클릭 → 지도 이동 + 팝업
+    </div>`;
+}
+function vlPaint() {             // 현재 스크롤 위치 기준으로 보이는 구간만 DOM 생성
+  const list = document.getElementById("newsList");
+  if (!list || !_vlItems.length) return;
+  const top = list.scrollTop, h = list.clientHeight || 400;
+  // 앞에서부터 높이를 누적해 시작 인덱스(화면 상단 진입 행)를 찾는다.
+  let acc = 0, start = 0;
+  while (start < _vlItems.length && acc + vlRowH(_vlItems[start]) < top) { acc += vlRowH(_vlItems[start]); start++; }
+  const padTop = acc;
+  let end = start, visH = 0;
+  while (end < _vlItems.length && visH < h) { visH += vlRowH(_vlItems[end]); end++; }
+  start = Math.max(0, start - VL_BUFFER); end = Math.min(_vlItems.length, end + VL_BUFFER);
+  // 스페이서 높이 = 잘라낸 앞/뒤 구간의 높이 합(추정 포함) → 전체 스크롤 길이 유지
+  let before = 0; for (let i = 0; i < start; i++) before += vlRowH(_vlItems[i]);
+  let after = 0;  for (let i = end; i < _vlItems.length; i++) after += vlRowH(_vlItems[i]);
+  const slice = _vlItems.slice(start, end);
+  list.innerHTML =
+    `<div class="vl-spacer" style="height:${Math.max(0, before)}px"></div>` +
+    slice.map(vlItemHtml).join("") +
+    `<div class="vl-spacer" style="height:${Math.max(0, after)}px"></div>`;
+  // 실측: 방금 그린 행들의 실제 높이를 기억(다음 계산이 정확해짐) + 평균 갱신
+  let sum = 0, cnt = 0;
   list.querySelectorAll(".news-item").forEach(el => {
-    el.onclick = () => {
+    const hh = el.offsetHeight;
+    if (hh > 0) { _vlH.set(el.dataset.id, hh); sum += hh; cnt++; }
+  });
+  if (cnt) _vlAvg = Math.round((_vlAvg + sum / cnt) / 2);   // 완만히 수렴(튐 방지)
+  void padTop;
+}
+function vlOnScroll() {          // 스크롤 중엔 rAF 로 1프레임 1회만 다시 그림
+  if (vlOnScroll._raf) return;
+  vlOnScroll._raf = requestAnimationFrame(() => { vlOnScroll._raf = 0; vlPaint(); });
+}
+function renderList(items) {
+  const list = document.getElementById("newsList");
+  if (!list) return;
+  if (items.length === 0) {
+    _vlItems = [];
+    list.innerHTML = `<div class="empty">해당 조건의 뉴스가 없습니다.<br>카테고리나 날짜를 바꿔보세요.</div>`;
+    return;
+  }
+  // 최신순 정렬 — 시각(datetime)이 있으면 분 단위까지, 없으면 날짜 기준
+  const whenKey = (n) => n.datetime || (n.date + "T00:00:00Z");
+  _vlItems = [...items].sort((a, b) => whenKey(b).localeCompare(whenKey(a)));
+  if (!_vlBound) {               // 스크롤·클릭은 컨테이너에 1회만 바인딩(행마다 핸들러 금지)
+    list.addEventListener("scroll", vlOnScroll, { passive: true });
+    list.addEventListener("click", e => {
+      const el = e.target.closest(".news-item");
+      if (!el) return;
       const n = newsAll.find(x => x.id == el.dataset.id);
       if (!n) return;
       if (state.mode === "news1" && _glMap) {   // 뉴스_1: GL 지구본 이동 + 단일 팝업
@@ -8944,8 +9037,11 @@ function renderList(items) {
       }
       map.flyTo([n.lat, n.lng], 5, { duration: 0.8 });
       if (n._marker) setTimeout(() => n._marker.openPopup(), 850);
-    };
-  });
+    });
+    _vlBound = true;
+  }
+  list.scrollTop = 0;            // 목록이 바뀌면 맨 위부터
+  vlPaint();
 }
 
 // ============================================================

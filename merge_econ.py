@@ -148,6 +148,24 @@ def main(argv):
         for x in bad:
             print(f"     − {x.get('date')} {x.get('ticker') or ''} {x.get('title')}")
     merged = [x for x in merged if not is_bad_earnings(x)]
+
+    # market_guard: 유니버스 밖 티커·회사명 뒤바뀜·분기말+60일 미래배치·산술 불가능값 차단.
+    #   AI 가 조사한 실적 이벤트는 프롬프트만으로 통제되지 않아 기계적으로 거른다.
+    #   rolling window 라 다음 주기에 올바르게 다시 들어오므로 제거해도 자가치유된다.
+    try:
+        from market_guard import check_calendar_item, load_universe
+        universe = load_universe()
+        rejected = [(x, check_calendar_item(x, universe)) for x in merged]
+        rejected = [(x, r) for x, r in rejected if r]
+        if rejected:
+            print(f"  🛡️ market_guard: 실적 이벤트 {len(rejected)}건 차단")
+            for x, r in rejected:
+                print(f"     − {x.get('date')} {x.get('ticker') or ''} {x.get('title')} :: {'; '.join(r)}")
+            bad_ids = {id(x) for x, _ in rejected}
+            merged = [x for x in merged if id(x) not in bad_ids]
+    except Exception as e:                       # 검증기 고장이 파이프라인을 멈추면 안 된다
+        print(f"  ⚠ market_guard 검증 건너뜀: {type(e).__name__}: {e}")
+
     merged.sort(key=lambda x: ((x.get("date") or ""), (x.get("time") or "")))
 
     store_path.write_text(

@@ -70,7 +70,16 @@ KR_EARN_ANCHOR = {   # 실제 2024~2026 분기 매출 반영(메모리 슈퍼사
 
 
 def drop_bad_korean(cur):
-    """earnings 시리즈에서 한국 종목의 스케일 오류(반기/누적 등)를 검증해 드롭."""
+    """한국 종목의 스케일 오류(반기/누적 등) 분기를 드롭.
+
+    ⚠️ 예전엔 티커를 통째로 삭제해서, 오염된 delta 한 건에 수년치 정상 이력이
+    함께 날아갔다. 지금은 **문제 분기만** 뺀다(나머지 이력 보존).
+    공시 대조검증(market_guard)이 먼저 돌므로 여기 걸리는 건 대조표에 없는 분기뿐이다.
+
+    ⚠️ 앵커는 '요즘 분기 규모'라 과거에 적용하면 안 된다 — 현대건설 2022Q1 4.15조,
+    SK하이닉스 2023Q1 5.09조는 실제값인데 현재 앵커로는 이상치로 보인다.
+    그래서 **최신 분기 1개만** 본다(새로 들어온 delta 를 거르는 게 목적).
+    """
     dropped = []
     for tk in list(cur):
         if tk not in KR_EARN_ANCHOR:
@@ -78,17 +87,69 @@ def drop_bad_korean(cur):
         qs = cur[tk].get("quarters") or []
         if not qs:
             continue
+        lo, hi = KR_EARN_ANCHOR[tk]
         rev = qs[-1].get("revenueKRW") or {}
         v = rev.get("act") if rev.get("act") is not None else rev.get("cons")
-        if v is None:
-            continue
-        lo, hi = KR_EARN_ANCHOR[tk]
-        if v < lo * 0.6 or v > hi * 1.4:
-            del cur[tk]
-            dropped.append((tk, v, lo, hi))
-    for tk, v, lo, hi in dropped:
-        print(f"  ⚠ 한국 실적 스케일오류 제거: {tk} 최신분기 매출 {v}조 (정상 {lo}~{hi}조) — 반기/누적 의심")
+        if v is not None and (v < lo * 0.6 or v > hi * 1.4):
+            dropped.append((tk, qs[-1].get("period"), v, lo, hi))
+            cur[tk]["quarters"] = qs[:-1]
+    for tk, period, v, lo, hi in dropped:
+        print(f"  ⚠ 한국 실적 스케일오류 분기 제거: {tk} {period} 매출 {v}조 "
+              f"(정상 {lo}~{hi}조) — 반기/누적 의심")
     return dropped
+
+def _guard_earnings(cur):
+    """market_guard 로 티커·이름·중복분기·공시값을 정리(실패해도 병합은 계속).
+
+    drop_bad_korean 은 '앵커 범위' 추정이라 놓치는 게 많다 —
+    유니버스 밖 티커(AI 가 만들어낸 종목), 회사명 뒤바뀜(051910 을 'LG이노텍'으로),
+    표기만 다른 중복 분기, 공시와 어긋난 act 는 여기서 잡는다.
+    """
+    try:
+        from market_guard import (correct_quarter, load_ref, load_universe,
+                                  period_col, _ko)
+    except ImportError as e:
+        print(f"  ⚠ market_guard 없음({e}) — 실적 추가검증 건너뜀")
+        return
+    try:
+        universe, ref = load_universe(), load_ref()
+        if not universe:
+            return
+        for tk in list(cur):
+            if tk not in universe:
+                print(f"  🛡️ 유니버스 밖 티커 제거: {tk} '{cur[tk].get('name','')}'"
+                      f" — market-data.js 주식 그룹에 없음")
+                del cur[tk]
+                continue
+            if _ko(cur[tk].get("name", "")) != _ko(universe[tk]):
+                print(f"  🛡️ 종목명 교정: {tk} '{cur[tk].get('name')}' → '{universe[tk]}'")
+                cur[tk]["name"] = universe[tk]
+            seen, uniq = {}, []
+            for q in cur[tk].get("quarters", []):
+                col = period_col(q.get("period"))
+                if col and col in seen:          # 표기만 다른 같은 분기 → 병합(값 보존)
+                    base = seen[col]
+                    for k, v in q.items():
+                        if k == "period":
+                            continue
+                        if isinstance(v, dict) and isinstance(base.get(k), dict):
+                            for sub in ("act", "cons"):
+                                if base[k].get(sub) is None and v.get(sub) is not None:
+                                    base[k][sub] = v[sub]
+                        elif base.get(k) in (None, ""):
+                            base[k] = v
+                    print(f"  🛡️ 중복 분기 병합: {tk} '{q.get('period')}' → '{base.get('period')}'")
+                    continue
+                if col:
+                    seen[col] = q
+                uniq.append(q)
+            cur[tk]["quarters"] = uniq
+            for q in uniq:
+                for period, key, old, new in correct_quarter(tk, q, ref, universe):
+                    print(f"  🛡️ 공시 대조 교정: {tk} {period} {key} {old} → {new}")
+    except Exception as e:
+        print(f"  ⚠ market_guard 검증 건너뜀: {type(e).__name__}: {e}")
+
 
 HERE = Path(__file__).resolve().parent
 MACRO_FILE = HERE / "macro-series.js"
@@ -318,7 +379,10 @@ def main(argv):
         header, cur = read_js(earn_file, "EARNINGS_SERIES")
         a_t, a_q, u_q = merge_earnings(cur, delta["earnings"])
         _resort_earn(cur)   # delta 밖 티커까지 전체 시간순 재정렬(self-heal)
-        drop_bad_korean(cur)   # 한국 스케일 오류(반기/누적) 자동 차단
+        # 순서 중요: 공시 대조검증(정확한 값으로 교정)이 먼저, 앵커 범위(추정)는 백스톱.
+        #   반대로 두면 교정 가능한 값이 앵커에 먼저 걸려 버려진다.
+        _guard_earnings(cur)   # 유니버스·회사명·중복분기·공시 대조검증(market_guard)
+        drop_bad_korean(cur)   # 대조표에 없는 분기의 스케일 오류(반기/누적) 백스톱
         write_js(earn_file, "EARNINGS_SERIES", header or EARN_HEADER, cur)
         print(f"✔ earnings 병합: 티커 총 {len(cur)} (신규 {a_t}) · 분기 추가 {a_q}·갱신 {u_q} → {earn_file.name}")
 

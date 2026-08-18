@@ -499,10 +499,17 @@ earnings: pipeline-todo.json의 earnings_todo·earnings_stale를 조사해 serie
 검증된 사실만·불확실 null·과거 삭제 금지·지시서 self-edit 금지. 끝나면 종료." \
     "$GROK_MODEL_HEAVY" "$GROK_EFFORT_DEFAULT" "low" "1" \
     || echo "  ⚠ 일일 재무·캘린더·delta 실패(다음 기회에)"
+  # 공시 대조표 갱신 — market_guard 가 AI 실적값을 DART 원문과 맞춰보는 정답지.
+  #   반드시 merge 앞에 둔다(대조표가 낡으면 최신 분기를 검증 못 함). 실패해도 기존 캐시로 진행.
+  echo "[일일] 한국 실적 공시 대조표 갱신(fetch_kr_earnings_ref.py)…"
+  "$PY" fetch_kr_earnings_ref.py || echo "  ⚠ 공시 대조표 갱신 실패(기존 캐시 사용)"
   # 결정론 저장: 캘린더 누적 + series delta append-only 병합.
+  #   두 merge 모두 market_guard 로 유니버스·회사명·발표일정·산술·공시대조를 검증한다.
   echo "[일일] econ 캘린더 누적(merge_econ.py) + series delta 병합(merge_series.py)…"
   "$PY" merge_econ.py || echo "  ⚠ econ 캘린더 병합 실패(다음 기회에)"
   "$PY" merge_series.py --delta series-delta.json || echo "  ⚠ series delta 병합 실패(delta 없음/오류 — 기존 유지)"
+  # 최종 안전망: 병합 후 산출물을 전수 재점검·교정(어느 경로로 들어왔든 오염 잔류 금지).
+  "$PY" market_guard.py --fix || echo "  ⚠ market_guard 최종 점검 실패(건너뜀)"
   # 재검증: 남은 갭을 coverage.log에 기록(어떤 항목도 조용히 누락 금지).
   echo "[일일·검증] coverage_check.py 재실행 — 남은 갭 로그"
   "$PY" coverage_check.py || echo "  ⚠ coverage_check(재검증) 실패"
