@@ -196,7 +196,10 @@ US_EXCD = {   # 미국 티커 → KIS 거래소코드(NAS 나스닥·NYS 뉴욕)
     "META": "NAS", "TSLA": "NAS", "PLTR": "NAS", "LCID": "NAS", "PSNY": "NAS",
     "SMR": "NYS", "OKLO": "NYS", "BRK-A": "NYS", "BRK-B": "NYS",
     "SPCX": "NAS", "XE": "NAS",   # 스페이스X·엑스에너지 — 나스닥 상장(2026)
-    # SPCX(스페이스X 비상장)·XE(엑스에너지) 등은 미매핑 → 야후 유지
+    "PFE": "NYS", "MRNA": "NAS", "BNTX": "NAS",   # 제약 3종(화이자 NYSE · 모더나/바이오엔테크 나스닥)
+    # ⚠️ market-data.js '주식 - 미국' 그룹에 종목을 추가하면 **여기에도 반드시 등재**한다.
+    #   빠지면 fetch_markets 가 Yahoo 를 건너뛰고 KIS 도 못 받아 시세가 조용히 멈춘다
+    #   (PFE·MRNA·BNTX 가 3주간 정지했던 원인). coverage_check.py 가 어긋남을 잡아준다.
 }
 
 

@@ -283,6 +283,20 @@ KIS_ACCUM_GROUPS = {"주식 - 미국", "주식 - 한국"}
 KIS_SEED_MIN = 600     # 이 이상 쌓이면 시드 완료로 보고 Yahoo 재다운 스킵(≈2.5년 영업일)
 
 
+def _kis_can_serve(sym):
+    """KIS 가 이 심볼의 시세를 실제로 줄 수 있나(한국=전 종목, 미국=US_EXCD 등재분).
+
+    두 목록(시리즈 목록 vs KIS 매핑)이 어긋나면 조용히 시세가 멈추므로 여기서 확인한다.
+    """
+    if sym.endswith(".KS"):
+        return True
+    try:
+        from fetch_markets_kis import US_EXCD
+    except ImportError:
+        return False
+    return sym in US_EXCD
+
+
 def load_existing_history():
     """기존 market-data.js → {id: {date: close}}. 없거나 파싱 실패면 {}."""
     p = HERE / "market-data.js"
@@ -314,7 +328,13 @@ def main():
     ok = fail = 0
     existing = load_existing_history()   # #8 누적 기반
     def seeded_kis(sym, group):
-        return group in KIS_ACCUM_GROUPS and len(existing.get(sym, {})) >= KIS_SEED_MIN
+        # ⚠️ 'KIS 가 이어받는다'는 전제는 **KIS 가 실제로 그 심볼을 조회할 수 있을 때만** 성립한다.
+        #   예전엔 이력 길이만 보고 Yahoo 를 건너뛰어서, US_EXCD 에 없는 종목(PFE·MRNA·BNTX)이
+        #   Yahoo 도 KIS 도 안 받는 사각지대에 빠져 시드 시점(2026-07-29)에 영구 정지했다.
+        #   그 사이 모더나는 +161% 급등했는데 화면엔 3주 전 값이 떠 있었다.
+        if group not in KIS_ACCUM_GROUPS or len(existing.get(sym, {})) < KIS_SEED_MIN:
+            return False
+        return _kis_can_serve(sym)
 
     # ---- FRED 정책·단기 금리 (공식 API 키 있을 때만 — 무키는 차단이 잦아 생략) ----
     fred_list = FRED_SERIES if _fred_api_key() else []

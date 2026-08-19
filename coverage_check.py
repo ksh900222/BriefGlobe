@@ -305,6 +305,35 @@ def write_outputs(todo, todo_path, log_path):
         f.write("\n".join(lines) + "\n")
 
 
+def check_quote_coverage():
+    """시세 소스 누락 점검 — market-data.js 주식이 KIS 매핑·라이브 목록에 다 있나.
+
+    목록이 둘로 나뉘어 있어(시리즈 목록 / KIS US_EXCD / 라이브 US) 하나만 빠뜨리면
+    가격이 조용히 멈춘다. 실제로 PFE·MRNA·BNTX 가 3주간 정지했고 그동안 모더나는
+    +161% 급등했다. 조용한 정지를 막으려면 어긋남 자체를 시끄럽게 만들어야 한다.
+    """
+    import re as _re
+    problems = []
+    try:
+        md = (HERE / "market-data.js").read_text(encoding="utf-8")
+        us = _re.findall(r'\{"id": "([^"]+)", "name": "[^"]+", "group": "주식 - 미국"', md)
+        kr = _re.findall(r'\{"id": "([^"]+)", "name": "[^"]+", "group": "주식 - 한국"', md)
+        from fetch_markets_kis import US_EXCD
+        import fetch_quotes_server as fq
+        live = {s for s, _ in fq.US} | {c for c in getattr(fq, "KR", [])}
+        for t in us:
+            if t not in US_EXCD:
+                problems.append(f"{t}: fetch_markets_kis.US_EXCD 미등재(거래소코드 없음)")
+            if t not in live:
+                problems.append(f"{t}: fetch_quotes_server.US 미등재(실시간 시세 제외)")
+        for t in kr:
+            if t[:-3] not in live:
+                problems.append(f"{t}: fetch_quotes_server.KR 미등재(실시간 시세 제외)")
+    except Exception as e:                       # 점검 실패가 파이프라인을 막지 않게
+        return [f"시세 커버리지 점검 실패: {type(e).__name__}: {e}"]
+    return problems
+
+
 def main(argv):
     todo_path = HERE / "pipeline-todo.json"
     log_path = HERE / "coverage.log"
@@ -322,6 +351,12 @@ def main(argv):
     print(f"✔ coverage: 갭 {total_gaps}건 → {todo_path.name} "
           f"(info {s['stocks_info_missing']}·news {s['stocks_news_missing']}·"
           f"실적 {s['earnings_missing']}·거시회차 {s['macro_needing_periods']}·미매핑 {s['macro_unmapped_events']})")
+
+    qc = check_quote_coverage()
+    if qc:
+        print(f"  🛑 시세 소스 누락 {len(qc)}건 — 이 종목들은 가격이 갱신되지 않습니다:")
+        for p in qc:
+            print(f"     − {p}")
     return 0
 
 

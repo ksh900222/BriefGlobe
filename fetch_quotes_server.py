@@ -41,7 +41,7 @@ US = [("AAPL", "AAPL"), ("MSFT", "MSFT"), ("GOOGL", "GOOGL"), ("AMZN", "AMZN"),
       ("NVDA", "NVDA"), ("META", "META"), ("TSLA", "TSLA"), ("PLTR", "PLTR"),
       ("LCID", "LCID"), ("PSNY", "PSNY"), ("SMR", "SMR"), ("OKLO", "OKLO"),
       ("BRK-A", "BRK/A"), ("BRK-B", "BRK/B"),
-      ("SPCX", "SPCX"), ("XE", "XE")]            # (seriesId, KIS심볼) — SPCX·XE 나스닥 상장
+      ("SPCX", "SPCX"), ("XE", "XE"), ("PFE", "PFE"), ("MRNA", "MRNA"), ("BNTX", "BNTX")]            # (seriesId, KIS심볼) — SPCX·XE 나스닥 상장
 
 # 암호화폐 — 24시간 실시간(무료·키 불필요). KIS와 무관해 한도 영향 없음.
 CRYPTO_USD = {"BTC-USD": "BTCUSDT", "ETH-USD": "ETHUSDT", "SOL-USD": "SOLUSDT",
