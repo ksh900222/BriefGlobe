@@ -10702,27 +10702,50 @@ window.BreakingTrack = (function () {
   //      Windows(ANGLE→D3D11·내장그래픽)에서 특히 비싸 회전·줌이 끊겼다.
   //      GL 원 레이어는 개수와 무관하게 한 번의 배치 그리기로 끝난다.
   //  펄스(최근 30분) 는 애니메이션 대신 '바깥 링'으로 구분 — 상시 리페인트 비용 0.
+  // ⚡ 마커 아이콘을 캔버스로 그려 GL 이미지로 등록(원 + 흰 테두리 + 번개).
+  //   GL circle 레이어는 도형만 그려 이모지를 못 넣기에, 아이콘 이미지로 예전 DOM 마커 모양을 재현한다.
+  function bkMakeIcon(bg, glow) {
+    const S = 44, c = document.createElement("canvas");   // 2배 크기로 그려 선명하게
+    c.width = c.height = S;
+    const x = c.getContext("2d"), r = S / 2 - 4;
+    if (glow) { x.shadowColor = "rgba(198,40,40,.9)"; x.shadowBlur = 6; }
+    x.beginPath(); x.arc(S / 2, S / 2, r, 0, Math.PI * 2);
+    x.fillStyle = bg; x.fill();
+    x.shadowBlur = 0;
+    x.lineWidth = 4; x.strokeStyle = "#fff"; x.stroke();
+    x.font = "20px system-ui, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif";
+    x.textAlign = "center"; x.textBaseline = "middle";
+    x.fillText("⚡", S / 2, S / 2 + 1);
+    return x.getImageData(0, 0, S, S);
+  }
   function bkEnsureLayers() {
     if (typeof _glMap === "undefined" || !_glMap) return false;
     if (_glMap.getSource("breaking")) return true;
     if (typeof _glStyleLoaded !== "undefined" && !_glStyleLoaded) return false;
     try {
+      // 아이콘 등록(스타일이 바뀌면 사라지므로 소스 재생성 시 함께 다시 등록)
+      if (!_glMap.hasImage("bk-fresh")) _glMap.addImage("bk-fresh", bkMakeIcon("#c62828", true), { pixelRatio: 2 });
+      if (!_glMap.hasImage("bk-dim")) _glMap.addImage("bk-dim", bkMakeIcon("#8d4a12", false), { pixelRatio: 2 });
       _glMap.addSource("breaking", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
       // 최근 30분(fresh) 표시용 바깥 링 — 예전 CSS 펄스의 정지 버전
       _glMap.addLayer({
         id: "breaking-pulse", type: "circle", source: "breaking",
         filter: ["==", ["get", "fresh"], 1],
-        paint: { "circle-radius": 14, "circle-color": "rgba(0,0,0,0)",
+        paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 12, 10, 17],
+                 "circle-color": "rgba(0,0,0,0)",
                  "circle-stroke-color": "#ff5f52", "circle-stroke-width": 2, "circle-stroke-opacity": 0.55 },
       });
+      // ⚡ 아이콘(예전 DOM 마커와 동일한 모양) — symbol 레이어도 GPU 배치라 개수 부담 없음.
+      //   allow-overlap/ignore-placement 로 충돌검사를 끄면 밀집 지역에서도 전부 표시되고 비용도 최소.
       _glMap.addLayer({
-        id: "breaking-point", type: "circle", source: "breaking",
-        paint: {
-          "circle-radius": ["case", ["==", ["get", "fresh"], 1], 9, 8],
-          "circle-color": ["case", ["==", ["get", "fresh"], 1], "#c62828", "#8d4a12"],
-          "circle-stroke-width": 2, "circle-stroke-color": "#fff",
-          "circle-opacity": ["case", ["==", ["get", "fresh"], 1], 1, 0.85],
+        id: "breaking-point", type: "symbol", source: "breaking",
+        layout: {
+          "icon-image": ["case", ["==", ["get", "fresh"], 1], "bk-fresh", "bk-dim"],
+          // 아이콘 원본 22px(캔버스 44px·pixelRatio 2) 기준 — 예전 DOM 마커와 같은 크기감
+          "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.72, 5, 0.88, 10, 1],
+          "icon-allow-overlap": true, "icon-ignore-placement": true,
         },
+        paint: { "icon-opacity": ["case", ["==", ["get", "fresh"], 1], 1, 0.85] },
       });
       _glMap.on("click", "breaking-point", e => {
         const id = e.features && e.features[0] && e.features[0].properties.id;
