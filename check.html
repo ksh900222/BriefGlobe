@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BriefGlobe 환경 진단</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; padding:20px; background:#12141a; color:#e6e8ec;
+         font-family: -apple-system, "Noto Sans KR", "Malgun Gothic", sans-serif; line-height:1.55; }
+  .wrap { max-width: 760px; margin:0 auto; }
+  h1 { font-size:19px; margin:0 0 4px; }
+  .sub { color:#8a93a3; font-size:13px; margin-bottom:18px; }
+  .verdict { padding:14px 16px; border-radius:10px; margin:16px 0 20px; font-size:15px; font-weight:700; }
+  .v-ok   { background:rgba(46,160,67,.16); border:1px solid #2ea043; color:#7ee787; }
+  .v-bad  { background:rgba(248,81,73,.14); border:1px solid #f85149; color:#ff9b95; }
+  .v-warn { background:rgba(210,153,34,.16); border:1px solid #d29922; color:#f0c674; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  th, td { text-align:left; padding:9px 10px; border-bottom:1px solid #262a33; vertical-align:top; }
+  th { width:190px; color:#8a93a3; font-weight:600; }
+  td.val { word-break:break-all; }
+  .ok  { color:#7ee787; font-weight:700; }
+  .bad { color:#ff9b95; font-weight:700; }
+  .warn{ color:#f0c674; font-weight:700; }
+  h2 { font-size:14px; margin:22px 0 8px; color:#8a93a3; }
+  #errbox { background:#0d1117; border:1px solid #262a33; border-radius:8px; padding:10px 12px;
+            font-family: ui-monospace, Menlo, Consolas, monospace; font-size:12px; white-space:pre-wrap;
+            max-height:240px; overflow:auto; color:#ffb4ae; }
+  .none { color:#8a93a3; font-family:inherit; }
+  button { background:#1f6feb; color:#fff; border:none; border-radius:7px; padding:9px 16px;
+           font-size:13.5px; cursor:pointer; margin-top:16px; font-family:inherit; }
+  button:hover { background:#388bfd; }
+  .hint { color:#8a93a3; font-size:12.5px; margin-top:10px; }
+  a { color:#58a6ff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🌍 BriefGlobe 환경 진단</h1>
+  <div class="sub">이 기기에서 지구본(3D 지도)이 표시될 수 있는지 확인합니다.</div>
+
+  <div id="verdict" class="verdict v-warn">검사 중…</div>
+
+  <table id="tbl"></table>
+
+  <h2>오류 기록 (페이지 로드 중 발생)</h2>
+  <div id="errbox"><span class="none">아직 없음</span></div>
+
+  <button id="copyBtn">📋 결과 전체 복사</button>
+  <div class="hint">복사한 내용을 그대로 붙여넣어 알려주시면 원인을 정확히 진단할 수 있습니다.</div>
+  <div class="hint"><a href="/">← BriefGlobe로 돌아가기</a></div>
+</div>
+
+<script>
+// 오류 수집 — MapLibre 로드 실패 등 페이지 진행 중 발생하는 것을 모두 기록
+var ERRORS = [];
+function pushErr(msg) {
+  ERRORS.push(msg);
+  var box = document.getElementById("errbox");
+  box.textContent = ERRORS.join("\n\n");
+}
+window.addEventListener("error", function (e) {
+  pushErr("[error] " + (e.message || "") + (e.filename ? "\n  at " + e.filename + ":" + e.lineno : ""));
+}, true);
+window.addEventListener("unhandledrejection", function (e) {
+  pushErr("[promise] " + (e.reason && e.reason.message ? e.reason.message : String(e.reason)));
+});
+
+var rows = [];
+function row(label, value, cls) {
+  rows.push({ label: label, value: value, cls: cls || "" });
+}
+
+// ── 1) WebGL 지원 검사 ─────────────────────────────────────────
+function testWebGL(version) {
+  try {
+    var c = document.createElement("canvas");
+    var gl = version === 2 ? c.getContext("webgl2")
+                           : (c.getContext("webgl") || c.getContext("experimental-webgl"));
+    if (!gl) return { ok: false, gl: null };
+    return { ok: true, gl: gl };
+  } catch (e) { return { ok: false, gl: null, err: e.message }; }
+}
+var w2 = testWebGL(2), w1 = testWebGL(1);
+var glctx = w2.gl || w1.gl;
+
+// 그래픽 장치 정보(가능한 경우)
+var renderer = "알 수 없음", vendor = "알 수 없음";
+if (glctx) {
+  try {
+    var dbg = glctx.getExtension("WEBGL_debug_renderer_info");
+    if (dbg) {
+      renderer = glctx.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || renderer;
+      vendor = glctx.getParameter(dbg.UNMASKED_VENDOR_WEBGL) || vendor;
+    } else {
+      renderer = glctx.getParameter(glctx.RENDERER) || renderer;
+      vendor = glctx.getParameter(glctx.VENDOR) || vendor;
+    }
+  } catch (e) {}
+}
+var software = /swiftshader|llvmpipe|software|mesa offscreen/i.test(renderer);
+
+row("WebGL2 (지구본 필수)", w2.ok ? "✅ 지원" : "❌ 미지원", w2.ok ? "ok" : "bad");
+row("WebGL1", w1.ok ? "✅ 지원" : "❌ 미지원", w1.ok ? "ok" : "bad");
+row("그래픽 렌더러", renderer + (software ? "  ⚠️ 소프트웨어 렌더링(느림)" : ""), software ? "warn" : "");
+row("그래픽 벤더", vendor);
+
+// ── 2) MapLibre 로드 검사(실제 지구본이 쓰는 CDN) ───────────────
+var MAPLIBRE_URL = "https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js";
+row("MapLibre CDN", "검사 중…", "warn");
+var mlRowIdx = rows.length - 1;
+
+function render() {
+  var t = document.getElementById("tbl");
+  t.innerHTML = rows.map(function (r) {
+    return "<tr><th>" + r.label + "</th><td class='val " + r.cls + "'>" + r.value + "</td></tr>";
+  }).join("");
+}
+
+// ── 3) 브라우저/OS 정보 ────────────────────────────────────────
+row("브라우저", navigator.userAgent);
+row("플랫폼", navigator.platform + " · 논리코어 " + (navigator.hardwareConcurrency || "?") + "개"
+     + (navigator.deviceMemory ? " · RAM 약 " + navigator.deviceMemory + "GB" : ""));
+row("화면", screen.width + "×" + screen.height + " · DPR " + (window.devicePixelRatio || 1));
+render();
+
+// MapLibre 를 실제로 받아서 지구본 투영까지 되는지 확인
+var s = document.createElement("script");
+s.src = MAPLIBRE_URL;
+s.onload = function () {
+  var ver = (window.maplibregl && maplibregl.getVersion) ? maplibregl.getVersion() : "?";
+  var supported = (window.maplibregl && maplibregl.supported) ? maplibregl.supported() : null;
+  rows[mlRowIdx] = { label: "MapLibre CDN", value: "✅ 로드 성공 (v" + ver + ")", cls: "ok" };
+  if (supported !== null) {
+    row("MapLibre 실행 가능", supported ? "✅ 예" : "❌ 아니오", supported ? "ok" : "bad");
+  }
+  render();
+  finish();
+};
+s.onerror = function () {
+  rows[mlRowIdx] = { label: "MapLibre CDN", value: "❌ 로드 실패 — 네트워크/차단 의심<br><small>" + MAPLIBRE_URL + "</small>", cls: "bad" };
+  pushErr("[network] MapLibre CDN 로드 실패: " + MAPLIBRE_URL);
+  render();
+  finish();
+};
+document.head.appendChild(s);
+
+// ── 4) 종합 판정 ───────────────────────────────────────────────
+function finish() {
+  var v = document.getElementById("verdict");
+  var cdnOk = rows[mlRowIdx].cls === "ok";
+  var msg, cls;
+  if (!cdnOk) {
+    msg = "❌ 지구본 표시 불가 — 지도 라이브러리(MapLibre)를 받지 못했습니다.\n네트워크 차단(방화벽·프록시)이나 인터넷 연결 문제로 보입니다.";
+    cls = "v-bad";
+  } else if (!w2.ok) {
+    msg = "❌ 지구본 표시 불가 — 이 기기·브라우저가 WebGL2를 지원하지 않습니다.\n지구본은 WebGL2가 필요합니다. 2D 지도(?legacy=news)는 정상 이용 가능합니다.";
+    cls = "v-bad";
+  } else if (software) {
+    msg = "⚠️ 지구본은 표시되지만 매우 느릴 수 있습니다 — 그래픽 가속 없이 소프트웨어로 그리는 중입니다.\n그래픽 드라이버 설치·활성화를 권장합니다.";
+    cls = "v-warn";
+  } else {
+    msg = "✅ 이 기기에서 지구본이 정상 표시되어야 합니다.\n그래도 안 보인다면 아래 오류 기록을 알려주세요.";
+    cls = "v-ok";
+  }
+  v.className = "verdict " + cls;
+  v.textContent = msg;
+}
+
+// ── 5) 결과 복사 ───────────────────────────────────────────────
+document.getElementById("copyBtn").addEventListener("click", function () {
+  var txt = "=== BriefGlobe 환경 진단 ===\n"
+    + document.getElementById("verdict").textContent + "\n\n"
+    + rows.map(function (r) { return r.label + ": " + r.value.replace(/<[^>]+>/g, " "); }).join("\n")
+    + "\n\n[오류 기록]\n" + (ERRORS.length ? ERRORS.join("\n") : "없음");
+  var done = function () { var b = document.getElementById("copyBtn"); b.textContent = "✅ 복사됨"; setTimeout(function(){ b.textContent = "📋 결과 전체 복사"; }, 2000); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done, function () { window.prompt("아래 내용을 복사하세요:", txt); });
+  } else {
+    window.prompt("아래 내용을 복사하세요:", txt);
+  }
+});
+</script>
+</body>
+</html>

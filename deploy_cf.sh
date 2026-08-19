@@ -18,6 +18,7 @@ rm -rf "$PUB"; mkdir -p "$PUB"
 
 # 페이지가 실제로 로드하는 파일만
 cp index.html "$PUB/"
+cp check.html "$PUB/" 2>/dev/null || true   # 🔎 환경 진단 페이지(WebGL2·CDN·그래픽 확인) — /check.html
 cp _headers "$PUB/"   # 캐시 규칙(HTML/데이터 no-cache) — 옛 버전 고착 방지
 cp favicon.ico favicon-16.png favicon-32.png apple-touch-icon.png icon-192.png icon-512.png site.webmanifest "$PUB/" 2>/dev/null || true   # 🌍 favicon/앱아이콘(남색 지구본·금색 배경)
 # news-archive-*.js = 아카이브 조각(CF Pages 파일당 25MiB 한도 때문에 분할). 빠지면 과거 뉴스가 안 뜬다.
