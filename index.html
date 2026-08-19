@@ -328,6 +328,7 @@
     flex: none; display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;
     padding: 4px 14px 8px; font-size: 12px; color: var(--muted);
   }
+  .bk-area-filter[hidden] { display: none; }   /* hidden 속성이 display:flex 를 이기도록(검색 중에만 노출) */
   .bk-area-filter input { accent-color: var(--accent); cursor: pointer; margin: 0; }
   .bk-area-filter:hover { color: var(--text); }
   .digest-list { overflow-y: auto; }
