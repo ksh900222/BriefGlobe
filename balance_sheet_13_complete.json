@@ -1,0 +1,1330 @@
+{
+  "collected_at": "2026-08-16T06:41:49.214780",
+  "summary": {
+    "us_tickers": 11,
+    "kr_tickers": 2,
+    "total_tickers": 13,
+    "us_periods": 180,
+    "kr_periods": 8
+  },
+  "note": "13개 종목 5년(약 20분기) 재무상태표. 미국: SEC EDGAR XBRL (10-Q/20-F). $B 단위. 한국: DART 기준 (수동 입력, 2024-2025년 데이터). 조원 단위. 분기 키=YYYY-MM. 분기말 스톡(잔액) 값만 수집. BNTX, SONY: 20-F(연간)만 → 분기 데이터 없음. OKLO: 2024년 5월 IPO이므로 약 8기만 실제 데이터 있음.",
+  "us": {
+    "AAPL": {
+      "2026-06": {
+        "totalAssets": 383.27,
+        "currentAssets": 149.82,
+        "totalLiab": 275.75,
+        "currentLiab": 149.33,
+        "equity": 107.52
+      },
+      "2026-03": {
+        "totalAssets": 371.08,
+        "currentAssets": 144.11,
+        "totalLiab": 264.59,
+        "currentLiab": 134.64,
+        "equity": 106.49
+      },
+      "2025-12": {
+        "totalAssets": 379.3,
+        "currentAssets": 158.1,
+        "totalLiab": 291.11,
+        "currentLiab": 162.37,
+        "equity": 88.19
+      },
+      "2025-09": {
+        "totalAssets": 359.24,
+        "currentAssets": 147.96,
+        "totalLiab": 285.51,
+        "currentLiab": 165.63,
+        "equity": 73.73
+      },
+      "2025-06": {
+        "totalAssets": 331.5,
+        "currentAssets": 122.49,
+        "totalLiab": 265.67,
+        "currentLiab": 141.12,
+        "equity": 65.83
+      },
+      "2025-03": {
+        "totalAssets": 331.23,
+        "currentAssets": 118.67,
+        "totalLiab": 264.44,
+        "currentLiab": 144.57,
+        "equity": 66.8
+      },
+      "2024-12": {
+        "totalAssets": 344.08,
+        "currentAssets": 133.24,
+        "totalLiab": 277.33,
+        "currentLiab": 144.37,
+        "equity": 66.76
+      },
+      "2024-09": {
+        "totalAssets": 364.98,
+        "currentAssets": 152.99,
+        "totalLiab": 308.03,
+        "currentLiab": 176.39,
+        "equity": 56.95
+      },
+      "2024-06": {
+        "totalAssets": 331.61,
+        "currentAssets": 125.44,
+        "totalLiab": 264.9,
+        "currentLiab": 131.62,
+        "equity": 66.71
+      },
+      "2024-03": {
+        "totalAssets": 337.41,
+        "currentAssets": 128.42,
+        "totalLiab": 263.22,
+        "currentLiab": 123.82,
+        "equity": 74.19
+      },
+      "2023-12": {
+        "totalAssets": 353.51,
+        "currentAssets": 143.69,
+        "totalLiab": 279.41,
+        "currentLiab": 133.97,
+        "equity": 74.1
+      },
+      "2023-09": {
+        "totalAssets": 352.58,
+        "currentAssets": 143.57,
+        "totalLiab": 290.44,
+        "currentLiab": 145.31,
+        "equity": 62.15
+      },
+      "2023-06": {
+        "totalAssets": 335.04,
+        "currentAssets": 122.66,
+        "totalLiab": 274.76,
+        "currentLiab": 124.96,
+        "equity": 60.27
+      },
+      "2023-03": {
+        "totalAssets": 332.16,
+        "currentAssets": 112.91,
+        "totalLiab": 270.0,
+        "currentLiab": 120.08,
+        "equity": 62.16
+      },
+      "2022-12": {
+        "totalAssets": 346.75,
+        "currentAssets": 128.78,
+        "totalLiab": 290.02,
+        "currentLiab": 137.29,
+        "equity": 56.73
+      },
+      "2022-09": {
+        "totalAssets": 352.75,
+        "currentAssets": 135.41,
+        "totalLiab": 302.08,
+        "currentLiab": 153.98,
+        "equity": 50.67
+      },
+      "2022-06": {
+        "totalAssets": 336.31,
+        "currentAssets": 112.29,
+        "totalLiab": 278.2,
+        "currentLiab": 129.87,
+        "equity": 58.11
+      },
+      "2022-03": {
+        "totalAssets": 350.66,
+        "currentAssets": 118.18,
+        "totalLiab": 283.26,
+        "currentLiab": 127.51,
+        "equity": 67.4
+      },
+      "2021-12": {
+        "totalAssets": 381.19,
+        "currentAssets": 153.15,
+        "totalLiab": 309.26,
+        "currentLiab": 147.57,
+        "equity": 71.93
+      },
+      "2021-09": {
+        "totalAssets": 351.0,
+        "currentAssets": 134.84,
+        "totalLiab": 287.91,
+        "currentLiab": 125.48,
+        "equity": 63.09
+      }
+    },
+    "AMZN": {
+      "2026-06": {
+        "totalAssets": 1095.69,
+        "currentAssets": 249.26,
+        "currentLiab": 241.27,
+        "equity": 551.62
+      },
+      "2026-03": {
+        "totalAssets": 916.63,
+        "currentAssets": 255.16,
+        "currentLiab": 216.76,
+        "equity": 441.91
+      },
+      "2025-12": {
+        "totalAssets": 818.04,
+        "currentAssets": 229.08,
+        "currentLiab": 218.0,
+        "equity": 411.06
+      },
+      "2025-09": {
+        "totalAssets": 727.92,
+        "currentAssets": 196.87,
+        "currentLiab": 195.2,
+        "equity": 369.63
+      },
+      "2025-06": {
+        "totalAssets": 682.17,
+        "currentAssets": 191.42,
+        "currentLiab": 186.92,
+        "equity": 333.77
+      },
+      "2025-03": {
+        "totalAssets": 643.26,
+        "currentAssets": 184.65,
+        "currentLiab": 176.17,
+        "equity": 305.87
+      },
+      "2024-12": {
+        "totalAssets": 624.89,
+        "currentAssets": 190.87,
+        "currentLiab": 179.43,
+        "equity": 285.97
+      },
+      "2024-09": {
+        "totalAssets": 584.63,
+        "currentAssets": 175.79,
+        "currentLiab": 161.48,
+        "equity": 259.15
+      },
+      "2024-06": {
+        "totalAssets": 554.82,
+        "currentAssets": 173.31,
+        "currentLiab": 158.17,
+        "equity": 236.45
+      },
+      "2024-03": {
+        "totalAssets": 530.97,
+        "currentAssets": 163.99,
+        "currentLiab": 152.97,
+        "equity": 216.66
+      },
+      "2023-12": {
+        "totalAssets": 527.85,
+        "currentAssets": 172.35,
+        "currentLiab": 164.92,
+        "equity": 201.88
+      },
+      "2023-09": {
+        "totalAssets": 486.88,
+        "currentAssets": 143.0,
+        "currentLiab": 145.21,
+        "equity": 182.97
+      },
+      "2023-06": {
+        "totalAssets": 477.61,
+        "currentAssets": 140.48,
+        "currentLiab": 148.24,
+        "equity": 168.6
+      },
+      "2023-03": {
+        "totalAssets": 464.38,
+        "currentAssets": 136.22,
+        "currentLiab": 147.57,
+        "equity": 154.53
+      },
+      "2022-12": {
+        "totalAssets": 462.68,
+        "currentAssets": 146.79,
+        "currentLiab": 155.39,
+        "equity": 146.04
+      },
+      "2022-09": {
+        "totalAssets": 428.36,
+        "currentAssets": 131.46,
+        "currentLiab": 140.36,
+        "equity": 137.49
+      },
+      "2022-06": {
+        "totalAssets": 419.73,
+        "currentAssets": 133.67,
+        "currentLiab": 140.29,
+        "equity": 131.4
+      },
+      "2022-03": {
+        "totalAssets": 410.77,
+        "currentAssets": 133.88,
+        "currentLiab": 139.51,
+        "equity": 134.0
+      },
+      "2021-12": {
+        "totalAssets": 420.55,
+        "currentAssets": 161.58,
+        "currentLiab": 142.27,
+        "equity": 138.25
+      },
+      "2021-09": {
+        "totalAssets": 382.41,
+        "currentAssets": 138.53,
+        "currentLiab": 123.99,
+        "equity": 120.56
+      }
+    },
+    "BNTX": {},
+    "LCID": {
+      "2026-06": {
+        "totalAssets": 2.98,
+        "currentAssets": 1.69,
+        "totalLiab": 5.77,
+        "currentLiab": 2.27,
+        "equity": -2.79
+      },
+      "2026-03": {
+        "totalAssets": 2.87,
+        "currentAssets": 1.57,
+        "totalLiab": 5.71,
+        "currentLiab": 2.06,
+        "equity": -2.84
+      },
+      "2025-12": {
+        "totalAssets": 3.44,
+        "currentAssets": 2.0,
+        "totalLiab": 6.22,
+        "currentLiab": 2.13,
+        "equity": -2.78
+      },
+      "2025-09": {
+        "totalAssets": 3.12,
+        "currentAssets": 1.68,
+        "totalLiab": 5.88,
+        "currentLiab": 2.25,
+        "equity": -2.77
+      },
+      "2025-06": {
+        "totalAssets": 3.28,
+        "currentAssets": 1.81,
+        "totalLiab": 6.0,
+        "currentLiab": 2.21,
+        "equity": -2.72
+      },
+      "2025-03": {
+        "totalAssets": 3.42,
+        "currentAssets": 1.89,
+        "totalLiab": 6.23,
+        "currentLiab": 2.28,
+        "equity": -2.81
+      },
+      "2024-12": {
+        "totalAssets": 3.46,
+        "currentAssets": 1.88,
+        "totalLiab": 6.21,
+        "currentLiab": 2.37,
+        "equity": -2.75
+      },
+      "2024-09": {
+        "totalAssets": 3.41,
+        "currentAssets": 1.81,
+        "totalLiab": 6.15,
+        "currentLiab": 2.17,
+        "equity": -2.73
+      },
+      "2024-06": {
+        "totalAssets": 3.44,
+        "currentAssets": 1.82,
+        "totalLiab": 6.2,
+        "currentLiab": 2.21,
+        "equity": -2.76
+      },
+      "2024-03": {
+        "totalAssets": 3.24,
+        "currentAssets": 1.59,
+        "totalLiab": 6.07,
+        "currentLiab": 2.02,
+        "equity": -2.83
+      },
+      "2023-12": {
+        "totalAssets": 3.47,
+        "currentAssets": 1.85,
+        "totalLiab": 6.18,
+        "currentLiab": 2.18,
+        "equity": -2.71
+      },
+      "2023-09": {
+        "totalAssets": 3.36,
+        "currentAssets": 1.78,
+        "totalLiab": 6.07,
+        "currentLiab": 2.0,
+        "equity": -2.71
+      },
+      "2023-06": {
+        "totalAssets": 3.38,
+        "currentAssets": 1.77,
+        "totalLiab": 6.08,
+        "currentLiab": 1.97,
+        "equity": -2.7
+      },
+      "2023-03": {
+        "totalAssets": 3.21,
+        "currentAssets": 1.61,
+        "totalLiab": 5.96,
+        "currentLiab": 1.91,
+        "equity": -2.75
+      },
+      "2022-12": {
+        "totalAssets": 3.58,
+        "currentAssets": 1.93,
+        "totalLiab": 6.13,
+        "currentLiab": 2.07,
+        "equity": -2.55
+      },
+      "2022-09": {
+        "totalAssets": 3.65,
+        "currentAssets": 2.0,
+        "totalLiab": 6.03,
+        "currentLiab": 1.96,
+        "equity": -2.38
+      },
+      "2022-06": {
+        "totalAssets": 4.1,
+        "currentAssets": 2.46,
+        "totalLiab": 6.24,
+        "currentLiab": 2.22,
+        "equity": -2.15
+      },
+      "2022-03": {
+        "totalAssets": 4.26,
+        "currentAssets": 2.68,
+        "totalLiab": 6.16,
+        "currentLiab": 2.2,
+        "equity": -1.9
+      },
+      "2021-12": {
+        "totalAssets": 4.57,
+        "currentAssets": 3.01,
+        "totalLiab": 6.19,
+        "currentLiab": 2.22,
+        "equity": -1.62
+      },
+      "2021-09": {
+        "totalAssets": 4.47,
+        "currentAssets": 2.96,
+        "totalLiab": 6.0,
+        "currentLiab": 2.03,
+        "equity": -1.53
+      }
+    },
+    "META": {
+      "2026-06": {
+        "totalAssets": 449.96,
+        "currentAssets": 125.47,
+        "totalLiab": 188.74,
+        "currentLiab": 56.38,
+        "equity": 261.22
+      },
+      "2026-03": {
+        "totalAssets": 395.25,
+        "currentAssets": 109.77,
+        "totalLiab": 151.57,
+        "currentLiab": 46.75,
+        "equity": 243.68
+      },
+      "2025-12": {
+        "totalAssets": 366.02,
+        "currentAssets": 108.72,
+        "totalLiab": 148.78,
+        "currentLiab": 41.84,
+        "equity": 217.24
+      },
+      "2025-09": {
+        "totalAssets": 303.84,
+        "currentAssets": 73.12,
+        "totalLiab": 109.78,
+        "currentLiab": 36.96,
+        "equity": 194.07
+      },
+      "2025-06": {
+        "totalAssets": 294.74,
+        "currentAssets": 73.61,
+        "totalLiab": 99.67,
+        "currentLiab": 37.3,
+        "equity": 195.07
+      },
+      "2025-03": {
+        "totalAssets": 280.21,
+        "currentAssets": 90.23,
+        "totalLiab": 95.18,
+        "currentLiab": 33.89,
+        "equity": 185.03
+      },
+      "2024-12": {
+        "totalAssets": 276.05,
+        "currentAssets": 100.05,
+        "totalLiab": 93.42,
+        "currentLiab": 33.6,
+        "equity": 182.64
+      },
+      "2024-09": {
+        "totalAssets": 256.41,
+        "currentAssets": 91.07,
+        "totalLiab": 91.88,
+        "currentLiab": 33.33,
+        "equity": 164.53
+      },
+      "2024-06": {
+        "totalAssets": 230.24,
+        "currentAssets": 76.43,
+        "totalLiab": 73.47,
+        "currentLiab": 27.0,
+        "equity": 156.76
+      },
+      "2024-03": {
+        "totalAssets": 222.84,
+        "currentAssets": 75.33,
+        "totalLiab": 73.31,
+        "currentLiab": 28.1,
+        "equity": 149.53
+      },
+      "2023-12": {
+        "totalAssets": 229.62,
+        "currentAssets": 85.36,
+        "totalLiab": 76.45,
+        "currentLiab": 31.96,
+        "equity": 153.17
+      },
+      "2023-09": {
+        "totalAssets": 216.27,
+        "currentAssets": 78.38,
+        "totalLiab": 73.4,
+        "currentLiab": 30.53,
+        "equity": 142.87
+      },
+      "2023-06": {
+        "totalAssets": 206.69,
+        "currentAssets": 69.56,
+        "totalLiab": 72.66,
+        "currentLiab": 29.92,
+        "equity": 134.03
+      },
+      "2023-03": {
+        "totalAssets": 184.49,
+        "currentAssets": 52.48,
+        "totalLiab": 59.7,
+        "currentLiab": 25.38,
+        "equity": 124.8
+      },
+      "2022-12": {
+        "totalAssets": 185.73,
+        "currentAssets": 59.55,
+        "totalLiab": 60.01,
+        "currentLiab": 27.03,
+        "equity": 125.71
+      },
+      "2022-09": {
+        "totalAssets": 178.89,
+        "currentAssets": 58.31,
+        "totalLiab": 54.8,
+        "currentLiab": 22.69,
+        "equity": 124.09
+      },
+      "2022-06": {
+        "totalAssets": 169.78,
+        "currentAssets": 55.99,
+        "totalLiab": 44.01,
+        "currentLiab": 22.22,
+        "equity": 125.77
+      },
+      "2022-03": {
+        "totalAssets": 164.22,
+        "currentAssets": 59.27,
+        "totalLiab": 40.99,
+        "currentLiab": 21.09,
+        "equity": 123.23
+      },
+      "2021-12": {
+        "totalAssets": 165.99,
+        "currentAssets": 66.67,
+        "totalLiab": 41.11,
+        "currentLiab": 21.14,
+        "equity": 124.88
+      },
+      "2021-09": {
+        "totalAssets": 169.59,
+        "currentAssets": 75.42,
+        "totalLiab": 36.23,
+        "currentLiab": 17.81,
+        "equity": 133.36
+      }
+    },
+    "MSFT": {
+      "2026-06": {
+        "totalAssets": 758.38,
+        "currentAssets": 207.71,
+        "totalLiab": 315.99,
+        "currentLiab": 168.82,
+        "equity": 442.39
+      },
+      "2026-03": {
+        "totalAssets": 694.23,
+        "currentAssets": 175.33,
+        "totalLiab": 279.86,
+        "currentLiab": 136.66,
+        "equity": 414.37
+      },
+      "2025-12": {
+        "totalAssets": 665.3,
+        "currentAssets": 180.19,
+        "totalLiab": 274.43,
+        "currentLiab": 130.0,
+        "equity": 390.88
+      },
+      "2025-09": {
+        "totalAssets": 636.35,
+        "currentAssets": 189.07,
+        "totalLiab": 273.27,
+        "currentLiab": 135.0,
+        "equity": 363.08
+      },
+      "2025-06": {
+        "totalAssets": 619.0,
+        "currentAssets": 191.13,
+        "totalLiab": 275.52,
+        "currentLiab": 141.22,
+        "equity": 343.48
+      },
+      "2025-03": {
+        "totalAssets": 562.62,
+        "currentAssets": 156.64,
+        "totalLiab": 240.73,
+        "currentLiab": 114.21,
+        "equity": 321.89
+      },
+      "2024-12": {
+        "totalAssets": 533.9,
+        "currentAssets": 147.08,
+        "totalLiab": 231.2,
+        "currentLiab": 108.88,
+        "equity": 302.69
+      },
+      "2024-09": {
+        "totalAssets": 523.01,
+        "currentAssets": 149.93,
+        "totalLiab": 235.29,
+        "currentLiab": 115.2,
+        "equity": 287.72
+      },
+      "2024-06": {
+        "totalAssets": 512.16,
+        "currentAssets": 159.73,
+        "totalLiab": 243.69,
+        "currentLiab": 125.29,
+        "equity": 268.48
+      },
+      "2024-03": {
+        "totalAssets": 484.27,
+        "currentAssets": 147.18,
+        "totalLiab": 231.12,
+        "currentLiab": 118.53,
+        "equity": 253.15
+      },
+      "2023-12": {
+        "totalAssets": 470.56,
+        "currentAssets": 147.39,
+        "totalLiab": 232.29,
+        "currentLiab": 121.02,
+        "equity": 238.27
+      },
+      "2023-09": {
+        "totalAssets": 445.79,
+        "currentAssets": 207.59,
+        "totalLiab": 225.07,
+        "currentLiab": 124.79,
+        "equity": 220.71
+      },
+      "2023-06": {
+        "equity": 206.22
+      },
+      "2023-03": {
+        "totalAssets": 380.09,
+        "currentAssets": 163.89,
+        "totalLiab": 185.41,
+        "currentLiab": 85.69,
+        "equity": 194.68
+      },
+      "2022-12": {
+        "totalAssets": 364.55,
+        "currentAssets": 157.82,
+        "totalLiab": 181.42,
+        "currentLiab": 81.72,
+        "equity": 183.14
+      },
+      "2022-09": {
+        "totalAssets": 359.78,
+        "currentAssets": 160.81,
+        "totalLiab": 186.22,
+        "currentLiab": 87.39,
+        "equity": 173.57
+      },
+      "2022-06": {
+        "totalAssets": 364.84,
+        "currentAssets": 169.68,
+        "totalLiab": 198.3,
+        "currentLiab": 95.08
+      },
+      "2022-03": {
+        "totalAssets": 344.61,
+        "currentAssets": 153.92,
+        "totalLiab": 181.68,
+        "currentLiab": 77.44,
+        "equity": 162.92
+      },
+      "2021-12": {
+        "totalAssets": 340.39,
+        "currentAssets": 174.19,
+        "totalLiab": 180.38,
+        "currentLiab": 77.51,
+        "equity": 160.01
+      },
+      "2021-09": {
+        "totalAssets": 335.42,
+        "currentAssets": 174.33,
+        "totalLiab": 183.44,
+        "currentLiab": 80.53,
+        "equity": 151.98
+      }
+    },
+    "NVDA": {
+      "2026-03": {
+        "totalAssets": 259.47,
+        "currentAssets": 151.0,
+        "totalLiab": 64.0,
+        "currentLiab": 43.88,
+        "equity": 195.47
+      },
+      "2025-12": {
+        "totalAssets": 206.8,
+        "currentAssets": 125.61,
+        "totalLiab": 49.51,
+        "currentLiab": 32.16,
+        "equity": 157.29
+      },
+      "2025-09": {
+        "totalAssets": 161.15,
+        "currentAssets": 116.49,
+        "totalLiab": 42.25,
+        "currentLiab": 26.07,
+        "equity": 118.9
+      },
+      "2025-06": {
+        "totalAssets": 140.74,
+        "currentAssets": 102.22,
+        "totalLiab": 40.61,
+        "currentLiab": 24.26,
+        "equity": 100.13
+      },
+      "2025-03": {
+        "totalAssets": 125.25,
+        "currentAssets": 89.94,
+        "totalLiab": 41.41,
+        "currentLiab": 26.54,
+        "equity": 83.84
+      },
+      "2024-12": {
+        "totalAssets": 111.6,
+        "currentAssets": 80.13,
+        "totalLiab": 32.27,
+        "currentLiab": 18.05,
+        "equity": 79.33
+      },
+      "2024-09": {
+        "totalAssets": 96.01,
+        "currentAssets": 67.64,
+        "totalLiab": 30.11,
+        "currentLiab": 16.48,
+        "equity": 65.9
+      },
+      "2024-06": {
+        "totalAssets": 85.23,
+        "currentAssets": 59.63,
+        "totalLiab": 27.07,
+        "currentLiab": 13.97,
+        "equity": 58.16
+      },
+      "2024-03": {
+        "totalAssets": 77.07,
+        "currentAssets": 53.73,
+        "totalLiab": 27.93,
+        "currentLiab": 15.22,
+        "equity": 49.14
+      },
+      "2023-12": {
+        "totalAssets": 65.73,
+        "currentAssets": 44.34,
+        "totalLiab": 22.75,
+        "currentLiab": 10.63,
+        "equity": 42.98
+      },
+      "2023-09": {
+        "totalAssets": 54.15,
+        "currentAssets": 32.66,
+        "totalLiab": 20.88,
+        "currentLiab": 9.1,
+        "equity": 33.27
+      },
+      "2023-06": {
+        "totalAssets": 49.55,
+        "currentAssets": 28.8,
+        "totalLiab": 22.05,
+        "currentLiab": 10.33,
+        "equity": 27.5
+      },
+      "2023-03": {
+        "totalAssets": 44.46,
+        "currentAssets": 24.88,
+        "totalLiab": 19.94,
+        "currentLiab": 7.26,
+        "equity": 24.52
+      },
+      "2022-12": {
+        "totalAssets": 41.18,
+        "currentAssets": 23.07,
+        "totalLiab": 19.08,
+        "currentLiab": 6.56,
+        "equity": 22.1
+      },
+      "2022-09": {
+        "totalAssets": 40.49,
+        "currentAssets": 23.22,
+        "totalLiab": 19.14,
+        "currentLiab": 6.86,
+        "equity": 21.35
+      },
+      "2022-06": {
+        "totalAssets": 43.48,
+        "currentAssets": 27.42,
+        "totalLiab": 19.62,
+        "currentLiab": 7.57,
+        "equity": 23.85
+      },
+      "2022-03": {
+        "totalAssets": 45.21,
+        "currentAssets": 29.57,
+        "totalLiab": 18.89,
+        "currentLiab": 5.56,
+        "equity": 26.32
+      },
+      "2021-12": {
+        "totalAssets": 44.19,
+        "currentAssets": 28.83,
+        "totalLiab": 17.57,
+        "currentLiab": 4.33,
+        "equity": 26.61
+      },
+      "2021-09": {
+        "totalAssets": 40.63,
+        "currentAssets": 25.81,
+        "totalLiab": 16.83,
+        "currentLiab": 3.61,
+        "equity": 23.8
+      },
+      "2021-06": {
+        "totalAssets": 38.65,
+        "currentAssets": 25.81,
+        "totalLiab": 17.5,
+        "currentLiab": 4.45,
+        "equity": 21.15
+      }
+    },
+    "OKLO": {
+      "2026-06": {
+        "totalAssets": 3.36,
+        "currentAssets": 2.52,
+        "totalLiab": 0.08,
+        "currentLiab": 0.05,
+        "equity": 3.27
+      },
+      "2026-03": {
+        "equity": 2.64
+      },
+      "2025-12": {
+        "totalAssets": 1.53,
+        "currentAssets": 1.25,
+        "totalLiab": 0.05,
+        "currentLiab": 0.03,
+        "equity": 1.48
+      },
+      "2025-09": {
+        "totalAssets": 1.25,
+        "currentAssets": 0.93,
+        "totalLiab": 0.04,
+        "currentLiab": 0.01,
+        "equity": 1.21
+      },
+      "2025-06": {
+        "totalAssets": 0.73,
+        "currentAssets": 0.54,
+        "totalLiab": 0.03,
+        "currentLiab": 0.01,
+        "equity": 0.7
+      },
+      "2025-03": {
+        "totalAssets": 0.3,
+        "currentAssets": 0.2,
+        "totalLiab": 0.03,
+        "currentLiab": 0.01,
+        "equity": 0.27
+      },
+      "2024-12": {
+        "totalAssets": 0.28,
+        "currentAssets": 0.23,
+        "totalLiab": 0.03,
+        "currentLiab": 0.01,
+        "equity": 0.25
+      },
+      "2024-09": {
+        "totalAssets": 0.29,
+        "currentAssets": 0.23,
+        "totalLiab": 0.03,
+        "currentLiab": 0.0,
+        "equity": 0.26
+      },
+      "2024-06": {
+        "totalAssets": 0.3,
+        "currentAssets": 0.24,
+        "totalLiab": 0.03,
+        "currentLiab": 0.0,
+        "equity": 0.27
+      },
+      "2024-03": {
+        "totalAssets": 0.31,
+        "currentAssets": 0.0,
+        "totalLiab": 0.01,
+        "currentLiab": 0.0,
+        "equity": -0.06
+      },
+      "2023-12": {
+        "totalAssets": 0.01,
+        "currentAssets": 0.01,
+        "totalLiab": 0.05,
+        "currentLiab": 0.0,
+        "equity": -0.03
+      },
+      "2023-09": {
+        "totalAssets": 0.52,
+        "currentAssets": 0.0,
+        "totalLiab": 0.02,
+        "currentLiab": 0.0,
+        "equity": -0.02
+      },
+      "2023-06": {
+        "totalAssets": 0.52,
+        "currentAssets": 0.0,
+        "totalLiab": 0.02,
+        "currentLiab": 0.0,
+        "equity": -0.01
+      },
+      "2023-03": {
+        "totalAssets": 0.51,
+        "currentAssets": 0.0,
+        "totalLiab": 0.02,
+        "currentLiab": 0.0,
+        "equity": -0.01
+      },
+      "2022-12": {
+        "totalAssets": 0.51,
+        "currentAssets": 0.0,
+        "totalLiab": 0.02,
+        "currentLiab": 0.0,
+        "equity": -0.0
+      },
+      "2022-09": {
+        "totalAssets": 0.51,
+        "currentAssets": 0.0,
+        "totalLiab": 0.02,
+        "currentLiab": 0.0,
+        "equity": -0.01
+      },
+      "2022-06": {
+        "totalAssets": 0.5,
+        "currentAssets": 0.0,
+        "totalLiab": 0.02,
+        "currentLiab": 0.0,
+        "equity": -0.01
+      },
+      "2022-03": {
+        "totalAssets": 0.5,
+        "currentAssets": 0.0,
+        "totalLiab": 0.02,
+        "currentLiab": 0.0,
+        "equity": -0.01
+      },
+      "2021-12": {
+        "totalAssets": 0.5,
+        "currentAssets": 0.0,
+        "totalLiab": 0.02,
+        "currentLiab": 0.0,
+        "equity": -0.01
+      },
+      "2021-09": {
+        "totalAssets": 0.5,
+        "currentAssets": 0.0,
+        "totalLiab": 0.02,
+        "currentLiab": 0.0,
+        "equity": -0.01
+      }
+    },
+    "PFE": {
+      "2026-06": {
+        "totalAssets": 201.13,
+        "currentAssets": 41.36,
+        "totalLiab": 115.64,
+        "currentLiab": 32.65,
+        "equity": 85.19
+      },
+      "2026-03": {
+        "totalAssets": 207.62,
+        "currentAssets": 42.82,
+        "totalLiab": 117.21,
+        "currentLiab": 34.35,
+        "equity": 90.1
+      },
+      "2025-12": {
+        "totalAssets": 208.16,
+        "currentAssets": 42.9,
+        "totalLiab": 121.39,
+        "currentLiab": 36.98,
+        "equity": 86.48
+      },
+      "2025-09": {
+        "totalAssets": 208.73,
+        "currentAssets": 46.92,
+        "totalLiab": 115.64,
+        "currentLiab": 36.6,
+        "equity": 92.8
+      },
+      "2025-06": {
+        "totalAssets": 206.09,
+        "currentAssets": 43.7,
+        "totalLiab": 117.08,
+        "currentLiab": 37.73,
+        "equity": 88.69
+      },
+      "2025-03": {
+        "totalAssets": 208.03,
+        "currentAssets": 45.86,
+        "totalLiab": 117.39,
+        "currentLiab": 36.45,
+        "equity": 90.34
+      },
+      "2024-12": {
+        "totalAssets": 213.4,
+        "currentAssets": 50.36,
+        "totalLiab": 124.9,
+        "currentLiab": 42.99,
+        "equity": 88.2
+      },
+      "2024-09": {
+        "totalAssets": 219.48,
+        "currentAssets": 43.22,
+        "totalLiab": 126.92,
+        "currentLiab": 43.21,
+        "equity": 92.29
+      },
+      "2024-06": {
+        "totalAssets": 216.19,
+        "currentAssets": 37.83,
+        "totalLiab": 128.22,
+        "currentLiab": 43.82,
+        "equity": 87.7
+      },
+      "2024-03": {
+        "totalAssets": 221.09,
+        "currentAssets": 42.41,
+        "totalLiab": 128.54,
+        "currentLiab": 40.5,
+        "equity": 92.28
+      },
+      "2023-12": {
+        "totalAssets": 226.5,
+        "currentAssets": 43.33,
+        "totalLiab": 137.21,
+        "currentLiab": 47.79,
+        "equity": 89.01
+      },
+      "2023-09": {
+        "totalAssets": 215.02,
+        "currentAssets": 74.01,
+        "totalLiab": 117.82,
+        "currentLiab": 31.14,
+        "equity": 96.93
+      },
+      "2023-06": {
+        "totalAssets": 220.17,
+        "currentAssets": 73.35,
+        "totalLiab": 120.88,
+        "currentLiab": 34.65,
+        "equity": 99.02
+      },
+      "2023-03": {
+        "totalAssets": 195.62,
+        "currentAssets": 50.08,
+        "totalLiab": 94.38,
+        "currentLiab": 36.56,
+        "equity": 100.97
+      },
+      "2022-12": {
+        "totalAssets": 197.21,
+        "currentAssets": 51.26,
+        "totalLiab": 101.29,
+        "currentLiab": 42.14,
+        "equity": 95.66
+      },
+      "2022-09": {
+        "totalAssets": 195.35,
+        "currentAssets": 70.4,
+        "totalLiab": 102.46,
+        "currentLiab": 44.31,
+        "equity": 92.63
+      },
+      "2022-06": {
+        "totalAssets": 195.29,
+        "currentAssets": 67.47,
+        "totalLiab": 107.82,
+        "currentLiab": 47.41,
+        "equity": 87.21
+      },
+      "2022-03": {
+        "totalAssets": 183.84,
+        "currentAssets": 54.42,
+        "totalLiab": 101.16,
+        "currentLiab": 39.27,
+        "equity": 82.42
+      },
+      "2021-12": {
+        "totalAssets": 181.48,
+        "currentAssets": 59.69,
+        "totalLiab": 104.01,
+        "currentLiab": 42.67,
+        "equity": 77.2
+      },
+      "2021-09": {
+        "totalAssets": 179.19,
+        "currentAssets": 57.9,
+        "totalLiab": 103.22,
+        "currentLiab": 41.8,
+        "equity": 75.69
+      }
+    },
+    "PLTR": {
+      "2026-06": {
+        "totalAssets": 11.68,
+        "currentAssets": 11.1,
+        "totalLiab": 1.79,
+        "currentLiab": 1.54,
+        "equity": 9.77
+      },
+      "2026-03": {
+        "totalAssets": 10.2,
+        "currentAssets": 9.55,
+        "totalLiab": 1.64,
+        "currentLiab": 1.38,
+        "equity": 8.45
+      },
+      "2025-12": {
+        "totalAssets": 8.9,
+        "currentAssets": 8.36,
+        "totalLiab": 1.41,
+        "currentLiab": 1.18,
+        "equity": 7.39
+      },
+      "2025-09": {
+        "totalAssets": 8.11,
+        "currentAssets": 7.59,
+        "totalLiab": 1.43,
+        "currentLiab": 1.18,
+        "equity": 6.59
+      },
+      "2025-06": {
+        "totalAssets": 7.37,
+        "currentAssets": 6.89,
+        "totalLiab": 1.34,
+        "currentLiab": 1.09,
+        "equity": 5.93
+      },
+      "2025-03": {
+        "totalAssets": 6.74,
+        "currentAssets": 6.28,
+        "totalLiab": 1.22,
+        "currentLiab": 0.97,
+        "equity": 5.42
+      },
+      "2024-12": {
+        "totalAssets": 6.34,
+        "currentAssets": 5.93,
+        "totalLiab": 1.25,
+        "currentLiab": 1.0,
+        "equity": 5.0
+      },
+      "2024-09": {
+        "totalAssets": 5.77,
+        "currentAssets": 5.35,
+        "totalLiab": 1.18,
+        "currentLiab": 0.94,
+        "equity": 4.5
+      },
+      "2024-06": {
+        "totalAssets": 5.19,
+        "currentAssets": 4.77,
+        "totalLiab": 1.05,
+        "currentLiab": 0.81,
+        "equity": 4.05
+      },
+      "2024-03": {
+        "totalAssets": 4.81,
+        "currentAssets": 4.44,
+        "totalLiab": 0.95,
+        "currentLiab": 0.75,
+        "equity": 3.78
+      },
+      "2023-12": {
+        "totalAssets": 4.52,
+        "currentAssets": 4.14,
+        "totalLiab": 0.96,
+        "currentLiab": 0.75,
+        "equity": 3.48
+      },
+      "2023-09": {
+        "totalAssets": 4.19,
+        "currentAssets": 3.81,
+        "totalLiab": 0.92,
+        "currentLiab": 0.69,
+        "equity": 3.19
+      },
+      "2023-06": {
+        "totalAssets": 3.98,
+        "currentAssets": 3.58,
+        "totalLiab": 0.95,
+        "currentLiab": 0.69,
+        "equity": 2.96
+      },
+      "2023-03": {
+        "totalAssets": 3.68,
+        "currentAssets": 3.26,
+        "totalLiab": 0.88,
+        "currentLiab": 0.6,
+        "equity": 2.72
+      },
+      "2022-12": {
+        "totalAssets": 3.46,
+        "currentAssets": 3.04,
+        "totalLiab": 0.82,
+        "currentLiab": 0.59,
+        "equity": 2.57
+      },
+      "2022-09": {
+        "totalAssets": 3.32,
+        "currentAssets": 2.95,
+        "totalLiab": 0.93,
+        "currentLiab": 0.69,
+        "equity": 2.39
+      },
+      "2022-06": {
+        "totalAssets": 3.28,
+        "currentAssets": 2.9,
+        "totalLiab": 0.93,
+        "currentLiab": 0.67,
+        "equity": 2.35
+      },
+      "2022-03": {
+        "totalAssets": 3.32,
+        "currentAssets": 2.93,
+        "totalLiab": 0.95,
+        "currentLiab": 0.67,
+        "equity": 2.36
+      },
+      "2021-12": {
+        "totalAssets": 3.25,
+        "currentAssets": 2.86,
+        "totalLiab": 0.96,
+        "currentLiab": 0.66,
+        "equity": 2.29
+      },
+      "2021-09": {
+        "totalAssets": 3.22,
+        "currentAssets": 2.81,
+        "totalLiab": 0.98,
+        "currentLiab": 0.68,
+        "equity": 2.25
+      }
+    },
+    "SONY": {}
+  },
+  "kr": {
+    "000660.KS": {
+      "2025-06": {
+        "totalAssetsKRW": 222.8,
+        "currentAssetsKRW": 132.5,
+        "totalLiabKRW": 58.4,
+        "currentLiabKRW": 52.1,
+        "equityKRW": 164.4
+      },
+      "2025-03": {
+        "totalAssetsKRW": 218.9,
+        "currentAssetsKRW": 129.3,
+        "totalLiabKRW": 57.2,
+        "currentLiabKRW": 51.3,
+        "equityKRW": 161.7
+      },
+      "2024-12": {
+        "totalAssetsKRW": 215.6,
+        "currentAssetsKRW": 126.8,
+        "totalLiabKRW": 56.1,
+        "currentLiabKRW": 50.2,
+        "equityKRW": 159.5
+      },
+      "2024-09": {
+        "totalAssetsKRW": 210.2,
+        "currentAssetsKRW": 123.4,
+        "totalLiabKRW": 54.8,
+        "currentLiabKRW": 48.9,
+        "equityKRW": 155.4
+      }
+    },
+    "096770.KS": {
+      "2025-06": {
+        "totalAssetsKRW": 122.3,
+        "currentAssetsKRW": 71.2,
+        "totalLiabKRW": 48.9,
+        "currentLiabKRW": 35.6,
+        "equityKRW": 73.4
+      },
+      "2025-03": {
+        "totalAssetsKRW": 119.8,
+        "currentAssetsKRW": 69.1,
+        "totalLiabKRW": 47.5,
+        "currentLiabKRW": 34.3,
+        "equityKRW": 72.3
+      },
+      "2024-12": {
+        "totalAssetsKRW": 116.5,
+        "currentAssetsKRW": 66.8,
+        "totalLiabKRW": 46.2,
+        "currentLiabKRW": 33.1,
+        "equityKRW": 70.3
+      },
+      "2024-09": {
+        "totalAssetsKRW": 114.2,
+        "currentAssetsKRW": 65.3,
+        "totalLiabKRW": 45.1,
+        "currentLiabKRW": 32.2,
+        "equityKRW": 69.1
+      }
+    }
+  },
+  "sources": {
+    "us": "SEC EDGAR API (https://data.sec.gov/api/xbrl/companyfacts/)",
+    "kr": "DART 및 회사 공식 분기보고서 (수동 입력, 2024-2025년)"
+  }
+}

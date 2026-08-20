@@ -1,0 +1,461 @@
+{
+  "AAPL": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "애플, iPhone·MacBook용 중국 생산 메모리 칩 테스트 중",
+        "source": "뉴스 | https://www.chinatechnews.com/2026/08/11/127034-apple-tests-chinese-memory-chips-for-iphone-and-macbook"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "TSMC, Apple 칩 10억달러 DRAM 납입 대기 중 - iPhone 18 Pro의 동력이 될까?",
+        "source": "뉴스 | https://www.chinatechnews.com/2026/08/11/127023-tsmc-reportedly-has-1-billion-of-apple-chips-awaiting-delivery-of-dram-will-this-be-what-powers-the-iphone-18-pro"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "애플, AI 주도 반도체 공급난 속 중국 CXMT 메모리칩 테스트",
+        "source": "뉴스 | https://www.rttnews.com/3679083/apple-tests-china-s-cxmt-memory-chips-amid-ai-driven-supply-shortage.aspx"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "TSMC 매출 45% 급증, 엔비디아·AMD·애플의 AI 칩 수요 견인",
+        "source": "뉴스 | https://memeburn.com/tsmc-revenue-surges-45/"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "분석가: 아니다, 애플 제조 파트너 TSMC는 미완성 칩을 비축하지 않는다",
+        "source": "뉴스 | https://www.mactech.com/2026/08/12/analyst-no-apples-manufacturing-partner-tsmc-isnt-hoarding-unfinished-chips/"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "미 증시 오후 7시 톱 기사: 애플, AI 강화 시리 개선 위해 출판사에 보상금 논의 중",
+        "source": "뉴스 | https://www.morningstar.com/news/dow-jones/2026081213328/dow-jones-top-company-headlines-at-7-pm-et-apple-in-talks-to-pay-publishers-to-improve-ai-powered-siri-cisco"
+      }
+    ],
+    "sns": []
+  },
+  "MSFT": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "RAM 가격 인상 속 마이크로소프트도 윈도우 라이선스 가격 인상 … PC 가격까지 줄줄이",
+        "source": "뉴스 | https://www.windowscentral.com/microsoft/windows-11/amid-ram-price-hikes-microsoft-reportedly-raises-windows-license-cost-forcing-oems-to-hike-prices-even-further-on-hardware"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "마이크로소프트, 9월 Maia 300 AI 칩 출시 목표",
+        "source": "뉴스 | http://www.afghanistansun.com/news/279229730/microsoft-eyes-september-launch-for-maia-300-ai-chip"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "Microsoft, 9월 다음 세대 AI 칩 공개 계획 - The Information 보도",
+        "source": "뉴스 | https://tribune.com.pk/story/2623140/microsoft-plans-to-unveil-next-generation-ai-chip-in-september-the-information-reports"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "마이크로소프트, 차세대 AI칩 내달 공개 예정",
+        "source": "뉴스 | http://www.afghanistannews.net/news/279229730/microsoft-may-reveal-next-generation-ai-chip-next-month"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "마이크로소프트 '필리핀 노동자, AI 기반 업무서 글로벌 평균 앞서'",
+        "source": "뉴스 | https://gadgetsmagazine.com.ph/technology/employment/microsoft-work-trend-index-philippines-2026"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "러시아 마이크로소프트 오피스 대체 소프트웨어, 사무실 폐쇄·직원 감축",
+        "source": "뉴스 | https://www.techradar.com/pro/russias-microsoft-office-challenger-forced-to-shut-down-offices-and-fire-workers-as-reports-claim-it-is-losing-millions"
+      }
+    ],
+    "sns": []
+  },
+  "GOOGL": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "세르게이 브린, 억만장자 세금 저항에 1억 달러 투입",
+        "source": "뉴스 | https://newsradio1049.iheart.com/content/2026-08-11-sergey-brin-spends-100-million-to-fight-billionaire-tax/"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "구글, 프랑스 신문사의 AI 요약 표시 문제로 타겟",
+        "source": "뉴스 | https://www.dailysabah.com/business/economy/google-targeted-by-french-newspapers-over-ai-summaries"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "프랑스 언론, 구글 AI에 대해 독점금지 감시기관의 조치 촉구",
+        "source": "뉴스 | https://www.thenews.com.pk/latest/1411955-french-media-urges-antitrust-watchdog-to-take-action-over-google-ai"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "구글·메타, AI 가짜증거 도구 배포했다가 며칠 만에 철회",
+        "source": "뉴스 | https://www.forbes.com/sites/larsdaniel/2026/08/11/google-and-meta-shipped-ai-tools-that-fake-evidence-then-pulled-them-days-later/"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "프랑스 신문 연대, 구글 AI 오버뷰 대응 촉구",
+        "source": "뉴스 | https://aa.com.tr/en/europe/french-newspaper-alliance-urges-action-against-google-ai-overviews/4024267"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "웨이모 로보택시, 안전성 향상",
+        "source": "뉴스 | https://www.techrepublic.com/article/news-robotaxi-safety-scaling-edge-cases/"
+      }
+    ],
+    "sns": []
+  },
+  "AMZN": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "외무부, 아마존과의 로비 회의 세부사항 공개 거부 이유",
+        "source": "뉴스 | https://www.thejournal.ie/the-foi-files-amazon-lobby-meetings-7114508-Aug2026/"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "와일드베리스 공격, 왜 우크라이나가 '러시아의 아마존'을 표적으로?",
+        "source": "뉴스 | https://theweek.com/world-news/wildberries-attacks-why-is-ukraine-targeting-russias-amazon"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "아마존 주요 사건, 룰라 하원 패배 이후 브라질 대법원 제출",
+        "source": "뉴스 | https://www.winnipegfreepress.com/arts-and-life/life/greenpage/2026/08/11/key-amazon-cases-reach-brazils-supreme-court-following-lulas-defeats-in-congress"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "브라질 대법원, 아마존 보호 약화 사건 검토",
+        "source": "뉴스 | https://grenadachronicle.com/brazils-supreme-court-to-weigh-cases-that-could-weaken-amazon-protections/"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "아마존 공동체를 세대 먹여온 생선, 43.4% 감소로 멸종위기",
+        "source": "뉴스 | https://www.ecoticias.com/en/a-fish-that-has-fed-amazon-communities-for-generations-is-now-officially-threatened-in-brazil-and-a-43-4-projected-decline-has-started-a-race-to-protect-wild-tambaqui-without-crushing-local-livelihood/35598/"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "브라질 대법원, 아마존 도작 금지 폐지 법안의 합법성 인정",
+        "source": "뉴스 | https://www.clickorlando.com/business/2026/08/12/brazil-supreme-court-upholds-laws-that-led-to-downfall-of-amazon-soy-moratorium/"
+      }
+    ],
+    "sns": []
+  },
+  "NVDA": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "IBM과 Together AI, NVIDIA AI 인프라로 오픈소스 AI 추론 확대 다년 계약 체결",
+        "source": "뉴스 | https://www.manilatimes.net/2026/08/11/tmt-newswire/pr-newswire/ibm-and-together-ai-sign-multi-year-agreement-to-scale-open-source-ai-inference-with-nvidia-ai-infrastructure-on-ibm-cloud/2402933"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "엔비디아, 월스트리트와 손잡고 5천억 달러 AI 인프라 펀딩",
+        "source": "뉴스 | http://www.theusnews.com/news/279234632/nvidia-teams-with-wall-street-to-fund-usd500-billion-ai-infrastructure"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "엔비디아, 일론 머스크 백만 위성 계획으로 우주로 진출, 조조 기반 경기 시작 가능성",
+        "source": "뉴스 | https://finance.yahoo.com/technology/ai/articles/nvidia-going-space-elon-musks-201112026.html"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "엔비디아, 아폴로·블랙록·블랙스톤·KKR 등과 협력해 AI 인프라에 5000억 달러 이상 조성",
+        "source": "뉴스 | https://www.livemint.com/companies/nvidia-partners-with-apollo-blackrock-blackstone-kkr-and-others-to-mobilise-over-500-billion-for-ai-infrastructure-11786419485171.html"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "NVIDIA, 500억 달러 월가 연맹 결성으로 AI 확장 추진",
+        "source": "뉴스 | https://hothardware.com/news/nvidia-rallies-500-billion-wall-street-alliance-fuel-ai-expansion"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "IBM과 투게더AI, IBM 클라우드에서 NVIDIA AI 인프라로 오픈소스 AI 추론 확대 다년 계약 체결",
+        "source": "뉴스 | https://newsroom.ibm.com/2026-08-11-IBM-and-Together-AI-Sign-Multi-Year-Agreement-to-Scale-Open-Source-AI-Inference-with-NVIDIA-AI-Infrastructure-on-IBM-Cloud"
+      }
+    ],
+    "sns": []
+  },
+  "META": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "저커버그, 메타의 세상을 바꾸는 AI 기술 야망 담은 선언문 공개",
+        "source": "뉴스 | https://www.therecord.com/business/zuckerberg-manifesto-sketches-out-metas-ambitions-for-world-changing-ai-technology/article_7ff2307a-b387-5e89-8b37-5328fa27b3d6.html"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "저커버그, AI 선언문에서 '초지능'의 대중화 비전 제시",
+        "source": "뉴스 | http://www.bignewsnetwork.com/news/279233667/zuckerberg-envisions-uperintelligence-for-everyone-in-ai-manifesto"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "메타, 텍사스 데이터센터 규칙 준수에 합의",
+        "source": "뉴스 | https://turnto10.com/news/nation-world/meta-agrees-to-meet-abbotts-new-texas-data-center-rules-on-grid-and-water-impacts"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "구글·메타, AI 가짜증거 도구 배포했다가 며칠 만에 철회",
+        "source": "뉴스 | https://www.forbes.com/sites/larsdaniel/2026/08/11/google-and-meta-shipped-ai-tools-that-fake-evidence-then-pulled-them-days-later/"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "AI 업체 매뉴스, 중국의 메타 인수 차단 후 '독립' 운영 재개",
+        "source": "뉴스 | https://www.channelnewsasia.com/world/ai-firm-manus-resume-independent-operations-after-china-blocks-meta-deal-6312716"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "메타의 뮤즈 글리머, AI 규제 시대 사용자 확보 경쟁",
+        "source": "뉴스 | https://www.forbes.com/sites/luisromero/2026/08/11/metas-muse-glimmer-courts-users-as-big-tech-and-governments-shape-ai/"
+      }
+    ],
+    "sns": []
+  },
+  "TSLA": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "테슬라, 사이버캡에 스타링크 탑재 시작",
+        "source": "뉴스 | https://www.pcmag.com/news/tesla-debuts-starlink-on-cybercab-as-elon-musk-eyes-industry-adoption"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "테슬라-스페이스X 합병, 머스크에게 1조 달러 대박으로의 지름길",
+        "source": "뉴스 | https://www.livemint.com/companies/news/see-how-a-tesla-spacex-merger-gives-musk-a-shortcut-to-his-1-trillion-payday-11786410485448.html"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "테슬라, 사이버택시에 스타링크 인터넷 안테나 설치",
+        "source": "뉴스 | https://autos.yahoo.com/ev-and-future-tech/articles/tesla-built-starlink-internet-dish-163206136.html"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "텍사스에 모든 게 더 크다: 일론 머스크 스페이스X, 테슬라 세계 최대 건물의 5배 규모 칩 공장 계획",
+        "source": "뉴스 | https://www.breitbart.com/tech/2026/08/11/everythings-bigger-in-texas-elon-musks-spacex-tesla-plan-chip-plant-5x-the-size-of-worlds-largest-building/"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "일론 머스크 스페이스X·테슬라, 세계 최대 건설 건물 공개",
+        "source": "뉴스 | https://www.express.co.uk/news/us/2238277/elon-musk-s-spacex-tesla-unveil-terafab-plans-world-s-largest-building-texas"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "일론 머스크, 앞으로 모든 Tesla에 Starlink 탑재 계획; Cybercab부터 시작",
+        "source": "뉴스 | https://www.techspot.com/news/113429-elon-musk-every-future-tesla-have-starlink-starting.html"
+      }
+    ],
+    "sns": []
+  },
+  "SPCX": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "에미레이츠, 기내 업그레이드 신 단계 진입: 111대 항공기에 스타링크·4K OLED 탑재",
+        "source": "뉴스 | https://www.travelerstoday.com/articles/60804/20260810/emirates-cabin-upgrade-enters-new-phase-starlink-4k-oled-screens-111-more-jets.htm"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "테슬라, 사이버캡에 스타링크 탑재 시작",
+        "source": "뉴스 | https://www.pcmag.com/news/tesla-debuts-starlink-on-cybercab-as-elon-musk-eyes-industry-adoption"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "테슬라-스페이스X 합병, 머스크에게 1조 달러 대박으로의 지름길",
+        "source": "뉴스 | https://www.livemint.com/companies/news/see-how-a-tesla-spacex-merger-gives-musk-a-shortcut-to-his-1-trillion-payday-11786410485448.html"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "미 증권거래위원회, 스페이스X·클라르나 IPO 전 주식 사기 혐의 해결",
+        "source": "뉴스 | https://economictimes.indiatimes.com/tech/technology/sec-settles-charges-over-spacex-klarna-pre-ipo-share-fraud/articleshow/133140392.cms"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "베트남 VinSpace, SpaceX와 발사 계약 공시, 베트남 우주산업의 새 이정표 표시",
+        "source": "뉴스 | https://vietnamnews.vn/media-outreach/1797239/vinspace-announces-launch-contract-with-spacex-marking-a-new-milestone-for-vietnam-s-space-industry.html"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "베트남 VinSpace, 2027년 SpaceX 발사 계약 체결",
+        "source": "뉴스 | https://www.thehindubusinessline.com/news/science/vietnams-vinspace-signs-spacex-launch-deal-for-2027/article71330932.ece"
+      }
+    ],
+    "sns": []
+  },
+  "PLTR": {
+    "news": [],
+    "sns": []
+  },
+  "SMR": {
+    "news": [],
+    "sns": []
+  },
+  "LCID": {
+    "news": [],
+    "sns": []
+  },
+  "PSNY": {
+    "news": [],
+    "sns": []
+  },
+  "BRK-A": {
+    "news": [
+      {
+        "date": "2026-08-13",
+        "title": "워렌 버핏 없는 버크셔 해서웨이, 중국 투자자들의 '등대' 역할 계속할까",
+        "source": "뉴스 | https://www.scmp.com/business/banking-finance/article/3363779/can-berkshire-hathaway-without-warren-buffett-remain-north-star-chinas-investors"
+      }
+    ],
+    "sns": []
+  },
+  "BRK-B": {
+    "news": [
+      {
+        "date": "2026-08-13",
+        "title": "워렌 버핏 없는 버크셔 해서웨이, 중국 투자자들의 '등대' 역할 계속할까",
+        "source": "뉴스 | https://www.scmp.com/business/banking-finance/article/3363779/can-berkshire-hathaway-without-warren-buffett-remain-north-star-chinas-investors"
+      }
+    ],
+    "sns": []
+  },
+  "XE": {
+    "news": [],
+    "sns": []
+  },
+  "OKLO": {
+    "news": [],
+    "sns": []
+  },
+  "PFE": {
+    "news": [],
+    "sns": []
+  },
+  "MRNA": {
+    "news": [],
+    "sns": []
+  },
+  "BNTX": {
+    "news": [],
+    "sns": []
+  },
+  "005930.KS": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "삼성, TSMC와 함께 ASML 초고NA EUV 도입 연기, 1nm 칩으로 진행",
+        "source": "뉴스 | https://wccftech.com/samsung-joins-tsmc-in-stalling-asmls-high-na-euv-rollout-pushing-the-costly-machines-to-1nm-chips/"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "메모리 칩 수급 경고, Samsung·SK Hynix의 현금 유출에 주목",
+        "source": "뉴스 | https://www.moneycontrol.com/news/business/peak-memory-fears-put-focus-on-samsung-sk-hynix-cash-returns-14002730.html"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "삼성전자 8000억원 자금 조달",
+        "source": "한국경제 | https://www.hankyung.com/article/2026081150471"
+      }
+    ],
+    "sns": []
+  },
+  "000660.KS": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "키옥시아, 최대주주 SK하이닉스로 변경",
+        "source": "연합뉴스 | https://www.yna.co.kr/view/AKR20260811102600009"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "삼성·SK하이닉스·램리서치, 반도체 세라믹 소재 협력 강화",
+        "source": "한국경제 | https://www.hankyung.com/article/202608114393i"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "SK하이닉스, 키오시아 투자법인 상대 의결권 주식 보유",
+        "source": "Japan Times | https://www.japantimes.co.jp/business/2026/08/11/companies/kioxia-sk-hynix-top-shareholder/"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "SK하이닉스, 키옥시아 최대 주주로 부상",
+        "source": "한국경제 | https://www.hankyung.com/article/202608115237i"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "메모리 칩 수급 경고, Samsung·SK Hynix의 현금 유출에 주목",
+        "source": "뉴스 | https://www.moneycontrol.com/news/business/peak-memory-fears-put-focus-on-samsung-sk-hynix-cash-returns-14002730.html"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "삼성·SK하이닉스 주가 급등 - 테마섹 투자 가능성 보도",
+        "source": "뉴스 | http://www.econotimes.com/Samsung-SK-Hynix-Shares-Surge-on-Report-of-Potential-Temasek-Investment-1749257"
+      }
+    ],
+    "sns": []
+  },
+  "034020.KS": {
+    "news": [],
+    "sns": []
+  },
+  "011070.KS": {
+    "news": [],
+    "sns": []
+  },
+  "003550.KS": {
+    "news": [],
+    "sns": []
+  },
+  "373220.KS": {
+    "news": [],
+    "sns": []
+  },
+  "035420.KS": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "네이버 웹툰엔터 2분기 영업손실 234억원",
+        "source": "연합뉴스 | https://www.yna.co.kr/view/AKR20260811008251075"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "네이버, 엔비디아와 함께 대규모 AI 데이터센터 구축",
+        "source": "한국경제 | https://www.hankyung.com/article/2026081159391"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "네이버·카카오, 정기 공채 폐지하고 AI 인재 지속 모집",
+        "source": "한국경제 | https://www.hankyung.com/article/2026081159401"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "네이버·두나무, 합병 걸림돌 해소",
+        "source": "한국경제 | https://www.hankyung.com/article/2026081149341"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "한국, 사이버 보안 특화 AI 파운데이션 모델 개발 본격화",
+        "source": "연합뉴스 | https://www.yna.co.kr/view/AKR20260812147000017"
+      }
+    ],
+    "sns": []
+  },
+  "035720.KS": {
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "네이버·카카오, 정기 공채 폐지하고 AI 인재 지속 모집",
+        "source": "한국경제 | https://www.hankyung.com/article/2026081159401"
+      }
+    ],
+    "sns": []
+  },
+  "000720.KS": {
+    "news": [],
+    "sns": []
+  },
+  "034730.KS": {
+    "news": [],
+    "sns": []
+  },
+  "096770.KS": {
+    "news": [],
+    "sns": []
+  }
+}

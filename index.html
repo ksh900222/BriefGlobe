@@ -3020,6 +3020,58 @@ function glApplyKoreanLabels(map) {
     }
   }
 }
+// ── 누락 해역 라벨 보완 ─────────────────────────────────────────────
+//  OpenMapTiles(무료 타일)의 water_name 에 일부 주요 해역이 빠져 있어 지도에 이름이 안 뜬다.
+//  (확인: 흑해·카스피해·홍해·페르시아만·에게해·아라비아해·벵골만 — 모두 뉴스에서 자주 등장하는 해역)
+//  기본 수역 라벨과 같은 서체·색으로 직접 그려 넣는다. 이미 있는 해역은 넣지 않는다(중복 방지).
+const GL_SEA_LABELS = [
+  { n: "흑해",       c: [34.3, 43.3] },
+  { n: "카스피해",   c: [50.6, 41.8] },
+  { n: "홍해",       c: [37.9, 20.2] },
+  { n: "페르시아만", c: [51.5, 27.2] },
+  { n: "에게해",     c: [25.1, 38.4] },
+  { n: "아라비아해", c: [63.0, 15.5] },
+  { n: "벵골만",     c: [88.0, 15.0] },
+  { n: "아조우해",   c: [36.4, 46.1] },
+  { n: "오만만",     c: [58.5, 24.6] },
+  { n: "아덴만",     c: [47.5, 12.3] },
+];
+// ⚠️ 이 소스는 '지도가 완전히 그려진 뒤(idle)'에만 추가한다. 초기 로딩 중(styledata 시점)에
+//    addSource 하면 basemap 벡터타일이 통째로 안 그려지는 회귀가 났다(검은 지도).
+//    태풍 GeoJSON 소스에서 겪은 함정과 같은 계열 — 소스가 없을 때만 1회 예약한다.
+//    ('idle' 은 속보 폴링·리페인트로 안 올 수 있어 쓰지 않는다 — 짧은 지연으로 예약)
+let _seaLabelPending = false;
+function glScheduleSeaLabels() {
+  if (!_glMap || _seaLabelPending || _glMap.getSource("sea-labels")) return;
+  _seaLabelPending = true;
+  setTimeout(() => { _seaLabelPending = false; glAddSeaLabels(_glMap); }, 1500);
+}
+function glAddSeaLabels(map) {
+  if (!map || map.getLayer("sea-label-extra")) return;
+  try {
+    if (!map.getSource("sea-labels")) {
+      map.addSource("sea-labels", { type: "geojson", data: {
+        type: "FeatureCollection",
+        features: GL_SEA_LABELS.map(s => ({ type: "Feature", properties: { name: s.n },
+          geometry: { type: "Point", coordinates: s.c } })),
+      } });
+    }
+    map.addLayer({
+      id: "sea-label-extra", type: "symbol", source: "sea-labels",
+      minzoom: 2,                                  // 전 지구 뷰에선 생략(글자 뭉침 방지)
+      layout: {
+        "text-field": ["get", "name"],
+        "text-font": ["Noto Sans Italic"],          // 기본 수역 라벨과 동일
+        "text-letter-spacing": 0.2, "text-max-width": 5,
+        "text-size": ["interpolate", ["linear"], ["zoom"], 0, 10, 8, 14],
+      },
+      paint: {
+        "text-color": "#495e91",                    // 기본 수역 라벨과 동일
+        "text-halo-color": "rgba(255,255,255,0.92)", "text-halo-width": 1.8, "text-halo-blur": 0.4,
+      },
+    });
+  } catch (e) { console.warn("해역 라벨 추가", e); }
+}
 // P3: 지형(산맥 음영) on/off 토글 버튼 — 평면 ↔ 지형
 // ===== 낮/밤 경계(터미네이터) — 밤·저녁(해질녘)·아침(동틀녘)·낮 =====
 // 시간각 H는 경도에만 의존 → H<0(정오 전)=아침쪽, H>0(정오 후)=저녁쪽으로 박명 밴드 분리
@@ -4898,6 +4950,7 @@ function ensureGlMap(after) {
           _glMap.setProjection({ type: "globe" });                     // P2: 지구본 투영(날짜변경선 복제 불필요)
         glAddHillshade(_glMap);                                        // P3: 지형 음영(산맥)
         if (_glNaturalOn) glApplyNatural(_glMap, true);                // 🌲 자연 지형색(기본 ON) — 스타일 리로드 후에도 유지
+        glScheduleSeaLabels();                                         // 🌊 누락 해역 라벨(지도가 완전히 그려진 뒤 추가)
         if (_glWeatherOn) glAddWeather(_glMap);                         // 🌤️ 기상 레이어 유지(스타일 리로드 후 재적용)
         if (_glWindOn) glAddWindParticles();                            // 💨 바람 입자 유지(스타일 리로드로 커스텀 레이어가 지워지므로 재적용)
         // 🌀 태풍 진로: 스타일 '리로드'로 소스가 실제로 지워졌을 때만 재적용.

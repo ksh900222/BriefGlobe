@@ -1,0 +1,330 @@
+{
+  "PLTR": {
+    "company": "Palantir Technologies",
+    "ko_name": "팔란티어",
+    "sector": "AI/데이터분석",
+    "news": [
+      {
+        "date": "2026-08-04",
+        "title": "머큐리 시스템즈, 팔란티어와 협력해 자동화 자재 계획 구현",
+        "source": "StocksToTrade",
+        "url": "https://stockstotrade.com/news/palantir-technologies-inc-pltr-news-2026_08_04-4/"
+      },
+      {
+        "date": "2026-08-03",
+        "title": "팔란티어 Q2 2026 실적 발표 - 매출 93% 급증, 미국 상업 부문 149% 증가",
+        "source": "CNBC",
+        "url": "https://www.cnbc.com/2026/08/03/palantir-pltr-earnings-q2-2026.html"
+      },
+      {
+        "date": "2026-08-03",
+        "title": "팔란티어, 2026 연간 매출 가이던스 8.15B로 상향 조정",
+        "source": "Bloomberg",
+        "url": "https://www.bloomberg.com/news/articles/2026-08-03/palantir-raises-outlook-karp-calls-business-sales-otherworldy"
+      },
+      {
+        "date": "2026-08-03",
+        "title": "팔란티어 주가 30% 상승 - 트레이더들 Q2 수익 기대감",
+        "source": "StocksToTrade",
+        "url": "https://stockstotrade.com/news/palantir-technologies-inc-pltr-news-2026_08_03/"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "팔란티어 AIP 플랫폼, AI 주권 수요로 비즈니스 변신 중",
+        "source": "Yahoo Finance",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/invested-10-000-palantir-released-143000977.html"
+      },
+      {
+        "date": "2026-07-21",
+        "title": "예측: 팔란티어 주가 8월 3일 이후 급증할 것",
+        "source": "The Motley Fool",
+        "url": "https://www.fool.com/investing/2026/07/21/prediction-palantir-stock-will-go-parabolic-after/"
+      }
+    ]
+  },
+  "SMR": {
+    "company": "NuScale Power",
+    "ko_name": "뉴스케일",
+    "sector": "소형모듈원자로",
+    "news": [
+      {
+        "date": "2026-08-13",
+        "title": "SMR 주가, NuScale 주요 계약 체결로 상승세",
+        "source": "StocksToTrade",
+        "url": "https://stockstotrade.com/news/nuscale-power-corporation-smr-news-2026_08_13/"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "SMR 주가 안정화, NuScale 주요 안전 관련 거래 체결",
+        "source": "Timothy Sykes",
+        "url": "https://www.timothysykes.com/news/nuscale-power-corporation-smr-news-2026_08_13-2/"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "NuScale Power, 올해 32% 하락했는데 SMR 주가 15달러로 돌아갈 수 있을까?",
+        "source": "24/7 Wall St.",
+        "url": "https://247wallst.com/investing/2026/08/11/nuscale-power-is-still-down-32-this-year-what-will-it-take-to-get-smr-stock-back-to-15/"
+      },
+      {
+        "date": "2026-08-06",
+        "title": "Curio, NuScale Power, Framatome 미래 핵연료 사이클 발전을 위한 MOU 체결",
+        "source": "Business Wire",
+        "url": "https://www.businesswire.com/news/home/20260806687946/en/Curio-NuScale-Power-and-Framatome-Sign-Strategic-MOU-to-Advance-the-Future-Nuclear-Fuel-Cycle"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "NuScale Power, 2026 2분기 실적 발표",
+        "source": "NuScale Power",
+        "url": "https://www.nuscalepower.com/press-releases/2026/nuscale-power-reports-second-quarter-2026-results"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "SMR 주가 하락, Citi 판매 등급 유지",
+        "source": "Timothy Sykes",
+        "url": "https://www.timothysykes.com/news/nuscale-power-corporation-smr-news-2026_08_05/"
+      },
+      {
+        "date": "2026-08-03",
+        "title": "SMR 주가, 애널리스트들 가격 목표 하향 조정으로 횡보",
+        "source": "Timothy Sykes",
+        "url": "https://www.timothysykes.com/news/nuscale-power-corporation-smr-news-2026_08_03/"
+      }
+    ]
+  },
+  "PSNY": {
+    "company": "Polestar Automotive",
+    "ko_name": "폴스타",
+    "sector": "전기자동차",
+    "news": [
+      {
+        "date": "2026-08-14",
+        "title": "폴스타 주가 16.8% 상승, 볼보 대출 전환 및 미국 생산 이전",
+        "source": "Yahoo Finance",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/polestar-automotive-holding-uk-psny-200954617.html"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "폴스타, 2026년 상반기 기록 소매 판매 30,423대 달성",
+        "source": "Polestar",
+        "url": "https://investors.polestar.com/news-events/press-releases"
+      },
+      {
+        "date": "2026-08-10",
+        "title": "폴스타, 2026년 말까지 전 지구적 Polestar 3 생산을 Charleston으로 통합",
+        "source": "TipRanks",
+        "url": "https://www.tipranks.com/news/company-announcements/polestar-reshapes-capital-structure-and-concentrates-polestar-3-production-in-u-s"
+      },
+      {
+        "date": "2026-08-02",
+        "title": "폴스타 Q1 2026 소매 판매 13,126대 달성, 전년 동기 대비 7% 증가",
+        "source": "Barchart",
+        "url": "https://www.barchart.com/story/news/1217036/polestar-reports-highest-ever-first-quarter-retail-sales-of-13-126-in-q1-2026"
+      },
+      {
+        "date": "2026-07-15",
+        "title": "폴스타 5, 2026년 여름부터 인도 예정 및 4대 신형 자동차 2028년까지 예정",
+        "source": "EV.com",
+        "url": "https://ev.com/news/polestar-accelerates-ev-rollout-after-record-sales-with-4-new-models-for-2026"
+      },
+      {
+        "date": "2026-06-30",
+        "title": "폴스타, 역사상 최대 규모 모델 공세: 3년 내 4대 신차 출시",
+        "source": "Polestar Media",
+        "url": "https://media.polestar.com/releases/polestar-starts-largest-model-offensive-in-its-history-four-new-cars-in-three-years"
+      },
+      {
+        "date": "2026-06-01",
+        "title": "폴스타, 2026년 로우 더블디지트 거래량 성장 예상",
+        "source": "ZigWheels",
+        "url": "https://www.zigwheels.my/car-news/polestar-plans-four-new-evs-by-2028-polestar-5-deliveries-set-for-q3-2026"
+      }
+    ]
+  },
+  "XE": {
+    "company": "X-Energy",
+    "ko_name": "엑스에너지",
+    "sector": "첨단원자로",
+    "news": [
+      {
+        "date": "2026-08-13",
+        "title": "X-Energy, 2026 2분기 실적 발표 - 매출 154% 성장",
+        "source": "GlobeNewswire",
+        "url": "https://www.globenewswire.com/news-release/2026/08/13/3344306/0/en/x-energy-reports-second-quarter-2026-results.html"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "X-Energy, 미국 에너지부 지원금 추가 10억 달러 확보, 매출 154% 급증",
+        "source": "BigGo Finance",
+        "url": "https://finance.biggo.com/news/US_XE_2026-08-13"
+      },
+      {
+        "date": "2026-08-06",
+        "title": "X-Energy, Centrus와 Xe-100 SMR 개발을 위한 HALEU 공급 계약 체결",
+        "source": "X-Energy",
+        "url": "https://x-energy.com/news/x-energy-centrus-sign-haleu-supplyagreement-for-xe-100-advanced-small-modular-reactor-development/"
+      },
+      {
+        "date": "2026-08-06",
+        "title": "X-Energy, Centrus와 HALEU 공급 협정 체결 - Xe-100 고급 소형모듈원자로 개발",
+        "source": "GlobeNewswire",
+        "url": "https://www.globenewswire.com/news-release/2026/08/06/3340195/0/en/X-energy-Centrus-Sign-HALEU-Supply-Agreement-for-Xe-100-Advanced-Small-Modular-Reactor-Development.html"
+      },
+      {
+        "date": "2026-08-03",
+        "title": "X-Energy, SGL Carbon과 핵등급 흑연 생산 용량 확대 합의",
+        "source": "X-Energy",
+        "url": "https://x-energy.com/news/x-energy-sgl-carbon-announce-capacity-expansion-for-nuclear-grade-graphite/"
+      },
+      {
+        "date": "2026-07-30",
+        "title": "X-Energy, 2026년 8월 13일 2분기 실적 발표 예정",
+        "source": "GlobeNewswire",
+        "url": "https://www.globenewswire.com/news-release/2026/07/30/3336444/0/en/X-energy-to-Report-Second-Quarter-2026-Results-on-August-13-2026.html"
+      }
+    ]
+  },
+  "OKLO": {
+    "company": "Oklo Inc.",
+    "ko_name": "오클로",
+    "sector": "폐연료 재활용 원전",
+    "news": [
+      {
+        "date": "2026-08-11",
+        "title": "오클로 주가 7월에 또 26% 하락. 지금 사야 할까?",
+        "source": "The Motley Fool",
+        "url": "https://www.fool.com/investing/2026/08/11/oklo-stock-sank-another-26-in-july-is-it-a-buy/"
+      },
+      {
+        "date": "2026-08-09",
+        "title": "오클로(NYSE: OKLO), 1년 내 Groves 원자로 첫 임계 달성, 주가 급등",
+        "source": "Foreign Policy Journal",
+        "url": "https://www.foreignpolicyjournal.com/2026/08/09/oklo-nyse-oklo-achieves-first-criticality-at-groves-reactor-in-under-a-year-shares-surge/"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "오클로, 8월 7일 실적 발표 - 첫 임계 달성 및 30억 달러 유동성",
+        "source": "Investing.com",
+        "url": "https://www.investing.com/news/company-news/oklo-q2-2026-slides-first-criticality-achieved-3b-liquidity-93CH-4846923"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "오클로, 2026 2분기 재무 실적 발표",
+        "source": "Yahoo Finance",
+        "url": "https://finance.yahoo.com/energy/articles/oklo-publishes-second-quarter-2026-110000760.html"
+      },
+      {
+        "date": "2026-08-06",
+        "title": "오클로의 소형 모듈식 원자로, 텍사스에서 핵임계 달성",
+        "source": "Bloomberg",
+        "url": "https://www.bloomberg.com/news/articles/2026-08-06/us-says-oklo-s-small-nuclear-reactor-reaches-criticality"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "오클로의 8월 7일 실적 발표가 주가를 급등시킬 수 있을까?",
+        "source": "The Motley Fool",
+        "url": "https://www.fool.com/investing/2026/08/04/oklos-next-earnings-report-on-aug-7-could-send-the-stock-soaring-heres-why/"
+      }
+    ]
+  },
+  "MRNA": {
+    "company": "Moderna Inc.",
+    "ko_name": "모더나",
+    "sector": "mRNA 백신",
+    "news": [
+      {
+        "date": "2026-08-10",
+        "title": "FDA, 50세 이상 성인용 모더나 mRNA 독감 백신 승인",
+        "source": "Spectrum Local News",
+        "url": "https://spectrumlocalnews.com/nys/central-ny/news/2026/08/10/moderna-mflusiva-vaccine"
+      },
+      {
+        "date": "2026-08-06",
+        "title": "FDA, 새로운 종류의 독감 백신 승인 - 모더나의 mRNA 기반 백신",
+        "source": "Spectrum Local News",
+        "url": "https://spectrumlocalnews.com/us/snplus/health-and-medicine/2026/08/06/moderna-flu-shot-mrna"
+      },
+      {
+        "date": "2026-08-06",
+        "title": "FDA, 모더나의 mRNA 독감 백신 mFLUSIVA 승인",
+        "source": "Bloomberg",
+        "url": "https://www.bloomberg.com/news/articles/2026-08-06/moderna-s-mrna-flu-shot-wins-us-approval-in-fda-turnaround"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "FDA, 최초의 mRNA 독감 백신 모더나 승인",
+        "source": "NBC News",
+        "url": "https://www.nbcnews.com/health/health-news/fda-approves-1st-mrna-flu-shot-moderna-rcna590599"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "FDA, 모더나의 mRNA 독감 백신 승인",
+        "source": "Healthcare Dive",
+        "url": "https://www.healthcaredive.com/news/moderna-fda-approve-mflusiva-seasonal-influenza/827180/"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "모더나의 mFlusiva, 최초의 mRNA 기반 인플루엔자 백신으로 승인",
+        "source": "Vaccine Advisor",
+        "url": "https://www.vaccineadvisor.com/news/fda-approves-mflusiva-mrna-influenza-vaccine/"
+      }
+    ]
+  },
+  "BNTX": {
+    "company": "BioNTech SE",
+    "ko_name": "바이오엔테크",
+    "sector": "mRNA 바이오",
+    "news": [
+      {
+        "date": "2026-08-04",
+        "title": "바이오엔테크, 2026 2분기 재무 실적 및 기업 업데이트 발표",
+        "source": "BioNTech Investor Relations",
+        "url": "https://investors.biontech.de/news-releases/news-release-details/biontech-report-second-quarter-2026-financial-results-and"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "바이오엔테크 2026 2분기 실적 발표일: 8월 4일",
+        "source": "StockTitan",
+        "url": "https://www.stocktitan.net/news/BNTX/bio-n-tech-to-report-second-quarter-2026-financial-results-and-92avg8u2kvau.html"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "바이오엔테크 2026 2분기 실적 하이라이트: 강한 파이프라인 진전",
+        "source": "Yahoo Finance",
+        "url": "https://finance.yahoo.com/healthcare/articles/biontech-se-bntx-q2-2026-190123785.html"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "바이오엔테크, 2026 전년도 전망 하향 조정, 2분기 손실 확대",
+        "source": "StockTitan",
+        "url": "https://www.stocktitan.net/sec-filings/BNTX/6-k-bio-n-tech-se-current-report-foreign-issuer-78c5e5e9efbe.html"
+      },
+      {
+        "date": "2026-08-03",
+        "title": "바이오엔테크 감독위원회, Guido Oelkers 박사를 경영진 보드 회장으로 임명",
+        "source": "BioNTech News",
+        "url": "https://www.globenewswire.com/news-release/2026/08/03/biontech-announces-appointment-guido-oelkers-management-board"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "바이오엔테크, 새로운 CEO Guido Oelkers 임명 - Ugur Sahin 후임",
+        "source": "QuiverQuant",
+        "url": "https://www.quiverquant.com/news/BioNTech+Appoints+Guido+Oelkers+as+Chief+Executive+Officer,+Succeeding+Ugur+Sahin"
+      }
+    ]
+  },
+  "summary": {
+    "total_articles": 44,
+    "date_range": "2026-07-15 ~ 2026-08-14",
+    "most_recent": "2026-08-14",
+    "coverage": {
+      "PLTR": 6,
+      "SMR": 7,
+      "PSNY": 7,
+      "XE": 6,
+      "OKLO": 6,
+      "MRNA": 6,
+      "BNTX": 6
+    },
+    "notes": "모든 기사는 원문 URL 포함. 최신 뉴스(2026-08-09 이후) 우선 수집."
+  }
+}

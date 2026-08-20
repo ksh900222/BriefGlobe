@@ -1,0 +1,406 @@
+{
+  "AAPL": [
+    {
+      "date": "2026-08-17",
+      "title": "애플, 독일 반독점 조사 후 앱 추적 동의 규칙 전면 개편",
+      "url": "https://macdailynews.com/2026/08/17/apple-to-overhaul-app-tracking-consent-rules-after-german-antitrust-probe/"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "애플·독일, 앱 추적 투명성 합의 도달",
+      "url": "https://www.mactech.com/2026/08/17/apple-and-germany-reach-an-agreement-about-app-tracking-transparency-in-the-app-store/"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "사상 최악의 애플 사용자 대상 스파이웨어 공격 탐지",
+      "url": "https://techcrunch.com/2026/08/17/unprecedented-number-of-apple-users-received-recent-spyware-alert-say-investigators/"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "애플 A20 Pro 칩, A19 대비 최대 18% 빠르고 30% 전력 효율 개선",
+      "url": "https://www.mactech.com/2026/08/17/apples-a20-pro-chip-will-purportedly-be-up-to-18-faster-and-up-to-30-more-power-efficient-than-the-a19/"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "스페이스X-커서 인수, AI 컴퓨팅·모델·애플리케이션 간 고리 완성",
+      "url": "https://www.digitimes.com/news/a20260817VL219/spacex-ai-acquisition-gpu-infrastructure.html"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "애플의 반(反)AI 입장, 주식시장에 짐짝이 되어 간다 – 머큐리 뉴스",
+      "url": "https://www.mercurynews.com/2026/08/18/apples-anti-ai-stock/"
+    }
+  ],
+  "MSFT": [
+    {
+      "date": "2026-08-17",
+      "title": "아마존·알파벳·마이크로소프트, 근 6천억 달러 자본 투자…1개 승자 부상",
+      "url": "https://www.fool.com/investing/2026/08/16/amazon-alphabet-and-microsoft-are-dropping-nearly/?source=iedfolrf0000001"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "마이크로소프트 매니저 습격 사건 용의자, 살인죄로 재판",
+      "url": "https://www.courant.com/2026/08/17/fatal-ambush-microsoft-manager-murder-trial-florida/"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "엘론 머스크, SpaceX가 아마존·구글·마이크로소프트도 따라잡을 수 없는 거대한 AI 경쟁 우위 보유하다고 주장",
+      "url": "https://finance.yahoo.com/technology/ai/articles/elon-musk-says-spacex-massive-192300638.html"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "스페이스X, 마이크로소프트 22억 달러 깃허브 지위 도전... AI 에이전트용 저장소 '오리진' 출시",
+      "url": "https://wccftech.com/spacexs-cursor-attacks-microsofts-2-billion-github-moat-with-origin-a-repository-built-for-ai-agents/"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "마이크로소프트 마이아 300 칩, NVIDIA의 AI 지배력 표적",
+      "url": "https://finance.yahoo.com/technology/ai/articles/microsofts-maia-300-chip-targets-120000573.html"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "마이크로소프트, 2023년 중국 시장 완전 퇴출 고려했던 것으로 드러나",
+      "url": "https://www.cna.com.tw/news/acn/202608170045.aspx"
+    }
+  ],
+  "GOOGL": [
+    {
+      "date": "2026-08-17",
+      "title": "아마존·알파벳·마이크로소프트, 근 6천억 달러 자본 투자…1개 승자 부상",
+      "url": "https://www.fool.com/investing/2026/08/16/amazon-alphabet-and-microsoft-are-dropping-nearly/?source=iedfolrf0000001"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "버크셔 해서웨이, 알파벳 지분 83% 늘려 약 1억 600만 주 보유",
+      "url": "http://www.newyorktelegraph.com/news/279244575/berkshire-boosts-alphabet-stake-by-83-to-nearly-106-million-shares"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "구글, 선거 전 여론조작 혐의 449개 한국 유튜브 채널 폐쇄",
+      "url": "https://www.ibtimes.com.au/google-shuts-down-449-korean-youtube-channels-1874175"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "애슐리 맥아이작, 구글 AI '성범죄자' 낙인 관련 명예훼손 소송 취하",
+      "url": "https://nationalpost.com/news/ashley-macisaac-ends-defamation-lawsuit-google-ai-sex-offender"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "엘론 머스크, SpaceX가 아마존·구글·마이크로소프트도 따라잡을 수 없는 거대한 AI 경쟁 우위 보유하다고 주장",
+      "url": "https://finance.yahoo.com/technology/ai/articles/elon-musk-says-spacex-massive-192300638.html"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "웨이모, 확장 추진: 자율주행 차량 공유 서비스 탐파 출시 준비, 피넬라스 카운티 시야",
+      "url": "https://995qyk.com/2026/08/17/waymo-eyes-expansion-autonomous-ride-service-prepares-for-tampa-launch-eyes-pinellas-county/"
+    }
+  ],
+  "AMZN": [
+    {
+      "date": "2026-08-17",
+      "title": "아마존·알파벳·마이크로소프트, 근 6천억 달러 자본 투자…1개 승자 부상",
+      "url": "https://www.fool.com/investing/2026/08/16/amazon-alphabet-and-microsoft-are-dropping-nearly/?source=iedfolrf0000001"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "엘론 머스크, SpaceX가 아마존·구글·마이크로소프트도 따라잡을 수 없는 거대한 AI 경쟁 우위 보유하다고 주장",
+      "url": "https://finance.yahoo.com/technology/ai/articles/elon-musk-says-spacex-massive-192300638.html"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "룰라, 아마존 인근 석유를 브라질 미래의 여권으로 호칭",
+      "url": "https://www.yahoo.com/news/world/articles/lula-calls-oil-near-amazon-232055080.html"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "아마존, 알파벳, 마이크로소프트, 약 600억 달러를 자본 지출에 투입...명확한 승자 등장",
+      "url": "https://finance.yahoo.com/technology/articles/amazon-alphabet-microsoft-dropping-nearly-222700076.html"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "AWS 아시아 최고 경영진, 일본으로 이전, 레거시 IT 시스템 현대화 추진",
+      "url": "https://finance.yahoo.com/technology/ai/articles/aws-asia-chief-relocating-japan-070000729.html"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "정글과 석유 사이: 콜롬비아가 빚진 에너지 전환의 아마존 지역",
+      "url": "https://english.elpais.com/international/2026-08-18/between-the-jungle-and-the-oil-the-amazon-municipality-to-which-colombia-owes-an-energy-transition.html"
+    }
+  ],
+  "NVDA": [
+    {
+      "date": "2026-08-17",
+      "title": "LG-엔비디아 물리적 AI 협력 가속화, 로봇공학 책임자 한국 방문 보도",
+      "url": "https://www.digitimes.com/news/a20260817PD220/lg-robotics-partnership-robot-development.html"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "엔비디아, OpenAI의 임차료 아닌 건물 자체에 투자하다",
+      "url": "https://thenextweb.com/news/nvidia-openai-ports-pike-105bn-residual-value-guarantee"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "LG·엔비디아, 휴머노이드 로봇·AI 팩토리·자동차 분야 협력 심화",
+      "url": "https://www.digitimes.com/news/a20260817PR200/lg-nvidia-robot-data-manufacturing.html"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "엔비디아 임원, 화요일 LG 로봇공학 허브 방문 예정",
+      "url": "https://www.koreatimes.co.kr/business/companies/20260817/nvidia-executive-to-visit-lg-electronics-robotics-hub-on-tuesday"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "엔비디아, SpaceX에 210억 달러 투자 공개",
+      "url": "https://arstechnica.com/information-technology/2026/08/nvidia-discloses-21b-stake-in-spacex/"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "AI 데이터센터 액체냉각, 2026년 채용률 53% 달성 예상",
+      "url": "https://infotechlead.com/data-center/ai-data-center-liquid-cooling-adoption-to-hit-53-in-2026-as-nvidia-amd-google-drive-demand-97794"
+    }
+  ],
+  "META": [
+    {
+      "date": "2026-08-18",
+      "title": "정부, 메타의 아동착취물·왓츠앱 사용자명 문제로 압박",
+      "url": "https://economictimes.indiatimes.com/news/india/message-has-gone-home-govt-presses-meta-on-csam-whatsapp-username-row/articleshow/133315982.cms"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "미국 주들, 소셜 미디어 아동 안전 문제로 메타 재판에 끌어내",
+      "url": "https://www.siliconrepublic.com/business/meta-social-media-instagram-facebook-legal-children-us"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "정부 지시 후 메타, 아동 성착취 자료 제거에 더 신중",
+      "url": "https://www.thehindubusinessline.com/news/meta-more-cautious-about-child-sexual-abuse-material-after-governments-message-in-recent-meeting-govt-sources/article71361276.ece"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "뉴스: 미국 주들, 캘리포니아에서 메타를 상대로 제소",
+      "url": "https://www.altoonamirror.com/news/local-business/2026/08/meta-california-childsafety-lawsuit-states-take-to-trial/"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "메타 독점금지 재판 시작, 소셜미디어 판도 변할 수 있어",
+      "url": "https://www.yasstribune.com.au/story/9333030/meta-trial-that-could-reshape-social-media-starts-in-us/"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "메타 소송, SNS 피해자 가족들의 전환점",
+      "url": "https://www.clickondetroit.com/business/2026/08/18/in-metas-trial-families-of-social-media-victims-see-a-pivotal-moment-for-online-safety/"
+    }
+  ],
+  "TSLA": [
+    {
+      "date": "2026-08-17",
+      "title": "엘론 머스크의 스페이스X 지분, 공개 - 상당한 규모",
+      "url": "https://www.livemint.com/companies/news/elon-musk-s-spacex-holdings-revealed-hint-it-s-a-lot-11786928470020.html"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "엘론 머스크, SpaceX가 아마존·구글·마이크로소프트도 따라잡을 수 없는 거대한 AI 경쟁 우위 보유하다고 주장",
+      "url": "https://finance.yahoo.com/technology/ai/articles/elon-musk-says-spacex-massive-192300638.html"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "베테랑 분석사, 로봇택시 위험을 들어 테슬라 주가 약세 판단",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/veteran-analyst-firm-just-calls-202652386.html"
+    },
+    {
+      "date": "2026-08-19",
+      "title": "테슬라, 오스틴에서 Starlink와 연동한 무인 택시 '사이버택' 공개 출시 준비",
+      "url": "https://www.autoconnectedcar.com/2026/08/tesla-preps-public-employee-cybercabs-launch-with-starlink-in-austin/"
+    },
+    {
+      "date": "2026-08-19",
+      "title": "테슬라, 라스베이거스에 로보택시 5,000대 허가 요청...시는 10대만 승인·공항 제외",
+      "url": "https://fortune.com/2026/08/19/tesla-las-vegas-5000-robotaxi-permits-sin-city-10-capped/"
+    }
+  ],
+  "SPCX": [
+    {
+      "date": "2026-08-17",
+      "title": "일론 머스크의 스타베이스, 테크사스 확장 계획",
+      "url": "https://www.klcc.org/npr-news/2026-08-17/elon-musks-starbase-wants-to-expand-in-south-texas"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "미국 주식 시장: 타이거 글로벌, 대형 기술주 비중 축소·AMD·스페이스X 추가 - 2분기",
+      "url": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stock-market-tiger-global-trims-big-tech-bets-adds-amd-and-spacex-in-q2/articleshow/133286709.cms"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "엘론 머스크의 스페이스X 지분, 공개 - 상당한 규모",
+      "url": "https://www.livemint.com/companies/news/elon-musk-s-spacex-holdings-revealed-hint-it-s-a-lot-11786928470020.html"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "Cursor, 스페이스X의 인수로 편입·인수 완료",
+      "url": "https://www.afterdawn.com/news/article.cfm/2026/08/17/cursor-is-now-part-of-spacex"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "타이거 글로벌, 대형 기술주 지분 대폭 축소·AMD·스페이스X 추가 매입-ETTelecom",
+      "url": "https://telecom.economictimes.indiatimes.com/news/industry/tiger-global-cuts-stakes-in-major-tech-firms-adds-amd-spacex/133285135"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "엘론 머스크, SpaceX가 아마존·구글·마이크로소프트도 따라잡을 수 없는 거대한 AI 경쟁 우위 보유하다고 주장",
+      "url": "https://finance.yahoo.com/technology/ai/articles/elon-musk-says-spacex-massive-192300638.html"
+    }
+  ],
+  "PLTR": [],
+  "SMR": [],
+  "LCID": [],
+  "PSNY": [],
+  "BRK-A": [
+    {
+      "date": "2026-08-17",
+      "title": "버크셔 해서웨이, 알파벳 지분 83% 늘려 약 1억 600만 주 보유",
+      "url": "http://www.newyorktelegraph.com/news/279244575/berkshire-boosts-alphabet-stake-by-83-to-nearly-106-million-shares"
+    }
+  ],
+  "BRK-B": [
+    {
+      "date": "2026-08-17",
+      "title": "버크셔 해서웨이, 알파벳 지분 83% 늘려 약 1억 600만 주 보유",
+      "url": "http://www.newyorktelegraph.com/news/279244575/berkshire-boosts-alphabet-stake-by-83-to-nearly-106-million-shares"
+    }
+  ],
+  "XE": [],
+  "OKLO": [],
+  "PFE": [],
+  "MRNA": [
+    {
+      "date": "2026-08-19",
+      "title": "머크·모더나 암백신 3상 성공, 모더나 주가 88% 급등",
+      "url": "https://www.hankyung.com/article/202608190698i"
+    }
+  ],
+  "BNTX": [],
+  "005930.KS": [
+    {
+      "date": "2026-08-17",
+      "title": "삼성, 2027년 폴더블 핸드폰 5종 모델 추가 출시 계획",
+      "url": "https://www.digitaltrends.com/phones/samsung-could-double-down-on-foldables-in-2027-with-five-new-reported-models/"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "AI 수요 급증 속 삼성전자-LG이노텍 기판 라인 거의 만석",
+      "url": "https://www.digitimes.com/news/a20260817VL205/semco-substrate-lg-innotek-capacity-demand.html"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "삼성전자, 주주환원으로 주가 지지 추진",
+      "url": "https://www.hankyung.com/article/2026081747841"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "중국, 삼성전자 D램 기술 탈취 혐의…CXMT 설립부터",
+      "url": "https://www.hankyung.com/article/2026081882061"
+    },
+    {
+      "date": "2026-08-19",
+      "title": "삼성, AI 수요 급증 속 반도체 가격 15% 인상",
+      "url": "https://www.thenews.com.pk/latest/1412784-samsung-hikes-chipmaking-prices-by-15-amid-soaring-ai-demand"
+    },
+    {
+      "date": "2026-08-19",
+      "title": "삼성전자 DX 부문, 메모리 반도체 가격 상승에 적자 불가피…시장점유율 확대로 대응",
+      "url": "https://www.yna.co.kr/view/AKR20260819071900003"
+    }
+  ],
+  "000660.KS": [
+    {
+      "date": "2026-08-18",
+      "title": "SK 하이닉스 주가 8.4% 폭락, AI 메모리 호황 꺾여",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/sk-hynix-stock-crashes-8-201415991.html"
+    },
+    {
+      "date": "2026-08-19",
+      "title": "역설적이게도: SK하이닉스 ADR부터 레버리지 ETF까지, 한국인들이 월스트리트에 투자하는 이유",
+      "url": "https://www.moneycontrol.com/news/business/markets/the-irony-is-from-sk-hynix-adrs-to-leveraged-etfs-why-south-koreans-are-taking-their-bets-to-wall-street-14009894.html"
+    },
+    {
+      "date": "2026-08-19",
+      "title": "SK하이닉스, 40조 원 자사주 매입·소각 가속화, 주주환원 50% 이상",
+      "url": "https://www.prnewswire.com/news-releases/sk-hynix-accelerates-40-trillion-won-share-repurchase-and-cancellation-program-pursues-shareholder-return-expansion-to-over-50-of-fcf-302855022.html"
+    }
+  ],
+  "034020.KS": [],
+  "011070.KS": [
+    {
+      "date": "2026-08-17",
+      "title": "AI 수요 급증 속 삼성전자-LG이노텍 기판 라인 거의 만석",
+      "url": "https://www.digitimes.com/news/a20260817VL205/semco-substrate-lg-innotek-capacity-demand.html"
+    }
+  ],
+  "003550.KS": [],
+  "373220.KS": [
+    {
+      "date": "2026-08-18",
+      "title": "LG에너지솔루션 배터리 공장 가동, GM 외 다른 고객사도 확보",
+      "url": "https://finance.yahoo.com/energy/articles/lg-energy-solution-battery-plant-165715593.html"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "LG에너지솔루션, 완전 신규 랜싱 배터리 공장 생산 개시 공지",
+      "url": "https://www.prnewswire.com/news-releases/lg-energy-solution-announces-start-of-production-at-all-new-lansing-battery-plant-302853726.html"
+    },
+    {
+      "date": "2026-08-19",
+      "title": "LG에너지솔루션, 미국 랜싱 배터리 공장 양산 개시",
+      "url": "https://finance.yahoo.com/energy/articles/lges-starts-production-lansing-battery-121203115.html"
+    },
+    {
+      "date": "2026-08-19",
+      "title": "LG에너지솔루션, 미국 드론용 배터리 공급 추진",
+      "url": "https://www.japantimes.co.jp/business/2026/08/19/tech/lg-energy-batteries-us-drones/"
+    }
+  ],
+  "035420.KS": [
+    {
+      "date": "2026-08-18",
+      "title": "콜롬비아 규모 7.4 강진, NGO 긴급구호…50만달러 지원",
+      "url": "https://www.yna.co.kr/view/AKR20260818120400371"
+    }
+  ],
+  "035720.KS": [
+    {
+      "date": "2026-08-17",
+      "title": "카카오 농민에게 드디어 희망이 생기다",
+      "url": "https://www.thenational.com.pg/hope-at-last-for-cocoa-farmers/"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "라이베리아: 부르키나파소 인들, 카카오 농업에서 광업으로 전환",
+      "url": "https://frontpageafricaonline.com/liberia-many-burkinabi-shift-from-cocoa-farming-to-mining-activities/"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "라이베리아 그랜드게데, '카카오 열풍'으로 자연림 파괴",
+      "url": "https://news.mongabay.com/short-article/2026/08/cocoa-fever-in-liberias-grand-gedeh-is-wiping-out-native-forests/"
+    }
+  ],
+  "000720.KS": [
+    {
+      "date": "2026-08-18",
+      "title": "현대건설, 미국 테라파워 원전 최대 8기 설계·시공 우선권 획득",
+      "url": "https://www.yna.co.kr/view/AKR20260818077200003"
+    },
+    {
+      "date": "2026-08-18",
+      "title": "현대건설, 미국 테라파워 원전 8기 EPC 우선권 확보",
+      "url": "https://www.hankyung.com/article/202608187010i"
+    }
+  ],
+  "034730.KS": [
+    {
+      "date": "2026-08-17",
+      "title": "최태원 SK회장-게이츠 테라파워 의장, 소형원자로 협력 강화",
+      "url": "https://www.yna.co.kr/view/AKR20260816024400003"
+    }
+  ],
+  "096770.KS": []
+}

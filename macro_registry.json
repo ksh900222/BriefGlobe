@@ -762,6 +762,42 @@
     "US_UNEMPLOYMENT",
     "US_UNEMPLOYMENT_RATE"
    ]
+  },
+  "KR_EXPORTS_YoY": {
+   "name": "한국 수출 (전년비)",
+   "country": "한국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "수출"
+    ],
+    "not": [
+     "수입"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "KR_EXPORT_YoY",
+    "KOREA_EXPORTS_YoY"
+   ]
+  },
+  "KR_IMPORTS_YoY": {
+   "name": "한국 수입 (전년비)",
+   "country": "한국",
+   "unit": "%",
+   "match": {
+    "any": [
+     "수입"
+    ],
+    "not": [
+     "수출"
+    ]
+   },
+   "freq": "monthly",
+   "aliases": [
+    "KR_IMPORT_YoY",
+    "KOREA_IMPORTS_YoY"
+   ]
   }
  }
 }

@@ -279,22 +279,32 @@ def fetch_upbit(market, seeded=False, inc=10):
 #   · 다운로드는 3년(range=3y)으로 시드하고, 이후엔 기존 이력과 합쳐 절대 줄지 않게 한다.
 #   · KIS 로 매 시각 최근값이 append 되는 주식(주식-미국/한국)은 충분히 시드되면
 #     Yahoo 재다운로드를 생략한다(요청 절감) — 최신값은 fetch_markets_kis.py --enrich 가 채움.
-KIS_ACCUM_GROUPS = {"주식 - 미국", "주식 - 한국"}
+# (구) 그룹 기준 판정 — 지금은 _kis_can_serve() 로 심볼 단위 판정한다.
+#   지수·환율도 KIS 일봉이 있어 그룹만으로는 구분이 안 되기 때문.
 KIS_SEED_MIN = 600     # 이 이상 쌓이면 시드 완료로 보고 Yahoo 재다운 스킵(≈2.5년 영업일)
 
 
 def _kis_can_serve(sym):
-    """KIS 가 이 심볼의 시세를 실제로 줄 수 있나(한국=전 종목, 미국=US_EXCD 등재분).
+    """KIS 가 이 심볼의 **일봉 이력**을 줄 수 있나.
 
-    두 목록(시리즈 목록 vs KIS 매핑)이 어긋나면 조용히 시세가 멈추므로 여기서 확인한다.
+    주식(한국 전 종목·미국 US_EXCD 등재분) + 지수(국내/해외) + 환율.
+    이 목록에 들면 Yahoo 를 더 받지 않고 KIS append 만으로 이어간다
+    (Yahoo 3년 시드는 이미 확보돼 있으므로 재다운로드가 낭비다).
+    두 목록이 어긋나면 조용히 시세가 멈추므로 coverage_check 가 드리프트를 감시한다.
     """
     if sym.endswith(".KS"):
         return True
     try:
-        from fetch_markets_kis import US_EXCD
+        from fetch_markets_kis import FX_USD, IDX_KR, IDX_OV, US_EXCD
     except ImportError:
         return False
-    return sym in US_EXCD
+    return sym in US_EXCD or sym in IDX_KR or sym in IDX_OV or sym in FX_USD
+
+
+# KIS 로 이어가는 시리즈가 이 일수 이상 뒤처지면 KIS 쪽이 고장난 것 → 그 회차만 Yahoo 로 메운다.
+#   '더 이상 Yahoo 를 받지 않는다'는 원칙의 예외는 이것 하나다. 이 안전망이 없으면
+#   KIS 가 조용히 멈출 때 차트가 영구 정지한다(실제로 두 번 겪었다: MRNA 3주·지수 3주).
+KIS_STALE_FALLBACK_DAYS = 5
 
 
 def load_existing_history():
@@ -332,9 +342,16 @@ def main():
         #   예전엔 이력 길이만 보고 Yahoo 를 건너뛰어서, US_EXCD 에 없는 종목(PFE·MRNA·BNTX)이
         #   Yahoo 도 KIS 도 안 받는 사각지대에 빠져 시드 시점(2026-07-29)에 영구 정지했다.
         #   그 사이 모더나는 +161% 급등했는데 화면엔 3주 전 값이 떠 있었다.
-        if group not in KIS_ACCUM_GROUPS or len(existing.get(sym, {})) < KIS_SEED_MIN:
+        base = existing.get(sym, {})
+        if len(base) < KIS_SEED_MIN or not _kis_can_serve(sym):
             return False
-        return _kis_can_serve(sym)
+        # 안전망: KIS 가 며칠째 못 채우고 있으면 이번 회차는 Yahoo 로 갭을 메운다.
+        y, m, d = map(int, max(base).split("-"))
+        behind = (datetime.now(timezone.utc).date() - datetime(y, m, d).date()).days
+        if behind > KIS_STALE_FALLBACK_DAYS:
+            print(f"  ⚠ {sym}: KIS 이력이 {behind}일 뒤처짐 → 이번 회차만 Yahoo 로 보강")
+            return False
+        return True
 
     # ---- FRED 정책·단기 금리 (공식 API 키 있을 때만 — 무키는 차단이 잦아 생략) ----
     fred_list = FRED_SERIES if _fred_api_key() else []
@@ -367,10 +384,13 @@ def main():
     fresh_syms = [s for s in all_syms if s not in set(seeded_syms)]
     # 증분 range 는 '마지막 데이터가 며칠 지났나'로 동적 결정 — 평소 5d(가벼움),
     #   파이프라인이 오래 멈춰 뒤처지면 자동으로 넓게 받아 갭(구멍)을 메운다.
+    # ⚠️ '얼마나 뒤처졌나'는 **가장 오래된** 심볼로 재야 한다(min).
+    #   예전엔 max 를 써서, KIS 로 매일 갱신되는 심볼 하나(114260.KS)가 배치 전체를
+    #   '최신'으로 보이게 만들었다 → gap=-1 → 항상 5d → 나머지 51심볼이 3주간 정지.
     last_dates = [max(existing[s]) for s in seeded_syms if existing.get(s)]
     gap = 999
     if last_dates:
-        y, m, d = map(int, max(last_dates).split("-"))
+        y, m, d = map(int, min(last_dates).split("-"))
         gap = (datetime.now(timezone.utc).date() - datetime(y, m, d).date()).days
     inc_range = "5d" if gap <= 4 else ("1mo" if gap <= 25 else "3mo")
     print(f"  · Yahoo: 증분({inc_range}, 마지막+{gap}일) {len(seeded_syms)}심볼 · 시드(3y) {len(fresh_syms)}심볼")
@@ -404,9 +424,13 @@ def main():
             ok += 1
             continue
         pts = fetched.get(sym) or {}
-        if len(pts) < 10:
+        base = existing.get(sym, {})
+        # ⚠️ '10점 미만 = 수집 실패' 는 3년 시드에만 맞는 기준이다.
+        #   증분(5d)은 정상이어도 4~6점뿐이라 이 조건에 걸려 **매번 통째로 폐기**됐다.
+        #   이미 이력이 있으면 1점만 늘어도 유효한 증분이다.
+        min_pts = 1 if len(base) >= 10 else 10
+        if len(pts) < min_pts:
             # 신규 수집 실패해도 기존 이력이 있으면 그것으로 유지(누락 방지)
-            base = existing.get(sym, {})
             if len(base) >= 10:
                 ds, cs = sorted(base), [base[d] for d in sorted(base)]
                 raw[sym] = base

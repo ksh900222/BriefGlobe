@@ -234,8 +234,99 @@ def _ov_chart(code, div, token):
     return float(o.get("ovrs_nmix_prpr") or 0), float(o.get("prdy_ctrt") or 0)
 
 
+# ------------------------------------------------------------
+# '확정된 날'만 일봉에 얹는다 — KIS 일봉의 마지막 행은 아직 거래 중인 값이라 계속 움직인다.
+#   실제로 2026-08-19 모더나는 KIS 165.25 / 실제 종가 174.38 (-5.2%) 로 어긋났다.
+#   확정된 과거 날짜는 Yahoo 와 소수점까지 일치하므로, **장이 끝난 날만** 이력에 넣고
+#   진행 중인 날은 kisNow(실시간)로만 보여준다.
+# ------------------------------------------------------------
+from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+
+_MKT_OFFSET = {"us": -4, "kr": 9}      # 뉴욕(EDT)·서울 UTC 오프셋(시)
+# 그 날 종가가 '확정'되는 현지 시각. 이때가 지나면 KIS 일봉의 그 날 행이 공식 종가로 정착한다.
+#   미국: 애프터마켓 종료 20:00 ET — 그전까지 KIS 는 그 자리에 실시간가를 넣는다.
+#     (2026-08-19 모더나: 19:30 ET 에 165.25 → 20:00 ET 이후 174.38 = 공식 종가로 정착)
+#   한국: 시간외단일가 종료 18:00 KST.
+_MKT_SETTLE_HOUR = {"us": 20, "kr": 18}
+
+
+def market_today(market):
+    """그 시장 현지 날짜(YYYY-MM-DD)."""
+    return (_dt.now(_tz.utc) + _td(hours=_MKT_OFFSET.get(market, 0))).strftime("%Y-%m-%d")
+
+
+def settled_through(market):
+    """종가가 확정된 마지막 날짜(YYYY-MM-DD). 이 날짜까지만 일봉에 얹는다."""
+    now = _dt.now(_tz.utc) + _td(hours=_MKT_OFFSET.get(market, 0))
+    if now.hour >= _MKT_SETTLE_HOUR.get(market, 24):
+        return now.strftime("%Y-%m-%d")          # 오늘치까지 확정
+    return (now - _td(days=1)).strftime("%Y-%m-%d")
+
+
+def settled_only(daily, market):
+    """종가가 확정된 날의 일봉만 (진행 중인 날 제외).
+
+    혹시 이르게 집었더라도 매 회차 KIS 값으로 덮어쓰므로 다음 회차에 자동 교정된다.
+    """
+    through = settled_through(market)
+    return {d: v for d, v in (daily or {}).items() if d <= through}
+
+
+def _daily_chart(path, tr, div, code, token, days=60):
+    """KIS 일자별 차트 → {date: close}. 지수(N/U)·환율(X) 공용."""
+    end = _dt.now(_tz.utc) + _td(hours=9)
+    start = end - _td(days=days)
+    r = _get(path, tr, {"FID_COND_MRKT_DIV_CODE": div, "FID_INPUT_ISCD": code,
+                        "FID_INPUT_DATE_1": start.strftime("%Y%m%d"),
+                        "FID_INPUT_DATE_2": end.strftime("%Y%m%d"),
+                        "FID_PERIOD_DIV_CODE": "D"}, token)
+    out = {}
+    for x in r.get("output2") or []:
+        d = x.get("stck_bsop_date")
+        c = x.get("ovrs_nmix_prpr") or x.get("bstp_nmix_prpr")
+        try:
+            if d and c and float(c):
+                out[f"{d[:4]}-{d[4:6]}-{d[6:8]}"] = float(c)
+        except (TypeError, ValueError):
+            continue
+    return dict(sorted(out.items()))
+
+
+def kr_index_daily(code, token):
+    return _daily_chart("/uapi/domestic-stock/v1/quotations/inquire-daily-indexchartprice",
+                        "FHKUP03500100", "U", code, token)
+
+
+def ov_index_daily(code, token):
+    return _daily_chart("/uapi/overseas-price/v1/quotations/inquire-daily-chartprice",
+                        "FHKST03030100", "N", code, token)
+
+
+def fx_daily(code, token):
+    return _daily_chart("/uapi/overseas-price/v1/quotations/inquire-daily-chartprice",
+                        "FHKST03030100", "X", code, token)
+
+
+def _merge_daily(s, daily, market):
+    """시리즈의 dates/closes 에 확정 일봉을 얹는다(기존 이력 보존, 겹치면 KIS 우선).
+
+    진행 중인 날(현지 오늘)의 행은 **넣지도 않고, 이미 있으면 지운다** —
+    예전 방식으로 기록된 '거래 중 시세'가 종가 자리에 남아 있으면 안 된다.
+    그 날은 장이 끝난 뒤 다음 회차에 확정값으로 다시 들어온다.
+    """
+    through = settled_through(market)
+    merged = dict(zip(s.get("dates", []), s.get("closes", [])))
+    before = len(merged)
+    merged = {d: v for d, v in merged.items() if d <= through}
+    merged.update(settled_only(daily, market))
+    merged = dict(sorted(merged.items()))
+    s["dates"] = list(merged.keys())
+    s["closes"] = list(merged.values())
+    return len(merged) - before
+
+
 def enrich_indices_fx(arr, token, ok, fail):
-    """지수·환율·원화크로스에 kisNow/kisChg 부여."""
+    """지수·환율·원화크로스에 kisNow/kisChg 부여 + 확정 일봉 append."""
     byid = {s["id"]: s for s in arr}
     fxv = {}
 
@@ -246,14 +337,19 @@ def enrich_indices_fx(arr, token, ok, fail):
             ok.append(sid)
 
     for sid, code in IDX_KR.items():
-        try: setq(sid, *kr_index(code, token))
+        try:
+            setq(sid, *kr_index(code, token))
+            if sid in byid: _merge_daily(byid[sid], kr_index_daily(code, token), "kr")
         except Exception as e: fail.append((sid, str(e)[:50]))
     for sid, code in IDX_OV.items():
-        try: setq(sid, *_ov_chart(code, "N", token))
+        try:
+            setq(sid, *_ov_chart(code, "N", token))
+            if sid in byid: _merge_daily(byid[sid], ov_index_daily(code, token), "us")
         except Exception as e: fail.append((sid, str(e)[:50]))
     for sid, code in FX_USD.items():
         try:
             p, c = _ov_chart(code, "X", token); fxv[sid] = (p, c); setq(sid, p, c)
+            if sid in byid: _merge_daily(byid[sid], fx_daily(code, token), "us")
         except Exception as e: fail.append((sid, str(e)[:50]))
     # 원화 크로스 (라이브 USD쌍에서 계산)
     krw = fxv.get("KRW=X")
@@ -298,12 +394,11 @@ def enrich_market_data(dry=False):
                 px = us_stock_price(arg, symb, token)
             if not daily:
                 raise RuntimeError("일봉 빈값")
-            # 병합: 야후(1년) 위에 KIS 최근 덮기
-            merged = dict(zip(s.get("dates", []), s.get("closes", [])))
-            merged.update(daily)
-            merged = dict(sorted(merged.items()))
-            s["dates"] = list(merged.keys())
-            s["closes"] = list(merged.values())
+            # 병합: Yahoo 시드 위에 KIS 일봉 append.
+            #   ⚠️ **장이 끝난 날만** 얹는다 — 진행 중인 날의 KIS 값은 실시간이라
+            #   계속 움직여서 '종가'로 기록하면 틀린다(2026-08-19 모더나 165.25 vs 종가 174.38).
+            #   진행 중인 값은 아래 kisNow 로만 노출한다.
+            _merge_daily(s, daily, kind)
             if px.get("price"):
                 s["kisNow"] = round(px["price"], 4)
                 s["kisChg"] = round(px.get("change_pct", 0), 2)

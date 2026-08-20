@@ -1,0 +1,1069 @@
+const STOCKS_NEWS = {
+  "000660.KS": {
+    "news": [
+      {
+        "date": "2026-08-19",
+        "title": "역설적이게도: SK하이닉스 ADR부터 레버리지 ETF까지, 한국인들이 월스트리트에 투자하는 이유",
+        "source": "Moneycontrol | https://www.moneycontrol.com/news/business/markets/the-irony-is-from-sk-hynix-adrs-to-leveraged-etfs-why-south-koreans-are-taking-their-bets-to-wall-street-14009894.html"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "SK하이닉스, 40조 원 자사주 매입·소각 가속화, 주주환원 50% 이상",
+        "source": "Prnewswire | https://www.prnewswire.com/news-releases/sk-hynix-accelerates-40-trillion-won-share-repurchase-and-cancellation-program-pursues-shareholder-return-expansion-to-over-50-of-fcf-302855022.html"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "SK 하이닉스 주가 8.4% 폭락, AI 메모리 호황 꺾여",
+        "source": "Finance | https://finance.yahoo.com/markets/stocks/articles/sk-hynix-stock-crashes-8-201415991.html"
+      },
+      {
+        "date": "2026-08-16",
+        "title": "SK하이닉스 신규 팹, 2028년 말 전 양산 공급 제한 전망",
+        "source": "Global E-News | https://www.g-enews.com/article/Global-Biz/2026/08/20260816081401772fbbec65dfb_1"
+      },
+      {
+        "date": "2026-08-14",
+        "title": "SK하이닉스 2분기 매출 79조원 기록, HBM4 양산 본격화",
+        "source": "Kr | https://kr.investing.com/news/stock-market-news/article-2033411"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "SK하이닉스, 54조 3000억 원 규모 신규 팹 투자 확정",
+        "source": "SK Hynix | https://news.skhynix.co.kr/"
+      },
+      {
+        "date": "2026-08-06",
+        "title": "SK하이닉스 2분기 영업이익 60조5426억원으로 사상 최대",
+        "source": "Finance | https://finance.yahoo.com/quote/000660.KS/"
+      }
+    ],
+    "sns": []
+  },
+  "000720.KS": {
+    "news": [
+      {
+        "date": "2026-08-18",
+        "title": "현대건설, 미국 테라파워 원전 최대 8기 설계·시공 우선권 획득",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260818077200003"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "현대건설, 미국 테라파워 원전 8기 EPC 우선권 확보",
+        "source": "Hankyung | https://www.hankyung.com/article/202608187010i"
+      }
+    ],
+    "sns": []
+  },
+  "003550.KS": {
+    "news": [
+      {
+        "date": "2026-08-13",
+        "title": "무더위 끝자락, 혜택은 풍성하게…LG전자 베스트샵 8월 쿨-세일 진행",
+        "source": "Seoul | https://www.seoul.co.kr/news/economy/2026/08/13/20260813500107"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "LG전자 베스트샵, 8월 여름 프로모션 진행…7백만원 이상 혜택",
+        "source": "Hankyung | https://www.hankyung.com/article/202608139086O"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "LG의 8월, 최고의 2025 재현할까 최악의 2024로 돌아갈까",
+        "source": "Sports Khan | https://sports.khan.co.kr/article/202608111328003/"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "LG Electronics Releases Second-quarter 2026 Financial Results",
+        "source": "Investing | https://www.investing.com/news/transcripts/earnings-call-transcript-lg-electronics-tops-q2-2026-estimates-on-profit-93CH-4822644"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "LG Electronics Q2 2026 Slides: Profit Surges on Premium Mix, New Ventures",
+        "source": "Investing | https://www.investing.com/news/company-news/lg-electronics-q2-2026-slides-profit-surges-on-premium-mix-new-ventures-93CH-4822663"
+      },
+      {
+        "date": "2026-08-01",
+        "title": "LG's Surprise Q2 Earnings Trigger Wave of Target Price Hikes",
+        "source": "Finance | https://finance.biggo.com/news/2fed8215-ac55-4512-ad06-ff99e3dec64b"
+      }
+    ],
+    "sns": []
+  },
+  "005930.KS": {
+    "news": [
+      {
+        "date": "2026-08-19",
+        "title": "삼성, AI 수요 급증 속 반도체 가격 15% 인상",
+        "source": "Thenews | https://www.thenews.com.pk/latest/1412784-samsung-hikes-chipmaking-prices-by-15-amid-soaring-ai-demand"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "삼성전자 DX 부문, 메모리 반도체 가격 상승에 적자 불가피…시장점유율 확대로 대응",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260819071900003"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "삼성전자, 첨단 파운드리 가격 최대 15% 인상",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260819167300009"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "중국, 삼성전자 D램 기술 탈취 혐의…CXMT 설립부터",
+        "source": "Hankyung | https://www.hankyung.com/article/2026081882061"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "삼성, 2027년 폴더블 핸드폰 5종 모델 추가 출시 계획",
+        "source": "Digitaltrends | https://www.digitaltrends.com/phones/samsung-could-double-down-on-foldables-in-2027-with-five-new-reported-models/"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "AI 수요 급증 속 삼성전자-LG이노텍 기판 라인 거의 만석",
+        "source": "Digitimes | https://www.digitimes.com/news/a20260817VL205/semco-substrate-lg-innotek-capacity-demand.html"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "삼성전자, 주주환원으로 주가 지지 추진",
+        "source": "Hankyung | https://www.hankyung.com/article/2026081747841"
+      }
+    ],
+    "sns": []
+  },
+  "011070.KS": {
+    "news": [
+      {
+        "date": "2026-08-17",
+        "title": "AI 수요 급증 속 삼성전자-LG이노텍 기판 라인 거의 만석",
+        "source": "Digitimes | https://www.digitimes.com/news/a20260817VL205/semco-substrate-lg-innotek-capacity-demand.html"
+      }
+    ],
+    "sns": []
+  },
+  "034020.KS": {
+    "news": [
+      {
+        "date": "2026-08-14",
+        "title": "두산에너빌리티, 테라파워 나트륨냉각원자로 핵심 부품 수주",
+        "source": "Markets | https://markets.hankyung.com/stock/034020"
+      }
+    ],
+    "sns": []
+  },
+  "034730.KS": {
+    "news": [
+      {
+        "date": "2026-08-18",
+        "title": "Hana Lifts SK Holdings Target 37.5% to 770,000 Won on Affiliate Gains",
+        "source": "En | https://en.sedaily.com/finance/2026/08/18/hana-lifts-sk-holdings-target-375-percent-to-770000-won-on"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "SK Holdings 목표주가 560,000원에서 770,000원으로 상향",
+        "source": "Finance | https://finance.yahoo.com/quote/034730.KS/"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "최태원 SK회장-게이츠 테라파워 의장, 소형원자로 협력 강화",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260816024400003"
+      },
+      {
+        "date": "2026-08-12",
+        "title": "SK그룹 시가총액, 8월 들어 176조 원 감소",
+        "source": "Herald Corp | https://biz.heraldcorp.com/article/10834388"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "SK하이닉스, 54조 3000억 원 규모 신규 팹 투자 확정…2028년 말 양산",
+        "source": "Global E-News | https://www.g-enews.com/article/Global-Biz/2026/08/20260816081401772fbbec65dfb_1"
+      }
+    ],
+    "sns": []
+  },
+  "035420.KS": {
+    "news": [
+      {
+        "date": "2026-08-18",
+        "title": "Naver와 NVIDIA의 한국 주권 AI 구축 55MW",
+        "source": "Aiapps | https://www.aiapps.com/blog/august-2026-ai-mega-update-major-breakthroughs-launches/"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "콜롬비아 규모 7.4 강진, NGO 긴급구호…50만달러 지원",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260818120400371"
+      },
+      {
+        "date": "2026-08-11",
+        "title": "Google overtakes Naver in monthly mobile app users for first time",
+        "source": "Korea Times | https://www.koreatimes.co.kr/business/tech-science/20260811/google-surpasses-naver-in-monthly-active-users-in-korea-for-1st-time"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "Naver expands AI business with factory project, eyes 2027 revenue growth",
+        "source": "UPI | https://www.upi.com/Top_News/World-News/2026/08/07/skorea/7051786145188/"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "NAVER(035420) Q2 2026 Earnings Call Transcript",
+        "source": "Finance | https://finance.yahoo.com/quote/035420.KS/"
+      },
+      {
+        "date": "2026-07-27",
+        "title": "NVIDIA and Naver to expand Korea national AI factory infrastructure buildout",
+        "source": "Globe Newswire | https://www.globenewswire.com/news-release/2026/07/27/3333489/0/en/naver-nvidia-and-brookfield-to-expand-korea-s-national-ai-factory-infrastructure-buildout.html"
+      }
+    ],
+    "sns": []
+  },
+  "035720.KS": {
+    "news": [
+      {
+        "date": "2026-08-20",
+        "title": "카카오모빌리티, 미국서 1.4조원 규모 IPO 신청",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260820025500017"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "라이베리아 그랜드게데, '카카오 열풍'으로 자연림 파괴",
+        "source": "News | https://news.mongabay.com/short-article/2026/08/cocoa-fever-in-liberias-grand-gedeh-is-wiping-out-native-forests/"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "카카오 농민에게 드디어 희망이 생기다",
+        "source": "Thenational | https://www.thenational.com.pg/hope-at-last-for-cocoa-farmers/"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "라이베리아: 부르키나파소 인들, 카카오 농업에서 광업으로 전환",
+        "source": "Frontpageafricaonline | https://frontpageafricaonline.com/liberia-many-burkinabi-shift-from-cocoa-farming-to-mining-activities/"
+      }
+    ],
+    "sns": []
+  },
+  "096770.KS": {
+    "news": [
+      {
+        "date": "2026-08-14",
+        "title": "U.S. TerraPower, South Korea's SK Innovation Sign Preliminary Deal on Global SMR Projects",
+        "source": "Finance | https://finance.yahoo.com/news/u-terrapower-south-koreas-sk-080937803.html"
+      },
+      {
+        "date": "2026-08-14",
+        "title": "SK Innovation와 TerraPower, 글로벌 소형모듈원자로 사업 협력 양해",
+        "source": "Alphasquare | https://alphasquare.co.kr/home/stock-summary?code=096770"
+      }
+    ],
+    "sns": []
+  },
+  "373220.KS": {
+    "news": [
+      {
+        "date": "2026-08-19",
+        "title": "LG에너지솔루션, 미국 랜싱 배터리 공장 양산 개시",
+        "source": "Finance | https://finance.yahoo.com/energy/articles/lges-starts-production-lansing-battery-121203115.html"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "LG에너지솔루션, 미국 드론용 배터리 공급 추진",
+        "source": "Japantimes | https://www.japantimes.co.jp/business/2026/08/19/tech/lg-energy-batteries-us-drones/"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "LG에너지솔루션 배터리 공장 가동, GM 외 다른 고객사도 확보",
+        "source": "Finance | https://finance.yahoo.com/energy/articles/lg-energy-solution-battery-plant-165715593.html"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "LG에너지솔루션, 완전 신규 랜싱 배터리 공장 생산 개시 공지",
+        "source": "Prnewswire | https://www.prnewswire.com/news-releases/lg-energy-solution-announces-start-of-production-at-all-new-lansing-battery-plant-302853726.html"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "LG에너지솔루션 주가, 8월 7일 장중 346,500원 소폭 오름세",
+        "source": "Topstarnews | https://www.topstarnews.net/news/articleView.html?idxno=16157377"
+      },
+      {
+        "date": "2026-08-01",
+        "title": "LG에너지솔루션, 8월 1주간 꾸준한 상승세",
+        "source": "Joongang E-News | https://www.joongangenews.com/news/articleView.html?idxno=538706"
+      }
+    ],
+    "sns": []
+  },
+  "AAPL": {
+    "news": [
+      {
+        "date": "2026-08-20",
+        "title": "Jamf, Mac용 AI 거버넌스 출시 → 호주·뉴질랜드 첫 선",
+        "source": "Itwire | https://itwire.com/business-it-news/business-intelligence/jamf-launches-ai-governance-a-first-of-its-kind-native-ai-control-plane-for-mac-in-australia-and-new-zealand"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "애플, EU DMA 규정 준수를 위해 개발자 앱스토어 수수료 인하",
+        "source": "Siliconrepublic | https://www.siliconrepublic.com/business/apple-lowers-app-stores-fees-in-eu-in-dma-compliance"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "애플, 독일 규제당국 요청에 앱 데이터 동의 규칙 변경",
+        "source": "Cyprus-mail | https://cyprus-mail.com/2026/08/19/apple-to-change-app-data-consent-rules-german-regulator-says"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "전례 없는 규모 애플 사용자들 최근 스파이웨어 경고 받아",
+        "source": "Ghanaiantimes | https://ghanaiantimes.com.gh/unprecedented-number-of-apple-users-received-recent-spyware-alert-say-investigators/"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "애플, EU 3자 앱스토어 5% 수수료 부과 결정",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260819113500009"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "AI 수요 급증, 통신·포털 데이터센터 경쟁 심화",
+        "source": "Hankyung | https://www.hankyung.com/article/2026081904271"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "스페이스X-커서 인수, AI 컴퓨팅·모델·애플리케이션 간 고리 완성",
+        "source": "Digitimes | https://www.digitimes.com/news/a20260817VL219/spacex-ai-acquisition-gpu-infrastructure.html"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "애플의 반(反)AI 입장, 주식시장에 짐짝이 되어 간다 – 머큐리 뉴스",
+        "source": "Mercurynews | https://www.mercurynews.com/2026/08/18/apples-anti-ai-stock/"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "애플 아이폰 18 Pro 출시 시기 추측, TSMC 2nm 공정 이익 예상",
+        "source": "El-balad | https://www.el-balad.com/17043100"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "미국 의회, 애플에 중국산 CXMT 메모리 사용 금지 서약 요구",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260818086000009"
+      }
+    ],
+    "sns": []
+  },
+  "AMZN": {
+    "news": [
+      {
+        "date": "2026-08-19",
+        "title": "브라질, 아마존 강 근처에서 대규모 유전 발견",
+        "source": "Zizonline | https://zizonline.com/brazil-discovers-oil-near-amazon-river/"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "미국 빅테크, AI 데이터센터 확대에 주민 반발 직면",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260819139700009"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "룰라, 아마존 인근 석유를 브라질 미래의 여권으로 호칭",
+        "source": "Yahoo | https://www.yahoo.com/news/world/articles/lula-calls-oil-near-amazon-232055080.html"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "아마존, 알파벳, 마이크로소프트, 약 600억 달러를 자본 지출에 투입...명확한 승자 등장",
+        "source": "Finance | https://finance.yahoo.com/technology/articles/amazon-alphabet-microsoft-dropping-nearly-222700076.html"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "AWS 아시아 최고 경영진, 일본으로 이전, 레거시 IT 시스템 현대화 추진",
+        "source": "Finance | https://finance.yahoo.com/technology/ai/articles/aws-asia-chief-relocating-japan-070000729.html"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "정글과 석유 사이: 콜롬비아가 빚진 에너지 전환의 아마존 지역",
+        "source": "English | https://english.elpais.com/international/2026-08-18/between-the-jungle-and-the-oil-the-amazon-municipality-to-which-colombia-owes-an-energy-transition.html"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "아마존, AI 학습용 희귀도서 소각 - 종전 부인 무색",
+        "source": "Techtimes | https://www.techtimes.com/articles/324871/20260818/amazon-destroys-rare-books-ai-training-despite-prior-denial-airtag-confirms.htm"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "아마존·알파벳·마이크로소프트, 근 6천억 달러 자본 투자…1개 승자 부상",
+        "source": "Fool | https://www.fool.com/investing/2026/08/16/amazon-alphabet-and-microsoft-are-dropping-nearly/?source=iedfolrf0000001"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "엘론 머스크, SpaceX가 아마존·구글·마이크로소프트도 따라잡을 수 없는 거대한 AI 경쟁 우위 보유하다고 주장",
+        "source": "Finance | https://finance.yahoo.com/technology/ai/articles/elon-musk-says-spacex-massive-192300638.html"
+      }
+    ],
+    "sns": []
+  },
+  "BNTX": {
+    "news": [
+      {
+        "date": "2026-08-19",
+        "title": "BioNTech SE Stock Pops As Traders Refocus On Oncology Pivot",
+        "source": "Timothysykes | https://www.timothysykes.com/news/biontech-se-bntx-news-2026_08_19/"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "BioNTech SE Stock Jumps As Traders Bet On Post-COVID Pivot",
+        "source": "Stockstotrade | https://stockstotrade.com/news/biontech-se-bntx-news-2026_08_19-4/"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "The Bull Case For BioNTech (BNTX) Could Change Following Cut 2026 Guidance",
+        "source": "Simplywall | https://simplywall.st/stocks/us/pharmaceuticals-biotech/nasdaq-bntx/biontech/news/the-bull-case-for-biontech-bntx-could-change-following-cut-2"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "BioNTech Announces Second Quarter 2026 Financial Results and Corporate Update",
+        "source": "Biontech | https://www.biontech.com/us/en/home/mediaroom/news/press-releases/2026/08/BioNTech-Announces-Second-Quarter-2026-Financial-Results-and-Corporate-Update.html"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "BioNTech SE (BNTX) Q2 2026 Earnings",
+        "source": "247wallst | https://247wallst.com/cards/biontech-se-q2-2026-earnings-bntx-01kz673dqycc2kg5ptf191xwdw"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "BioNTech Q2 2026 Earnings: €105.6M Revenue, Guidance Lowered",
+        "source": "Stocktitan | https://www.stocktitan.net/news/BNTX/bio-n-tech-announces-second-quarter-2026-financial-results-and-bigbsqil4ufh.html"
+      }
+    ],
+    "sns": []
+  },
+  "BRK-A": {
+    "news": [
+      {
+        "date": "2026-08-17",
+        "title": "버크셔 해서웨이, 알파벳 지분 83% 늘려 약 1억 600만 주 보유",
+        "source": "Newyorktelegraph | http://www.newyorktelegraph.com/news/279244575/berkshire-boosts-alphabet-stake-by-83-to-nearly-106-million-shares"
+      },
+      {
+        "date": "2026-08-14",
+        "title": "Berkshire Hathaway 13F Due: Abel's Net $19.8B Buying Map Arrives",
+        "source": "Techtimes | https://www.techtimes.com/articles/324471/20260814/berkshire-hathaway-13f-due-after-close-abels-net-19-8b-buying-map-arrives.htm"
+      },
+      {
+        "date": "2026-08-08",
+        "title": "Berkshire Hathaway reports Q2 2026 net income of $25.7B, powered by massive investment gains",
+        "source": "Finance | https://finance.yahoo.com/markets/stocks/articles/berkshire-hathaway-q2-2026-earnings-114458694.html"
+      },
+      {
+        "date": "2026-08-08",
+        "title": "Berkshire Hathaway Q2 2026 earnings: Greg Abel deploys cash",
+        "source": "Qz | https://qz.com/berkshire-hathaway-q2-2026-earnings-abel-buybacks-081026"
+      },
+      {
+        "date": "2026-08-08",
+        "title": "Berkshire Hathaway Stock Edges Higher as Greg Abel Steps Up Buybacks and Big Equity Bets",
+        "source": "Ad-hoc-news | https://www.ad-hoc-news.de/boerse/news/corporate-news/berkshire-hathaway-stock-edges-higher-as-greg-abel-steps-up-buybacks-and-big-equity-bets-/69973000"
+      },
+      {
+        "date": "2026-08-08",
+        "title": "Berkshire Q2 Net Profit Doubles! Abel Abandons Cash Hoarding, Bets $10 Billion on Alphabet",
+        "source": "Finance | https://finance.biggo.com/news/2334d766-efd1-4cab-b129-5003ddcf1591"
+      }
+    ],
+    "sns": []
+  },
+  "BRK-B": {
+    "news": [
+      {
+        "date": "2026-08-17",
+        "title": "버크셔 해서웨이, 알파벳 지분 83% 늘려 약 1억 600만 주 보유",
+        "source": "Newyorktelegraph | http://www.newyorktelegraph.com/news/279244575/berkshire-boosts-alphabet-stake-by-83-to-nearly-106-million-shares"
+      },
+      {
+        "date": "2026-08-14",
+        "title": "Berkshire Hathaway 13F Due: Abel's Net $19.8B Buying Map Arrives",
+        "source": "Techtimes | https://www.techtimes.com/articles/324471/20260814/berkshire-hathaway-13f-due-after-close-abels-net-19-8b-buying-map-arrives.htm"
+      },
+      {
+        "date": "2026-08-08",
+        "title": "Berkshire Hathaway reports Q2 2026 net income of $25.7B, powered by massive investment gains",
+        "source": "Finance | https://finance.yahoo.com/markets/stocks/articles/berkshire-hathaway-q2-2026-earnings-114458694.html"
+      },
+      {
+        "date": "2026-08-08",
+        "title": "Berkshire Hathaway Q2 2026 earnings: Greg Abel deploys cash",
+        "source": "Qz | https://qz.com/berkshire-hathaway-q2-2026-earnings-abel-buybacks-081026"
+      },
+      {
+        "date": "2026-08-08",
+        "title": "Berkshire Hathaway Stock Edges Higher as Greg Abel Steps Up Buybacks and Big Equity Bets",
+        "source": "Ad-hoc-news | https://www.ad-hoc-news.de/boerse/news/corporate-news/berkshire-hathaway-stock-edges-higher-as-greg-abel-steps-up-buybacks-and-big-equity-bets-/69973000"
+      },
+      {
+        "date": "2026-08-08",
+        "title": "Berkshire Q2 Net Profit Doubles! Abel Abandons Cash Hoarding, Bets $10 Billion on Alphabet",
+        "source": "Finance | https://finance.biggo.com/news/2334d766-efd1-4cab-b129-5003ddcf1591"
+      }
+    ],
+    "sns": []
+  },
+  "GOOGL": {
+    "news": [
+      {
+        "date": "2026-08-20",
+        "title": "웨이모, 해변 지역 로봇택시 서비스 승인 획득",
+        "source": "Coastsidenews | https://www.coastsidenews.com/review/news/waymo-gets-green-light-for-robotaxi-service-on-coastside/article_c30fdd0f-583f-4b2c-94a7-195b817bc77b.html"
+      },
+      {
+        "date": "2026-08-20",
+        "title": "구글, 마벨과 AI칩 동맹…최대 17조원 신주인수권",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260820003000091"
+      },
+      {
+        "date": "2026-08-20",
+        "title": "한국 기업, 빅테크와 협력...8월 이후 주가 40% 상승",
+        "source": "Hankyung | https://www.hankyung.com/article/2026081997856"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "구글, 2027년까지 중국에서 모든 픽셀 하드웨어 철수: 베트남 주력 성공이 완전 단절 주도",
+        "source": "Techtimes | https://www.techtimes.com/articles/324826/20260818/google-exits-china-all-pixel-hardware-2027-vietnam-flagship-success-drives-full-break.htm"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "구글, 파키스탄의 디지털 생태계 강화를 위한 지역 진출 확대",
+        "source": "Geo | https://www.geo.tv/latest/678229-googles-local-presence-to-strengthen-pakistans-digital-ecosystem-shaza"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "구글의 신규 안드로이드 '사이드로딩' 규정, 고급 사용자 대상 조기 도입",
+        "source": "Androidpolice | https://www.androidpolice.com/googles-new-android-sideloading-rules-arriving-early-power-users/"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "마벨 주가 12% 급등, 구글의 AI 칩 12.2조 투자 추진",
+        "source": "Livemint | https://www.livemint.com/companies/news/marvell-shares-jump-12-per-cent-as-google-gets-right-to-buy-up-to-12-2-billion-stake-11787146771217.html"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "인도 구자라트 주, AI·데이터센터 협력 추진 - 구글·퍼플렉시티·마이크론과 회담",
+        "source": "Ianslive | https://ianslive.in/gujarat-eyes-ai-data-centre-partnerships-as-cm-holds-talks-with-google-perplexity-micron--20260819213200"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "마벨, 구글 AI 칩 거래 성약 - 커스텀 실리콘 초대형 기업 독점 마무리",
+        "source": "Techtimes | https://www.techtimes.com/articles/324988/20260819/marvell-lands-google-ai-chip-deal-closing-custom-silicon-hyperscaler-sweep.htm"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "구글, 미국 칩 회사 마벨 주식 최대 $122억 규모 매입",
+        "source": "Shacknews | https://www.shacknews.com/article/150404/google-googl-marvell-mrvl-12-billion-stock"
+      }
+    ],
+    "sns": []
+  },
+  "LCID": {
+    "news": [
+      {
+        "date": "2026-08-04",
+        "title": "Lucid Targets $1.4 Billion Cash Savings With Operational Reset, Job Cuts",
+        "source": "Bloomberg | https://www.bloomberg.com/news/articles/2026-08-04/lucid-plans-business-reset-targeting-1-4-billion-cash-savings"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "Lucid Announces Operational Reset and Second Quarter 2026 Results",
+        "source": "Ir | https://ir.lucidmotors.com/news-releases/news-release-details/lucid-announces-operational-reset-and-second-quarter-2026/"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "LCID Stock Falls 10% After-Hours Despite Revenue Growth",
+        "source": "Stocktwits | https://stocktwits.com/news-articles/markets/equity/lcid-stock-falls-10-after-hours-despite-revenue-growth-lucid-keeps-midsize-model-timeline-open/cZo5y0iRJ4j"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "Can Lucid Group (NASDAQ:LCID) Steady Its Course After a Bruising Quarter?",
+        "source": "Kalkinemedia | https://kalkinemedia.com/us/stocks/automobile/can-lucid-group-nasdaqlcid-steady-its-course-after-a-bruising-quarter"
+      },
+      {
+        "date": "2026-07-14",
+        "title": "Lucid (LCID) Shares Plunge As Report Says Bankruptcy Filing Is Being Weighed",
+        "source": "Bloomberg | https://www.bloomberg.com/news/articles/2026-07-14/lucid-shares-sink-on-report-saying-weighing-possible-bankruptcy"
+      }
+    ],
+    "sns": []
+  },
+  "META": {
+    "news": [
+      {
+        "date": "2026-08-19",
+        "title": "메타 소셜미디어 중독 소송 본격 시작, 회사 중독성 혐의 직면",
+        "source": "Fox4beaumont | https://fox4beaumont.com/news/nation-world/meta-landmark-trial-officially-underway-company-faces-social-media-addiction-allegations-instagram-facebook-attorney-general"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "메타, 청소년 이용자 피해 관련 역사적 소송 직면",
+        "source": "Mexicostar | http://www.mexicostar.com/news/279249836/meta-faces-landmark-trial-over-alleged-harm-to-young-users"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "메타 소송 승패와 무관하게 대중은 '자발적 노예'로 남을 것",
+        "source": "Bignewsnetwork | http://www.bignewsnetwork.com/news/279252469/whoever-wins-the-meta-trial-the-masses-will-remain-willing-slaves"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "메타, 미국 주 연합의 200억 달러 벌금 청구 소송",
+        "source": "Japantimes | https://www.japantimes.co.jp/business/2026/08/19/tech/meta-hooked-children-prosecutors/"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "정부, 메타의 아동착취물·왓츠앱 사용자명 문제로 압박",
+        "source": "Economictimes | https://economictimes.indiatimes.com/news/india/message-has-gone-home-govt-presses-meta-on-csam-whatsapp-username-row/articleshow/133315982.cms"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "미국 주들, 소셜 미디어 아동 안전 문제로 메타 재판에 끌어내",
+        "source": "Siliconrepublic | https://www.siliconrepublic.com/business/meta-social-media-instagram-facebook-legal-children-us"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "정부 지시 후 메타, 아동 성착취 자료 제거에 더 신중",
+        "source": "Thehindubusinessline | https://www.thehindubusinessline.com/news/meta-more-cautious-about-child-sexual-abuse-material-after-governments-message-in-recent-meeting-govt-sources/article71361276.ece"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "뉴스: 미국 주들, 캘리포니아에서 메타를 상대로 제소",
+        "source": "Altoonamirror | https://www.altoonamirror.com/news/local-business/2026/08/meta-california-childsafety-lawsuit-states-take-to-trial/"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "메타 독점금지 재판 시작, 소셜미디어 판도 변할 수 있어",
+        "source": "Yasstribune | https://www.yasstribune.com.au/story/9333030/meta-trial-that-could-reshape-social-media-starts-in-us/"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "메타 소송, SNS 피해자 가족들의 전환점",
+        "source": "Clickondetroit | https://www.clickondetroit.com/business/2026/08/18/in-metas-trial-families-of-social-media-victims-see-a-pivotal-moment-for-online-safety/"
+      }
+    ],
+    "sns": []
+  },
+  "MRNA": {
+    "news": [
+      {
+        "date": "2026-08-20",
+        "title": "모더나·머크, mRNA 환자 맞춤형 암 백신 3상 성공",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260820002051072"
+      },
+      {
+        "date": "2026-08-20",
+        "title": "모더나, 암백신 3상 임상시험 성공",
+        "source": "Hankyung | https://www.hankyung.com/article/2026082013776"
+      },
+      {
+        "date": "2026-08-20",
+        "title": "모더나 mRNA 암백신 3상 성공, 국내 RNA주 동반 상승",
+        "source": "Hankyung | https://www.hankyung.com/article/202608201623i"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "머크·모더나 암백신 3상 성공, 모더나 주가 88% 급등",
+        "source": "Hankyung | https://www.hankyung.com/article/202608190698i"
+      }
+    ],
+    "sns": []
+  },
+  "MSFT": {
+    "news": [
+      {
+        "date": "2026-08-19",
+        "title": "마이크로소프트, 중국시장에서 조용한 퇴출 진행 중",
+        "source": "Chiangraitimes | https://www.chiangraitimes.com/china/microsofts-leaving-china/"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "아마존, 알파벳, 마이크로소프트, 약 600억 달러를 자본 지출에 투입...명확한 승자 등장",
+        "source": "Finance | https://finance.yahoo.com/technology/articles/amazon-alphabet-microsoft-dropping-nearly-222700076.html"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "마이크로소프트 8월 패치: 400개 이상 버그 수정, 영점 공격 진행 중",
+        "source": "Esecurityplanet | https://www.esecurityplanet.com/news/news-microsoft-august-2026-patch-tuesday/"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "중국, 정부 기관의 마이크로소프트 윈도우 10 제거 추진",
+        "source": "Thenextweb | https://thenextweb.com/news/china-removes-microsoft-windows-10-state-agencies"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "Microsoft, 중국에서 대규모 철수…5년간 15개 이상 지사 폐쇄",
+        "source": "Japantimes | https://www.japantimes.co.jp/business/2026/08/18/tech/microsoft-china-ai-boom/"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "중국, 정부기관용 윈도우10 운영체제 조기 퇴출 지시",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260818156200083"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "아마존·알파벳·마이크로소프트, 근 6천억 달러 자본 투자…1개 승자 부상",
+        "source": "Fool | https://www.fool.com/investing/2026/08/16/amazon-alphabet-and-microsoft-are-dropping-nearly/?source=iedfolrf0000001"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "마이크로소프트 매니저 습격 사건 용의자, 살인죄로 재판",
+        "source": "Courant | https://www.courant.com/2026/08/17/fatal-ambush-microsoft-manager-murder-trial-florida/"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "엘론 머스크, SpaceX가 아마존·구글·마이크로소프트도 따라잡을 수 없는 거대한 AI 경쟁 우위 보유하다고 주장",
+        "source": "Finance | https://finance.yahoo.com/technology/ai/articles/elon-musk-says-spacex-massive-192300638.html"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "스페이스X, 마이크로소프트 22억 달러 깃허브 지위 도전... AI 에이전트용 저장소 '오리진' 출시",
+        "source": "Wccftech | https://wccftech.com/spacexs-cursor-attacks-microsofts-2-billion-github-moat-with-origin-a-repository-built-for-ai-agents/"
+      }
+    ],
+    "sns": []
+  },
+  "NVDA": {
+    "news": [
+      {
+        "date": "2026-08-20",
+        "title": "엔비디아 실적 전망 91조, 월가는 92조 기대",
+        "source": "Fool | https://www.fool.com/investing/2026/08/19/nvidia-guided-to-usd91-billion-wall-street-penciled-in-usd92-billion/?source=iedfolrf0000001"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "중국, 엔비디아 H200 제한 수출 허가...왜 규제를 풀었나",
+        "source": "Business-standard | https://www.business-standard.com/world-news/china-allows-limited-nvidia-h200-shipments-why-is-beijing-easing-curbs-126081900438_1.html"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "엔비디아 H200 칩, 중국으로 소량 유입",
+        "source": "Deccanchronicle | https://www.deccanchronicle.com/technology/nvidia-h200-chips-reach-china-in-small-shipments-report-1980424"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "엔비디아 H200 중국 첫 수출, 바이트댄스·텐센트가 인수",
+        "source": "Tomshardware | https://www.tomshardware.com/pc-components/gpus/first-nvidia-h200-shipments-reach-bytedance-and-tencent-as-beijing-loosens-its-import-block"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "엔비디아, 오픈AI 오하이오 데이터센터 1050억 달러 지원",
+        "source": "Datacenterknowledge | https://www.datacenterknowledge.com/data-center-construction/nvidia-backs-openai-s-ohio-data-center-buildout-with-105b-guarantee"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "LG전자와 NVIDIA, 로봇 협력 강화 - 캐나다 제조업 포함",
+        "source": "Canadianmanufacturing | https://www.canadianmanufacturing.com/manufacturing/lg-electronics-and-nvidia-accelerate-robotics-partnership-320823/"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "중국, AI 경쟁 격화 속 엔비디아 H200 칩 제한 완화, FT 보도",
+        "source": "Investinglive | https://investinglive.com/stock-market-update/china-eases-limits-on-nvidia-h200-chips-as-ai-race-escalates-ft-reports/"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "SpaceX, AI에 대규모 투자...최대 수혜는 엔비디아일 수 있다",
+        "source": "Finance | https://finance.yahoo.com/technology/ai/articles/spacex-spending-big-ai-biggest-184123842.html"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "엔비디아, 오픈AI와 오하이오주 대규모 데이터센터 협력 — 다음 산업혁명 AI 인프라 확대의 시기",
+        "source": "Finance | https://finance.yahoo.com/technology/ai/articles/why-nvidia-teaming-openai-massive-194828943.html"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "OpenAI, 미국 대규모 AI 데이터센터 임차 → 엔비디아 지원",
+        "source": "Japantoday | https://japantoday.com/category/tech/openai-to-lease-massive-new-ai-data-center-in-us-backed-by-nvidia"
+      }
+    ],
+    "sns": []
+  },
+  "OKLO": {
+    "news": [
+      {
+        "date": "2026-08-09",
+        "title": "Oklo (NYSE: OKLO) Achieves First Criticality At Groves Reactor, Shares Surge",
+        "source": "Foreignpolicyjournal | https://www.foreignpolicyjournal.com/2026/08/09/oklo-nyse-oklo-achieves-first-criticality-at-groves-reactor-in-under-a-year-shares-surge/"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "Oklo's Groves Reactor Just Achieved First Criticality - Motley Fool",
+        "source": "Fool | https://www.fool.com/investing/2026/08/07/oklos-groves-reactor-just-achieved-first-criticality-heres-what-it-means-for-oklo-stock/"
+      },
+      {
+        "date": "2026-08-07",
+        "title": "Oklo Q2 2026 Slides: First Criticality Achieved, $3B Liquidity",
+        "source": "Investing | https://www.investing.com/news/company-news/oklo-q2-2026-slides-first-criticality-achieved-3b-liquidity-93CH-4846923"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "Oklo's Groves Reactor Achieves First Criticality in Under a Year",
+        "source": "Oklo | https://oklo.com/newsroom/news-details/2026/Oklos-Groves-Reactor-Achieves-First-Criticality-in-Under-a-Year/default.aspx"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "Oklo's Groves Isotope Test Reactor Reaches First Criticality",
+        "source": "Nucnet | https://www.nucnet.org/news/oklo-s-groves-isotope-test-reactor-reaches-first-criticality-8-5-2026"
+      }
+    ],
+    "sns": []
+  },
+  "PFE": {
+    "news": [
+      {
+        "date": "2026-08-19",
+        "title": "Why Pfizer (PFE) Stock Is Trading Up Today After Peer Positive Results",
+        "source": "Stockstory | https://stockstory.org/us/stocks/nyse/pfe/news/why-up-down/why-pfizer-pfe-stock-is-trading-up-today-2"
+      },
+      {
+        "date": "2026-08-15",
+        "title": "Pfizer (PFE) Reaffirms FY 2026 Outlook Amid Leadership Change",
+        "source": "Finance | https://finance.yahoo.com/healthcare/articles/pfizer-pfe-reaffirms-fy-2026-192147995.html"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "Pfizer Reports Second-Quarter Results And Raises Midpoint Revenue Guidance",
+        "source": "Pfizer | https://www.pfizer.com/news/press-release/press-release-detail/pfizer-reports-second-quarter-results-and-raises-midpoint"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "Pfizer (PFE) earnings Q2 2026",
+        "source": "Cnbc | https://www.cnbc.com/2026/08/04/pfizer-pfe-earnings-q2-2026.html"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "How Pfizer's Higher 2026 Guidance And LITFULO Trial Results Have Changed Its Investment Story",
+        "source": "Finance | https://finance.yahoo.com/healthcare/articles/pfizer-higher-2026-guidance-litfulo-151241315.html"
+      }
+    ],
+    "sns": []
+  },
+  "PLTR": {
+    "news": [
+      {
+        "date": "2026-08-04",
+        "title": "Palantir Stock Jumps 30%, Wiping Out Year's Gains for Short Sellers",
+        "source": "Bloomberg | https://www.bloomberg.com/news/articles/2026-08-04/palantir-short-sellers-take-3-billion-hit-after-30-stock-surge"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "Palantir Technologies Expands Mercury Systems Deal Following Strong Q2 Results",
+        "source": "Simplywall | https://simplywall.st/stocks/us/software/nasdaq-pltr/palantir-technologies/news/palantir-technologies-pltr-is-up-398-after-raising-2026-guid"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "Palantir Surges as AI Demand Accelerates",
+        "source": "Tradingkey | https://www.tradingkey.com/analysis/stocks/us-stocks/262088432-palantir-pltr-q2-2026-earnings-93-revenue-growth-ai-sovereignty-tradingkey"
+      },
+      {
+        "date": "2026-08-03",
+        "title": "Palantir Q2 2026 Earnings: Revenue Up 93%, Guidance Raised to $8.15-8.16B",
+        "source": "Finance | https://finance.yahoo.com/markets/stocks/articles/palantir-q2-2026-earnings-revenue-111006525.html"
+      },
+      {
+        "date": "2026-08-03",
+        "title": "Palantir Is Stuck in Worst-of-Both-Worlds Bind With AI, Software",
+        "source": "Bloomberg | https://www.bloomberg.com/news/articles/2026-08-03/palantir-is-stuck-in-worst-of-both-worlds-bind-with-ai-software"
+      },
+      {
+        "date": "2026-08-03",
+        "title": "Palantir Technologies Inc. (PLTR) Stock Price, News & Earnings Report",
+        "source": "Cnbc | https://www.cnbc.com/2026/08/03/palantir-pltr-earnings-q2-2026.html"
+      }
+    ],
+    "sns": []
+  },
+  "PSNY": {
+    "news": [
+      {
+        "date": "2026-08-14",
+        "title": "Polestar Stock Falls After U.S. Sales Exit on Connected Vehicle Rule Denial",
+        "source": "Investing | https://www.investing.com/news/stock-market-news/polestar-stock-falls-after-us-sales-exit-on-rule-denial-93CH-4761014"
+      },
+      {
+        "date": "2026-08-14",
+        "title": "Polestar Exits US Market After Government Bans Sales Due to Connected Vehicle Tech",
+        "source": "Finance | https://finance.yahoo.com/markets/stocks/article/polestar-exits-us-market-after-government-bans-sales-due-to-connected-vehicle-tech-154117151.html"
+      },
+      {
+        "date": "2026-08-14",
+        "title": "Polestar (PSNY) Stock Slides 3% After Q2 Sales Decline and US Market Exit",
+        "source": "Blockonomi | https://blockonomi.com/polestar-psny-stock-slides-3-after-q2-sales-decline-and-us-market-exit/"
+      },
+      {
+        "date": "2026-08-14",
+        "title": "Polestar Plunges After Abrupt U.S. Market Exit",
+        "source": "Tipranks | https://www.tipranks.com/news/catalyst/polestar-plunges-after-abrupt-u-s-market-exit"
+      },
+      {
+        "date": "2026-08-14",
+        "title": "Polestar Forced to Exit the US Market - Digital Trends",
+        "source": "Digitaltrends | https://www.digitaltrends.com/cars/polestar-forced-to-exit-the-us-market-its-a-shame-we-wont-see-its-refined-design-anymore-"
+      }
+    ],
+    "sns": []
+  },
+  "SMR": {
+    "news": [
+      {
+        "date": "2026-08-13",
+        "title": "NuScale Power Rises as Investors Position Ahead of Earnings and SMR Project Milestones",
+        "source": "Quiverquant | https://www.quiverquant.com/news/NuScale+Power+Rises+as+Investors+Position+Ahead+of+Earnings+and+SMR+Project+Milestones"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "NuScale Power Reports Second Quarter 2026 Results with $1.9B Liquidity",
+        "source": "Nuscalepower | https://www.nuscalepower.com/press-releases/2026/nuscale-power-reports-second-quarter-2026-results"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "NuScale Awards Paragon Contract for HIPS Final Design Development",
+        "source": "Finance | https://finance.yahoo.com/energy/articles/nuscale-power-reports-second-quarter-201500635.html"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "SMR Stock Grinds Higher As NuScale Locks In Key Contracts",
+        "source": "Stockstotrade | https://stockstotrade.com/news/nuscale-power-corporation-smr-news-2026_08_13/"
+      },
+      {
+        "date": "2026-08-05",
+        "title": "NuScale Q2 2026 Revenue Plunges but Company Stockpiles $1.9B War Chest",
+        "source": "Finance | https://finance.biggo.com/news/US_SMR_2026-08-05"
+      },
+      {
+        "date": "2026-08-04",
+        "title": "NuScale Power (NYSE: SMR) Faces Unfavorable Risk-Reward Profile Ahead Of Q2 2026 Earnings Release",
+        "source": "Foreignpolicyjournal | https://www.foreignpolicyjournal.com/2026/08/04/nuscale-power-nyse-smr-faces-unfavorable-risk-reward-profile-ahead-of-q2-2026-earnings-release/"
+      }
+    ],
+    "sns": []
+  },
+  "SPCX": {
+    "news": [
+      {
+        "date": "2026-08-20",
+        "title": "스타링크, 인도 시장 재진입 추진",
+        "source": "Economictimes | https://economictimes.indiatimes.com/et-front/starlink-relaunches-its-bid-for-space-in-india/articleshow/133358970.cms"
+      },
+      {
+        "date": "2026-08-20",
+        "title": "ET 단독보도: 머스크 스타링크, 인도 위성 인터넷 직수신 기술로 재신청",
+        "source": "Economictimes | https://economictimes.indiatimes.com/industry/telecom/telecom-policy/et-exclusive-elon-musks-starlink-reapplies-for-india-approval-of-satellite-network-with-direct-to-device-tech/articleshow/133357541.cms"
+      },
+      {
+        "date": "2026-08-20",
+        "title": "코그니션 CEO, 스페이스X 인수 보도 부인",
+        "source": "Techcrunch | https://techcrunch.com/2026/08/19/cognition-ceo-denies-report-that-spacex-tried-to-acquire-the-startup/"
+      },
+      {
+        "date": "2026-08-20",
+        "title": "엑손 소송 기각, 스페이스X의 버밀리온 교구 진출 길 열려",
+        "source": "965kvki | https://965kvki.com/ixp/36/p/vermilion-exxon-lawsuit-dismissed-spacex-landry/"
+      },
+      {
+        "date": "2026-08-20",
+        "title": "NASA 영상, 스페이스X 로켓 달 추락 분화구 포착",
+        "source": "Upi | https://www.upi.com/Top_News/US/2026/08/19/nasa-moon-crater/4571787177776/"
+      },
+      {
+        "date": "2026-08-20",
+        "title": "스페이스X 로켓, 달 충돌 시 60피트 분화구 형성",
+        "source": "Brobible | https://brobible.com/culture/article/nasa-images-spacex-rocket-moon/"
+      },
+      {
+        "date": "2026-08-20",
+        "title": "스페이스X, AI 코딩 스타트업 코그니션 인수 타진했으나 거절",
+        "source": "Yna | https://www.yna.co.kr/view/AKR20260820054300009"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "루프트한자, 스타링크 고속 인터넷 탑재 첫 비행",
+        "source": "Webwire | https://www.webwire.com/ViewPressRel.asp?aId=359094"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "새로운 사진, SpaceX 로켓 달 충돌 영향 지역 공개",
+        "source": "Edition | https://edition.cnn.com/2026/08/18/science/nasa-images-spacex-rocket-moon-collision"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "NASA, SpaceX 로켓 달 충돌로 생긴 분화구 발견",
+        "source": "Nationalpost | https://nationalpost.com/news/space/nasa-finds-crater-created-by-spacex-rockets-moon-crash"
+      }
+    ],
+    "sns": []
+  },
+  "TSLA": {
+    "news": [
+      {
+        "date": "2026-08-19",
+        "title": "테슬라, 오스틴에서 Starlink와 연동한 무인 택시 '사이버택' 공개 출시 준비",
+        "source": "Autoconnectedcar | https://www.autoconnectedcar.com/2026/08/tesla-preps-public-employee-cybercabs-launch-with-starlink-in-austin/"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "테슬라, 라스베이거스에 로보택시 5,000대 허가 요청...시는 10대만 승인·공항 제외",
+        "source": "Fortune | https://fortune.com/2026/08/19/tesla-las-vegas-5000-robotaxi-permits-sin-city-10-capped/"
+      },
+      {
+        "date": "2026-08-19",
+        "title": "테슬라, 라스베이거스에 5,000대 로봇택시 요청 후 주 승인 10대만 획득",
+        "source": "Thenextweb | https://thenextweb.com/news/tesla-las-vegas-robotaxi-permit-10-cars"
+      },
+      {
+        "date": "2026-08-18",
+        "title": "베테랑 분석사, 로봇택시 위험을 들어 테슬라 주가 약세 판단",
+        "source": "Finance | https://finance.yahoo.com/markets/stocks/articles/veteran-analyst-firm-just-calls-202652386.html"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "엘론 머스크의 스페이스X 지분, 공개 - 상당한 규모",
+        "source": "Livemint | https://www.livemint.com/companies/news/elon-musk-s-spacex-holdings-revealed-hint-it-s-a-lot-11786928470020.html"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "엘론 머스크, SpaceX가 아마존·구글·마이크로소프트도 따라잡을 수 없는 거대한 AI 경쟁 우위 보유하다고 주장",
+        "source": "Finance | https://finance.yahoo.com/technology/ai/articles/elon-musk-says-spacex-massive-192300638.html"
+      },
+      {
+        "date": "2026-08-17",
+        "title": "Tesla Model Y, NHTSA의 신규 ADAS 시험 최초 통과",
+        "source": "Nhtsa | https://www.nhtsa.gov/press-releases/tesla-model-y-first-vehicle-pass-nhtsa-new-advanced-driver-assistance-system-tests"
+      }
+    ],
+    "sns": []
+  },
+  "XE": {
+    "news": [
+      {
+        "date": "2026-08-13",
+        "title": "X-Energy Q2 2026 Earnings: Revenue Surges 154% as DOE Adds Up to $1B Funding",
+        "source": "Tradingkey | https://www.tradingkey.com/news/transcripts/262107289-tradingkey"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "X-ENERGY ($XE) Releases Q2 2026 Earnings",
+        "source": "Quiverquant | https://www.quiverquant.com/news/X-ENERGY+(%24XE)+Releases+Q2+2026+Earnings"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "X-energy Q2 Earnings: Revenue & Grants Rise 154% to $54.6M",
+        "source": "Stocktitan | https://www.stocktitan.net/news/XE/x-energy-reports-second-quarter-2026-z81o5l2s919z.html"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "X-Energy Lands Up to $1 Billion More DOE Backing",
+        "source": "Finance | https://finance.biggo.com/news/US_XE_2026-08-13"
+      },
+      {
+        "date": "2026-08-13",
+        "title": "X-Energy, Centrus Sign HALEU Supply Agreement for Xe-100 Advanced SMR Development",
+        "source": "X-energy | https://x-energy.com/news/x-energy-centrus-sign-haleu-supplyagreement-for-xe-100-advanced-small-modular-reactor-development/"
+      },
+      {
+        "date": "2026-08-01",
+        "title": "X-energy Completes $40 Million Project to Further Develop High-Temperature Gas Reactor",
+        "source": "Energy | https://www.energy.gov/node/4822052"
+      }
+    ],
+    "sns": []
+  }
+};
+
+export default STOCKS_NEWS;

@@ -1,0 +1,162 @@
+{
+  "PLTR": [
+    {
+      "date": "2026-08-18",
+      "title": "Palantir Technologies reports strong Q2 earnings",
+      "url": "https://finance.yahoo.com/news/palantir-q2-earnings-2026"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "Palantir expands AI offerings for enterprises",
+      "url": "https://finance.yahoo.com/news/palantir-ai-expansion"
+    },
+    {
+      "date": "2026-08-16",
+      "title": "Palantir wins major government contract",
+      "url": "https://finance.yahoo.com/news/palantir-government-contract"
+    },
+    {
+      "date": "2026-08-15",
+      "title": "Palantir stock surges on analyst upgrade",
+      "url": "https://finance.yahoo.com/news/palantir-analyst-upgrade"
+    },
+    {
+      "date": "2026-08-14",
+      "title": "Palantir CEO discusses AI strategy",
+      "url": "https://finance.yahoo.com/news/palantir-ceo-ai"
+    },
+    {
+      "date": "2026-08-13",
+      "title": "Palantir partners with defense contractor",
+      "url": "https://finance.yahoo.com/news/palantir-defense-partner"
+    }
+  ],
+  "SMR": [
+    {
+      "date": "2026-08-18",
+      "title": "NuScale Power secures DOE funding for small reactors",
+      "url": "https://finance.yahoo.com/news/nuscale-doe-funding"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "NuScale advances next-generation nuclear technology",
+      "url": "https://finance.yahoo.com/news/nuscale-reactor-tech"
+    },
+    {
+      "date": "2026-08-16",
+      "title": "NuScale expands international partnerships",
+      "url": "https://finance.yahoo.com/news/nuscale-partnerships"
+    },
+    {
+      "date": "2026-08-15",
+      "title": "NuScale SMR deployment timeline accelerated",
+      "url": "https://finance.yahoo.com/news/nuscale-deployment"
+    },
+    {
+      "date": "2026-08-14",
+      "title": "NuScale wins regulatory approval milestone",
+      "url": "https://finance.yahoo.com/news/nuscale-regulatory"
+    },
+    {
+      "date": "2026-08-13",
+      "title": "NuScale partners with utilities for SMR deployment",
+      "url": "https://finance.yahoo.com/news/nuscale-utility-partner"
+    }
+  ],
+  "PFE": [
+    {
+      "date": "2026-08-18",
+      "title": "Pfizer announces new drug approval from FDA",
+      "url": "https://finance.yahoo.com/news/pfizer-fda-approval"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "Pfizer Q2 earnings exceed expectations",
+      "url": "https://finance.yahoo.com/news/pfizer-q2-earnings"
+    },
+    {
+      "date": "2026-08-16",
+      "title": "Pfizer invests in mRNA research facility",
+      "url": "https://finance.yahoo.com/news/pfizer-mrna-investment"
+    },
+    {
+      "date": "2026-08-15",
+      "title": "Pfizer CEO discusses healthcare strategy",
+      "url": "https://finance.yahoo.com/news/pfizer-ceo-strategy"
+    },
+    {
+      "date": "2026-08-14",
+      "title": "Pfizer partners with biotech startup",
+      "url": "https://finance.yahoo.com/news/pfizer-biotech-partner"
+    },
+    {
+      "date": "2026-08-13",
+      "title": "Pfizer expands vaccine production capacity",
+      "url": "https://finance.yahoo.com/news/pfizer-vaccine-capacity"
+    }
+  ],
+  "MRNA": [
+    {
+      "date": "2026-08-18",
+      "title": "Moderna announces breakthrough in mRNA technology",
+      "url": "https://finance.yahoo.com/news/moderna-mrna-breakthrough"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "Moderna Q2 financial results announced",
+      "url": "https://finance.yahoo.com/news/moderna-q2-results"
+    },
+    {
+      "date": "2026-08-16",
+      "title": "Moderna partners with pharmaceutical giant",
+      "url": "https://finance.yahoo.com/news/moderna-pharma-partner"
+    },
+    {
+      "date": "2026-08-15",
+      "title": "Moderna expands pipeline with new candidates",
+      "url": "https://finance.yahoo.com/news/moderna-pipeline"
+    },
+    {
+      "date": "2026-08-14",
+      "title": "Moderna stock climbs on vaccine approval",
+      "url": "https://finance.yahoo.com/news/moderna-vaccine-approval"
+    },
+    {
+      "date": "2026-08-13",
+      "title": "Moderna accelerates clinical trials",
+      "url": "https://finance.yahoo.com/news/moderna-trials"
+    }
+  ],
+  "BNTX": [
+    {
+      "date": "2026-08-18",
+      "title": "BioNTech announces positive trial results",
+      "url": "https://finance.yahoo.com/news/biontech-trial-results"
+    },
+    {
+      "date": "2026-08-17",
+      "title": "BioNTech stock rises on vaccine updates",
+      "url": "https://finance.yahoo.com/news/biontech-vaccine"
+    },
+    {
+      "date": "2026-08-16",
+      "title": "BioNTech expands cancer treatment research",
+      "url": "https://finance.yahoo.com/news/biontech-cancer"
+    },
+    {
+      "date": "2026-08-15",
+      "title": "BioNTech Q2 earnings released",
+      "url": "https://finance.yahoo.com/news/biontech-q2"
+    },
+    {
+      "date": "2026-08-14",
+      "title": "BioNTech partners with Pfizer on new projects",
+      "url": "https://finance.yahoo.com/news/biontech-pfizer"
+    },
+    {
+      "date": "2026-08-13",
+      "title": "BioNTech receives research grant",
+      "url": "https://finance.yahoo.com/news/biontech-grant"
+    }
+  ]
+}

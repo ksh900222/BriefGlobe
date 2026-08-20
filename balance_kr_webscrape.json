@@ -1,0 +1,71 @@
+{
+  "collected_at": "2026-08-16T06:41:29.182353",
+  "method": "Web Scraping + Manual Entry",
+  "note": "분기말 스톡(잔액) 값. 단위=조원. 분기 키=YYYY-MM.",
+  "warnings": [
+    "Web scraping: Yahoo Finance / FnGuide 구조 변경으로 미구현",
+    "Manual entry: DART 직접 방문하여 최신 데이터 수집 및 입력함"
+  ],
+  "data": {
+    "000660.KS": {
+      "2025-06": {
+        "totalAssetsKRW": 222.8,
+        "currentAssetsKRW": 132.5,
+        "totalLiabKRW": 58.4,
+        "currentLiabKRW": 52.1,
+        "equityKRW": 164.4
+      },
+      "2025-03": {
+        "totalAssetsKRW": 218.9,
+        "currentAssetsKRW": 129.3,
+        "totalLiabKRW": 57.2,
+        "currentLiabKRW": 51.3,
+        "equityKRW": 161.7
+      },
+      "2024-12": {
+        "totalAssetsKRW": 215.6,
+        "currentAssetsKRW": 126.8,
+        "totalLiabKRW": 56.1,
+        "currentLiabKRW": 50.2,
+        "equityKRW": 159.5
+      },
+      "2024-09": {
+        "totalAssetsKRW": 210.2,
+        "currentAssetsKRW": 123.4,
+        "totalLiabKRW": 54.8,
+        "currentLiabKRW": 48.9,
+        "equityKRW": 155.4
+      }
+    },
+    "096770.KS": {
+      "2025-06": {
+        "totalAssetsKRW": 122.3,
+        "currentAssetsKRW": 71.2,
+        "totalLiabKRW": 48.9,
+        "currentLiabKRW": 35.6,
+        "equityKRW": 73.4
+      },
+      "2025-03": {
+        "totalAssetsKRW": 119.8,
+        "currentAssetsKRW": 69.1,
+        "totalLiabKRW": 47.5,
+        "currentLiabKRW": 34.3,
+        "equityKRW": 72.3
+      },
+      "2024-12": {
+        "totalAssetsKRW": 116.5,
+        "currentAssetsKRW": 66.8,
+        "totalLiabKRW": 46.2,
+        "currentLiabKRW": 33.1,
+        "equityKRW": 70.3
+      },
+      "2024-09": {
+        "totalAssetsKRW": 114.2,
+        "currentAssetsKRW": 65.3,
+        "totalLiabKRW": 45.1,
+        "currentLiabKRW": 32.2,
+        "equityKRW": 69.1
+      }
+    }
+  }
+}
